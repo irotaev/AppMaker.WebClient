@@ -1,2 +1,17 @@
+<mat-toolbar class="top-toolbar" color="primary">
 
+    <div class="artboard-style-changer">
+            <button mat-icon-button [class.active]="artboardFormat === 'desktop'" (click)="changeArtboardFormat('desktop')">
+                <mat-icon aria-label="Example icon-button with a heart icon">desktop_mac</mat-icon>
+            </button>
+            <button mat-icon-button [class.active]="artboardFormat === 'tablet'" (click)="changeArtboardFormat('tablet')">
+                <mat-icon aria-label="Example icon-button with a heart icon">tablet_mac</mat-icon>
+            </button>
+            <button mat-icon-button [class.active]="artboardFormat === 'mobile'" (click)="changeArtboardFormat('mobile')">
+                <mat-icon aria-label="Example icon-button with a heart icon">phone_iphone</mat-icon>
+            </button>
+    </div>
+</mat-toolbar>
 
+<app-artboard #artboard>
+</app-artboard>

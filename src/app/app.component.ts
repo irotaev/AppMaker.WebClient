@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, ComponentRef, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {ArtboardComponent} from './artboard/artboard.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+    artboardFormat = 'desktop';
+
+    @ViewChild('artboard', {read: ArtboardComponent}) artboard: ArtboardComponent;
+
+    changeArtboardFormat(format: string) {
+        this.artboardFormat = format;
+
+        this.artboard.changeFormat(format);
+    }
+
 }

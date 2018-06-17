@@ -11,11 +11,13 @@ import {MatIconModule} from '@angular/material/icon';
 import {ArtboardComponent} from './artboard/artboard.component';
 
 import {NgDragDropModule} from 'ng-drag-drop';
+import {AmDraggableDirective} from './directive/am-draggable.directive';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ArtboardComponent
+        ArtboardComponent,
+        AmDraggableDirective
     ],
     imports: [
         BrowserModule,

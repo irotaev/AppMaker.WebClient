@@ -10,6 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {ArtboardComponent} from './artboard/artboard.component';
 
+import {NgDragDropModule} from 'ng-drag-drop';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -18,6 +20,8 @@ import {ArtboardComponent} from './artboard/artboard.component';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+
+        NgDragDropModule.forRoot(),
 
         MatToolbarModule,
         MatIconModule,

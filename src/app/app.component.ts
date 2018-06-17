@@ -2,7 +2,7 @@ import {Component, ComponentRef, ElementRef, HostListener, ViewChild} from '@ang
 import {ArtboardComponent} from './artboard/artboard.component';
 
 @Component({
-    selector: 'app-root',
+    selector: 'am-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })

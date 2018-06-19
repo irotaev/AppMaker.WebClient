@@ -12,12 +12,14 @@ import {ArtboardComponent} from './artboard/artboard.component';
 
 import {NgDragDropModule} from 'ng-drag-drop';
 import {AmDraggableDirective} from './directive/am-draggable.directive';
+import { FlexboxComponent } from './flexbox/flexbox.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ArtboardComponent,
-        AmDraggableDirective
+        AmDraggableDirective,
+        FlexboxComponent
     ],
     imports: [
         BrowserModule,
@@ -30,7 +32,8 @@ import {AmDraggableDirective} from './directive/am-draggable.directive';
         MatButtonModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [FlexboxComponent]
 })
 export class AppModule {
 }

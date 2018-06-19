@@ -1,4 +1,8 @@
-import {Component, ElementRef, HostListener, NgZone, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {
+    Component, ComponentFactoryResolver, ElementRef, HostListener, NgZone, OnInit, Renderer2,
+    ViewChild, ViewContainerRef
+} from '@angular/core';
+import {DropEvent} from 'ng-drag-drop';
 
 @Component({
     selector: 'am-artboard',
@@ -8,20 +12,18 @@ import {Component, ElementRef, HostListener, NgZone, OnInit, Renderer2, ViewChil
 export class ArtboardComponent implements OnInit {
 
     @ViewChild('artboard', {read: ElementRef}) artboard: ElementRef;
-
+    @ViewChild('artboardContainer', {read: ViewContainerRef}) artboardContainerRef: ViewContainerRef;
     private _scaleStep = 0.05;
     scale = 100;
 
 
-    constructor(private elRef: ElementRef) {
+    constructor(private elRef: ElementRef, private compiler: ComponentFactoryResolver) {
     }
 
     ngOnInit() {
         if (!this.checkOverScale(this.scale)) {
             this.changeScale(-this._scaleStep);
         }
-
-
     }
 
     //#region Scale
@@ -105,5 +107,10 @@ export class ArtboardComponent implements OnInit {
     @HostListener('window:mousewheel', ['$event'])
     onMouseWheel(event: MouseWheelEvent) {
         event.deltaY > 0 ? this.changeScale(this._scaleStep) : this.changeScale(-this._scaleStep);
+    }
+
+    onComponentDrop(event: DropEvent) {
+        const flexBoxFactory = this.compiler.resolveComponentFactory(event.dragData);
+        this.artboardContainerRef.createComponent(flexBoxFactory);
     }
 }

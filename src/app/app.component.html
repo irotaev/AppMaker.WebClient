@@ -2,6 +2,11 @@
     <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentList">
         Компоненты
     </mat-toolbar>
+
+    <div class="component-preview-wrapper">
+        <div class="component-preview component-preview-flexbox" amDraggable [dragScope]="'component'" [dragData]="flexBoxType">
+        </div>
+    </div>
 </div>
 
 <div #componentProperty class="component-property">

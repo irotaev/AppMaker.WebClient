@@ -1,5 +1,6 @@
-import {Component, ComponentRef, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ArtboardComponent} from './artboard/artboard.component';
+import {FlexboxComponent} from './flexbox/flexbox.component';
 
 @Component({
     selector: 'am-root',
@@ -9,6 +10,8 @@ import {ArtboardComponent} from './artboard/artboard.component';
 export class AppComponent {
 
     artboardFormat = 'desktop';
+
+    flexBoxType = FlexboxComponent;
 
     @ViewChild('artboard', {read: ArtboardComponent}) artboard: ArtboardComponent;
 

@@ -1,5 +1,13 @@
-<div class="component-viewer" amDraggable>
+<div #componentList class="component-list">
+    <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentList">
+        Компоненты
+    </mat-toolbar>
+</div>
 
+<div #componentProperty class="component-property">
+    <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentProperty">
+        Свойства
+    </mat-toolbar>
 </div>
 
 <mat-toolbar class="top-toolbar" color="primary">
@@ -17,5 +25,5 @@
     </div>
 </mat-toolbar>
 
-<app-artboard #artboard>
-</app-artboard>
+<am-artboard #artboard>
+</am-artboard>

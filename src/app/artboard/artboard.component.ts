@@ -1,7 +1,7 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, NgZone, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 @Component({
-    selector: 'app-artboard',
+    selector: 'am-artboard',
     templateUrl: './artboard.component.html',
     styleUrls: ['./artboard.component.scss']
 })
@@ -20,6 +20,8 @@ export class ArtboardComponent implements OnInit {
         if (!this.checkOverScale(this.scale)) {
             this.changeScale(-this._scaleStep);
         }
+
+
     }
 
     //#region Scale

@@ -1,15 +1,23 @@
 import {
-    Component, ComponentFactoryResolver, ElementRef, HostListener, NgZone, OnInit, Renderer2,
-    ViewChild, ViewContainerRef
+    Component,
+    ComponentFactoryResolver,
+    ElementRef,
+    HostListener,
+    OnInit,
+    ViewChild,
+    ViewContainerRef
 } from '@angular/core';
 import {DropEvent} from 'ng-drag-drop';
+import {ComponentListService} from '../service/componentlist.service';
+import {IDynamicComponent} from '../Abstract/i-dynamic-component';
+import {IComponent} from '../Abstract/i-component';
 
 @Component({
     selector: 'am-artboard',
     templateUrl: './artboard.component.html',
     styleUrls: ['./artboard.component.scss']
 })
-export class ArtboardComponent implements OnInit {
+export class ArtboardComponent implements OnInit, IComponent {
 
     @ViewChild('artboard', {read: ElementRef}) artboard: ElementRef;
     @ViewChild('artboardContainer', {read: ViewContainerRef}) artboardContainerRef: ViewContainerRef;
@@ -17,7 +25,7 @@ export class ArtboardComponent implements OnInit {
     scale = 100;
 
 
-    constructor(private elRef: ElementRef, private compiler: ComponentFactoryResolver) {
+    constructor(private elRef: ElementRef, private compiler: ComponentFactoryResolver, private elementListService: ComponentListService) {
     }
 
     ngOnInit() {
@@ -71,6 +79,20 @@ export class ArtboardComponent implements OnInit {
         return true;
     }
 
+    @HostListener('window:keydown', ['$event'])
+    onKeydown(event: KeyboardEvent) {
+        if (event.code === 'Equal') {
+            this.changeScale(this._scaleStep);
+        } else if (event.code === 'Minus') {
+            this.changeScale(-this._scaleStep);
+        }
+    }
+
+    @HostListener('window:mousewheel', ['$event'])
+    onMouseWheel(event: MouseWheelEvent) {
+        event.deltaY > 0 ? this.changeScale(this._scaleStep) : this.changeScale(-this._scaleStep);
+    }
+
     //#endregion
 
     //#region Artboard format
@@ -95,22 +117,9 @@ export class ArtboardComponent implements OnInit {
 
     //#endregion
 
-    @HostListener('window:keydown', ['$event'])
-    onKeydown(event: KeyboardEvent) {
-        if (event.code === 'Equal') {
-            this.changeScale(this._scaleStep);
-        } else if (event.code === 'Minus') {
-            this.changeScale(-this._scaleStep);
-        }
-    }
-
-    @HostListener('window:mousewheel', ['$event'])
-    onMouseWheel(event: MouseWheelEvent) {
-        event.deltaY > 0 ? this.changeScale(this._scaleStep) : this.changeScale(-this._scaleStep);
-    }
-
     onComponentDrop(event: DropEvent) {
         const flexBoxFactory = this.compiler.resolveComponentFactory(event.dragData);
-        this.artboardContainerRef.createComponent(flexBoxFactory);
+        const component = this.artboardContainerRef.createComponent(flexBoxFactory);
+        (component.instance as IDynamicComponent).component = component;
     }
 }

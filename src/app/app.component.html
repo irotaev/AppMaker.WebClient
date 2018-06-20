@@ -9,14 +9,10 @@
     </div>
 </div>
 
-<div #componentProperty class="component-property">
-    <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentProperty">
-        Свойства
-    </mat-toolbar>
-</div>
+<am-component-property #componentProperty class="component-property">
+</am-component-property>
 
 <mat-toolbar class="top-toolbar" color="primary">
-
     <div class="artboard-style-changer">
             <button mat-icon-button [class.active]="artboardFormat === 'desktop'" (click)="changeArtboardFormat('desktop')">
                 <mat-icon aria-label="Example icon-button with a heart icon">desktop_mac</mat-icon>

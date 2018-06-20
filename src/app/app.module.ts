@@ -13,13 +13,17 @@ import {ArtboardComponent} from './artboard/artboard.component';
 import {NgDragDropModule} from 'ng-drag-drop';
 import {AmDraggableDirective} from './directive/am-draggable.directive';
 import { FlexboxComponent } from './flexbox/flexbox.component';
+import { FlexboxSettingsEditorComponent } from './flexbox.settingseditor/flexbox.settingseditor.component';
+import { PropertyEditorComponent } from './component-property/property-editor.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ArtboardComponent,
         AmDraggableDirective,
-        FlexboxComponent
+        FlexboxComponent,
+        FlexboxSettingsEditorComponent,
+        PropertyEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +37,7 @@ import { FlexboxComponent } from './flexbox/flexbox.component';
     ],
     providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [FlexboxComponent]
+    entryComponents: [FlexboxComponent, FlexboxSettingsEditorComponent]
 })
 export class AppModule {
 }

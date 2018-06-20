@@ -1,0 +1,13 @@
+<mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentPropertyEl">
+  Свойства
+</mat-toolbar>
+
+<div class="main-actions">
+  <button mat-icon-button (click)="deleteSettings()" [disabled]="shownSettingsComponents.length === 0">
+    <mat-icon aria-label="">delete</mat-icon>
+  </button>
+</div>
+
+<ng-container #container>
+
+</ng-container>

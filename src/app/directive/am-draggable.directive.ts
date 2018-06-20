@@ -1,9 +1,11 @@
 import {Directive, ElementRef, Input, NgZone, OnInit, Renderer2} from '@angular/core';
 import {Draggable} from 'ng-drag-drop/src/directives/draggable.directive';
 import {NgDragDropService} from 'ng-drag-drop/src/services/ng-drag-drop.service';
+import {DraganddropService} from '../service/draganddrop.service';
 
 @Directive({
-    selector: '[amDraggable]'
+    selector: '[amDraggable]',
+    providers: [DraganddropService]
 })
 export class AmDraggableDirective extends Draggable implements OnInit {
 
@@ -15,9 +17,6 @@ export class AmDraggableDirective extends Draggable implements OnInit {
 
     constructor(el: ElementRef, renderer: Renderer2, ng2DragDropService: NgDragDropService, zone: NgZone) {
         super(el, renderer, ng2DragDropService, zone);
-
-        // this.clientX = this.el.nativeElement.style.left;
-        // this.clientY = this.el.nativeElement.style.top;
 
         this.onDragStart.subscribe(event => this.fillStartDragState(event));
         this.onDragEnd.subscribe(event => this.changeLocation(event));

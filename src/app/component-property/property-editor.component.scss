@@ -1,7 +1,17 @@
+:host {
+  display: block;
+}
+
 .main-actions {
   display: flex;
   padding: 8px;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+}
+
+.settings-container {
+  display: block;
+  position: relative;
+  padding: 8px;
 }

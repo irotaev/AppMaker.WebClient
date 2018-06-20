@@ -8,13 +8,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {ArtboardComponent} from './artboard/artboard.component';
 
 import {NgDragDropModule} from 'ng-drag-drop';
 import {AmDraggableDirective} from './directive/am-draggable.directive';
-import { FlexboxComponent } from './flexbox/flexbox.component';
-import { FlexboxSettingsEditorComponent } from './flexbox.settingseditor/flexbox.settingseditor.component';
-import { PropertyEditorComponent } from './component-property/property-editor.component';
+import {FlexboxComponent} from './flexbox/flexbox.component';
+import {FlexboxSettingsEditorComponent} from './flexbox.settingseditor/flexbox.settingseditor.component';
+import {PropertyEditorComponent} from './component-property/property-editor.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { PropertyEditorComponent } from './component-property/property-editor.co
 
         MatToolbarModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatFormFieldModule
     ],
     providers: [],
     bootstrap: [AppComponent],

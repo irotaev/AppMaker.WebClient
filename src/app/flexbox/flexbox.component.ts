@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, Type} from '@angular/core';
+import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Input, OnInit, Type} from '@angular/core';
 import {AbstractUiComponent} from '../Abstract/abstract-uicomponent';
 import {DraganddropService} from '../service/draganddrop.service';
 import {ElementResizeService} from '../service/resize.service';
@@ -13,6 +13,9 @@ import {ComponentListService} from '../service/componentlist.service';
     providers: [DraganddropService, ElementResizeService]
 })
 export class FlexboxComponent extends AbstractUiComponent implements OnInit {
+
+    width = 150;
+    height = 50;
 
     settingsEditorComponent: { type: Type<IComponent>, settingsEditorComponent: ComponentRef<IComponent> }[] = [{
         type: FlexboxSettingsEditorComponent,

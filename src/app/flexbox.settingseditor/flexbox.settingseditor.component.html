@@ -1,6 +1,55 @@
-<div class="deminisions">
-        <input matInput placeholder="Ширина" [attr.value]="width" (change)="width = $event.target.value">
+<div class="deminisions param-box">
+    <div class="param position">
+        <button mat-icon-button (click)="setPosition('absolute')">
+            <mat-icon class="position" aria-label="" [class.active]="position === 'absolute'">border_clear</mat-icon>
+        </button>
 
-        <input matInput placeholder="Высота" [attr.value]="height" (change)="height = $event.target.value">
+        <button mat-icon-button (click)="setPosition('relative')">
+            <mat-icon class="position" aria-label="" [class.active]="position === 'relative'">border_outer</mat-icon>
+        </button>
+    </div>
 
+    <div class="param">
+        <span>
+            Ширина
+        </span>
+
+        <div class="input-wrapper">
+            <input matInput placeholder="Ширина" [attr.disabled]="isFullWidth ? 'disabled' : null" [attr.value]="widthPx" (change)="width = $event.target.value + 'px'">
+
+            <button mat-icon-button (click)="toggleFullWidth()">
+                <mat-icon class="width" aria-label="" [class.active]="isFullWidth">unfold_more</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="param">
+        <span>
+            Высота
+        </span>
+
+        <div class="input-wrapper">
+            <input matInput placeholder="Высота" [attr.disabled]="isFullHeight ? 'disabled' : null" [attr.value]="heightPx" (change)="height = $event.target.value + 'px'">
+
+            <button mat-icon-button (click)="toggleFullHeight()">
+                <mat-icon class="height" aria-label="" [class.active]="isFullHeight">unfold_more</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="flex-box">
+    <div class="row justify-content">
+        <button mat-icon-button (click)="setJustifyContent('flex-start')">
+            <mat-icon class="to-left" aria-label="" [class.active]="justifyContent === 'flex-start'">format_align_left</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="setJustifyContent('center')">
+            <mat-icon class="center" aria-label="" [class.active]="justifyContent === 'center'">format_align_justify</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="setJustifyContent('flex-end')">
+            <mat-icon class="to-right" aria-label="" [class.active]="justifyContent === 'flex-end'">format_align_right</mat-icon>
+        </button>
+    </div>
 </div>

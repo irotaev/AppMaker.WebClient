@@ -30,6 +30,7 @@
     "reset-css": "^4.0.1",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
+    "ts-serializer": "^1.0.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

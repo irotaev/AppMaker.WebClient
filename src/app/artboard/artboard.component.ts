@@ -1,23 +1,31 @@
 import {
     Component,
-    ComponentFactoryResolver,
+    ComponentFactoryResolver, ComponentRef,
     ElementRef,
-    HostListener,
-    OnInit,
+    HostListener, Injector,
+    OnInit, Type,
     ViewChild,
-    ViewContainerRef
+    ViewContainerRef, ViewRef
 } from '@angular/core';
 import {DropEvent} from 'ng-drag-drop';
 import {ComponentListService} from '../service/componentlist.service';
-import {IDynamicComponent} from '../Abstract/i-dynamic-component';
-import {IComponent} from '../Abstract/i-component';
+import {DynamicComponent} from '../abstract/dynamic.component';
+import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
+import {ComponentUiFactory} from '../service/component-uifactory-resolver.service';
+import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
+import {FlexboxComponent} from '../flexbox/flexbox.component';
 
 @Component({
     selector: 'am-artboard',
     templateUrl: './artboard.component.html',
     styleUrls: ['./artboard.component.scss']
 })
-export class ArtboardComponent implements OnInit, IComponent {
+export class ArtboardComponent extends DynamicComponent implements OnInit {
+
+    settingsEditorComponent: { type: Type<DynamicComponent>; settingsEditorComponent: ComponentRef<DynamicComponent> }[] = [{
+        type: FlexboxSettingsEditorComponent,
+        settingsEditorComponent: null
+    }];
 
     @ViewChild('artboard', {read: ElementRef}) artboard: ElementRef;
     @ViewChild('artboardContainer', {read: ViewContainerRef}) artboardContainerRef: ViewContainerRef;
@@ -25,13 +33,25 @@ export class ArtboardComponent implements OnInit, IComponent {
     scale = 100;
 
 
-    constructor(private elRef: ElementRef, private compiler: ComponentFactoryResolver, private elementListService: ComponentListService) {
+    constructor(private elRef: ElementRef,
+                private compiler: ComponentFactoryResolver,
+                elementListService: ComponentListService,
+                componentFactoryResolver: ComponentFactoryResolver,
+                private componentUiFactory: ComponentUiFactory,
+                injector: Injector) {
+
+        super(elRef, elementListService, componentFactoryResolver, injector);
+
+        this.width = 'inherit';
+        this.height = 'inherit';
     }
 
     ngOnInit() {
         if (!this.checkOverScale(this.scale)) {
             this.changeScale(-this._scaleStep);
         }
+
+        this.el = this.artboard;
     }
 
     //#region Scale
@@ -117,9 +137,8 @@ export class ArtboardComponent implements OnInit, IComponent {
 
     //#endregion
 
-    onComponentDrop(event: DropEvent) {
-        const flexBoxFactory = this.compiler.resolveComponentFactory(event.dragData);
-        const component = this.artboardContainerRef.createComponent(flexBoxFactory);
-        (component.instance as IDynamicComponent).component = component;
+    onComponentDrop(event: any) {
+        const store = JSON.parse(event.dataTransfer.getData('data')) as DataTransferStore;
+        this.componentUiFactory.createComponent(FlexboxComponent, this.artboardContainerRef);
     }
 }

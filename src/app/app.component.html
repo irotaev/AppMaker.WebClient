@@ -1,10 +1,11 @@
 <div #componentList class="component-list">
-    <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggableDragComponent]="componentList">
+    <mat-toolbar class="toolbar" color="primary" amDraggable [amDraggable_El]="componentList" [amDraggable_ChangeLocation]="true">
         Компоненты
     </mat-toolbar>
 
     <div class="component-preview-wrapper">
-        <div class="component-preview component-preview-flexbox" amDraggable [dragScope]="'component'" [dragData]="flexBoxType">
+        <div class="component-preview component-preview-flexbox" amDraggable [amDraggable_DragScope]="'component'"
+             [amDraggable_DragData]="'FlexboxComponent'" [amDraggable_ChangeLocation]="false">
         </div>
     </div>
 </div>
@@ -14,17 +15,16 @@
 
 <mat-toolbar class="top-toolbar" color="primary">
     <div class="artboard-style-changer">
-            <button mat-icon-button [class.active]="artboardFormat === 'desktop'" (click)="changeArtboardFormat('desktop')">
-                <mat-icon aria-label="Example icon-button with a heart icon">desktop_mac</mat-icon>
-            </button>
-            <button mat-icon-button [class.active]="artboardFormat === 'tablet'" (click)="changeArtboardFormat('tablet')">
-                <mat-icon aria-label="Example icon-button with a heart icon">tablet_mac</mat-icon>
-            </button>
-            <button mat-icon-button [class.active]="artboardFormat === 'mobile'" (click)="changeArtboardFormat('mobile')">
-                <mat-icon aria-label="Example icon-button with a heart icon">phone_iphone</mat-icon>
-            </button>
+        <button mat-icon-button [class.active]="artboardFormat === 'desktop'" (click)="changeArtboardFormat('desktop')">
+            <mat-icon aria-label="Example icon-button with a heart icon">desktop_mac</mat-icon>
+        </button>
+        <button mat-icon-button [class.active]="artboardFormat === 'tablet'" (click)="changeArtboardFormat('tablet')">
+            <mat-icon aria-label="Example icon-button with a heart icon">tablet_mac</mat-icon>
+        </button>
+        <button mat-icon-button [class.active]="artboardFormat === 'mobile'" (click)="changeArtboardFormat('mobile')">
+            <mat-icon aria-label="Example icon-button with a heart icon">phone_iphone</mat-icon>
+        </button>
     </div>
 </mat-toolbar>
 
-<am-artboard #artboard>
-</am-artboard>
+<ng-container #artboarContainer></ng-container>

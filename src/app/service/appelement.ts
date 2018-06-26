@@ -1,8 +1,8 @@
 import {ElementRef} from '@angular/core';
-import {IComponent} from '../Abstract/i-component';
+import {AbstractComponent} from '../abstract/abstract.component';
 
 export class AppElement {
-    constructor(public component: IComponent, public element: ElementRef, public elementId: string) {
+    constructor(public component: AbstractComponent, public element: ElementRef, public elementId: string) {
 
     }
 }

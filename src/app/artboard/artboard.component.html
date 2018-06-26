@@ -1,3 +1,5 @@
-<div class="artboard" #artboard [style.transform]="'scale(' + scale + ')'" droppable [dropScope]="'component'" (onDrop)="onComponentDrop($event)">
-    <ng-container #artboardContainer></ng-container>
+<div class="artboard" #artboard [style.transform]="'scale(' + scale + ')'" amDroppable [amDroppable_DropScope]="'component'"
+     (amDroppable_OnDrop)="onComponentDrop($event)">
+        <ng-container #artboardContainer>
+        </ng-container>
 </div>

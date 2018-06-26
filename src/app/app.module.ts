@@ -12,7 +12,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ArtboardComponent} from './artboard/artboard.component';
 
 import {NgDragDropModule} from 'ng-drag-drop';
-import {AmDraggableDirective} from './directive/am-draggable.directive';
+import {AmDraggableDirective} from './directive/amdraggable.directive';
+import {AmDroppableDirective} from './directive/amdroppable.directive';
 import {FlexboxComponent} from './flexbox/flexbox.component';
 import {FlexboxSettingsEditorComponent} from './flexbox.settingseditor/flexbox.settingseditor.component';
 import {PropertyEditorComponent} from './component-property/property-editor.component';
@@ -22,6 +23,7 @@ import {PropertyEditorComponent} from './component-property/property-editor.comp
         AppComponent,
         ArtboardComponent,
         AmDraggableDirective,
+        AmDroppableDirective,
         FlexboxComponent,
         FlexboxSettingsEditorComponent,
         PropertyEditorComponent
@@ -37,9 +39,8 @@ import {PropertyEditorComponent} from './component-property/property-editor.comp
         MatButtonModule,
         MatFormFieldModule
     ],
-    providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [FlexboxComponent, FlexboxSettingsEditorComponent]
+    entryComponents: [ArtboardComponent, FlexboxComponent, FlexboxSettingsEditorComponent]
 })
 export class AppModule {
 }

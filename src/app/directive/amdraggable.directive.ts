@@ -1,5 +1,6 @@
 import {Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
 import {DataTransferStore} from './amdraggable.datatransferstore';
+import {AbstractComponent} from '../abstract/abstract.component';
 
 @Directive({
     selector: '[amDraggable]'
@@ -7,6 +8,7 @@ import {DataTransferStore} from './amdraggable.datatransferstore';
 export class AmDraggableDirective implements OnInit {
 
     @Input() amDraggable_El: HTMLElement;
+    @Input() amDraggable_ComponentCode: string;
     @Input() amDraggable_DragScope: string;
     @Input() amDraggable_DragData: any;
     @Input() amDraggable_ChangeLocation: boolean;
@@ -77,7 +79,10 @@ export class AmDraggableDirective implements OnInit {
             this.fillStartDragState(event);
         }
 
-        event.dataTransfer.setData('data', JSON.stringify(new DataTransferStore(this.amDraggable_DragScope, this.amDraggable_DragData)));
+        event.dataTransfer.setData('data', JSON.stringify(new DataTransferStore(
+            this.amDraggable_DragScope,
+            this.amDraggable_DragData,
+            this.amDraggable_ComponentCode)));
     }
 
     onDragEnd(event: DragEvent) {

@@ -4,7 +4,6 @@ import {IComponentSetting} from '../abstract/i-component-setting';
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {SettingsEditorComponent} from '../abstract/settings-editor-component';
 import {AbstractComponent} from '../abstract/abstract.component';
-import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-component-property',
@@ -21,7 +20,7 @@ export class PropertyEditorComponent extends AbstractComponent implements OnInit
 
     shownSettingsComponents: SettingsEditorComponent[] = [];
 
-    constructor(elRef: ElementRef, private _dynamicComponentTreeService: DynamicComponentTreeService, injector: Injector) {
+    constructor(elRef: ElementRef, injector: Injector) {
         super(elRef, injector);
     }
 
@@ -33,7 +32,7 @@ export class PropertyEditorComponent extends AbstractComponent implements OnInit
     deleteSettings() {
         this.shownSettingsComponents.forEach(c => {
             ((c as ISettingsEditorComponent).uiComponent.instance as IComponentSetting).isSettingsEditorShown = false;
-            (c as DynamicComponent).component.destroy();
+            (c as DynamicComponent).componentRef.destroy();
             (c as ISettingsEditorComponent).uiComponent.destroy();
         });
 

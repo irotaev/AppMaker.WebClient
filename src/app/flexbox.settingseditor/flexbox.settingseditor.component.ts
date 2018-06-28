@@ -103,7 +103,7 @@ export class FlexboxSettingsEditorComponent extends SettingsEditorComponent impl
     }
 
     setJustifyContent(value: string) {
-        (this.uiComponent.instance as DynamicComponent).el.nativeElement.style.justifyContent = value;
+        (this.uiComponent.instance as FlexboxComponent).setJustifyContent(value);
         this.justifyContent = value;
     }
 

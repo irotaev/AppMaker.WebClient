@@ -5,7 +5,7 @@ import {DynamicComponentTreeService} from '../service/dynamic-component-tree.ser
 
 @Component({})
 export abstract class SettingsEditorComponent extends DynamicComponent implements ISettingsEditorComponent {
-    component: ComponentRef<DynamicComponent>;
+    componentRef: ComponentRef<DynamicComponent>;
     uiComponent: ComponentRef<DynamicComponent> = null;
 
     constructor(el: ElementRef, dynamicComponentTreeService: DynamicComponentTreeService, componentFactoryResolver: ComponentFactoryResolver, injector: Injector) {

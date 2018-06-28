@@ -59,7 +59,7 @@ export class ComponentBranch {
 
     public addComponent(component: AbstractComponent) {
         this.componentJson = JSON.stringify(new JsonConvert().serializeObject(component));
-        this.componentType = component.type;
+        this.componentType = component.typeStr;
         this.componentCode = component.code;
         this._component = component;
         this._elementRef = component.el;
@@ -71,7 +71,7 @@ export class ComponentBranch {
         this._componentRef = componentRef;
     }
 
-    public addElement(elementRef: ElementRef, code: string) {
+    public addElementRef(elementRef: ElementRef, code: string) {
         this._elementRef = elementRef;
         this.componentCode = code;
     }

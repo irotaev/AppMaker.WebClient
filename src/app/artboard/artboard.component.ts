@@ -17,15 +17,16 @@ import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
 import {FlexboxComponent} from '../flexbox/flexbox.component';
 import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
+import {ElementResizeService} from '../service/resize.service';
 
 @Component({
     selector: 'am-artboard',
     templateUrl: './artboard.component.html',
     styleUrls: ['./artboard.component.scss']
 })
-export class ArtboardComponent extends DynamicComponent implements OnInit {
+export class ArtboardComponent extends FlexboxComponent implements OnInit {
 
-    public readonly code = 'ArtboardComponent';
+    public readonly code = ArtboardComponent.name;
 
     settingsEditorComponent: { type: Type<DynamicComponent>; settingsEditorComponent: ComponentRef<DynamicComponent> }[] = [{
         type: FlexboxSettingsEditorComponent,
@@ -145,17 +146,4 @@ export class ArtboardComponent extends DynamicComponent implements OnInit {
     }
 
     //#endregion
-
-    onComponentDrop(event: any) {
-        const store = JSON.parse(event.dataTransfer.getData('data')) as DataTransferStore;
-        const component = this.componentUiFactory.createComponent(FlexboxComponent, this.artboardContainerRef);
-
-        const componentBranch = new ComponentBranch();
-        componentBranch.addComponent(component.instance)
-
-        this._dynamicComponentTree.addBranch(componentBranch, 'ArtboardComponent');
-
-        const jsonObj = this._dynamicComponentTree.findBranchByComponentCode('ArtboardComponent').serialize();
-        const obj = ComponentBranch.deserialize(jsonObj);
-    }
 }

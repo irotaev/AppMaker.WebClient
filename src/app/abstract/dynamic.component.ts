@@ -6,8 +6,9 @@ import {ISettingsEditorComponent} from './i-settingse-editor-component';
 import {SettingsEditorComponent} from './settings-editor-component';
 import {AbstractComponent} from './abstract.component';
 import {AmDraggableDirective} from '../directive/amdraggable.directive';
-import {Guid} from 'guid-typescript';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
+import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
+import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
 
 @Component({})
 export abstract class DynamicComponent extends AbstractComponent implements IComponentSetting, OnInit {
@@ -16,9 +17,9 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
 
     /**
      * Ref to componentJson view if exist
-     * @type {any}
+     * @typeStr {any}
      */
-    component: ComponentRef<DynamicComponent> = null;
+    componentRef: ComponentRef<DynamicComponent> = null;
 
     isSettingsEditorShown = false;
 
@@ -64,6 +65,8 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
 
         const draggableDirective = new AmDraggableDirective(this._renderer, this.el);
         draggableDirective.amDraggable_ChangeLocation = true;
+        draggableDirective.amDraggable_ComponentCode = this.code;
+        draggableDirective.amDraggable_DragScope = 'component';
         draggableDirective.apply();
 
         // this._draggableRoutine.makeDraggable(this.componentJson, false);
@@ -72,6 +75,24 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
     setDimensions() {
         this.width = '150px';
         this.height = '50px';
+    }
+
+    public onDrop(event: any) {
+        if (this.viewContainerRef != null) {
+            const droppableComponentBranch = this._dynamicComponentTreeService.findBranchByComponentCode(this.code);
+
+            const transferStore = DataTransferStore.fromEventDataTransfer(event);
+            const draggableComponentBranch = this._dynamicComponentTreeService.findBranchByComponentCode(transferStore.componentCode);
+
+            const component = this._componentUiFactory.createComponentRef(
+                <Type<any>>draggableComponentBranch.component.constructor,
+                droppableComponentBranch.component.viewContainerRef);
+
+            const componentBranch = new ComponentBranch();
+            componentBranch.addComponent(component.instance);
+
+            this._dynamicComponentTreeService.addBranch(componentBranch, droppableComponentBranch.componentCode);
+        }
     }
 
     protected onClick(event: MouseEvent) {
@@ -93,8 +114,8 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
         const componentEditorSettingsFactory = this.componentFactoryResolver.resolveComponentFactory(this.settingsEditorComponent[0].type);
         const editorSettingsComponent = (componentPropertyRef.component as PropertyEditorComponent).container.createComponent(componentEditorSettingsFactory);
 
-        (editorSettingsComponent.instance as DynamicComponent).component = editorSettingsComponent;
-        (editorSettingsComponent.instance as SettingsEditorComponent).uiComponent = this.component;
+        (editorSettingsComponent.instance as DynamicComponent).componentRef = editorSettingsComponent;
+        (editorSettingsComponent.instance as SettingsEditorComponent).uiComponent = this.componentRef;
 
         this.settingsEditorComponent[0].settingsEditorComponent = editorSettingsComponent;
 

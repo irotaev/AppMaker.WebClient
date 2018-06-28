@@ -16,18 +16,22 @@ export class ComponentUiFactory {
         return this.componentFactoryResolver.resolveComponentFactory(component);
     }
 
-    createComponent<C>(componentType: Type<DynamicComponent>,
-                       acceptorRef: ViewContainerRef,
-                       index?: number,
-                       injector?: Injector,
-                       projectableNodes?: any[][],
-                       ngModule?: NgModuleRef<any>): ComponentRef<DynamicComponent> {
+    createComponentRef<C>(componentType: Type<DynamicComponent>,
+                          acceptorRef: ViewContainerRef,
+                          index?: number,
+                          injector?: Injector,
+                          projectableNodes?: any[][],
+                          ngModule?: NgModuleRef<any>): ComponentRef<DynamicComponent> {
 
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
         const componentRef = acceptorRef.createComponent(componentFactory);
 
-        (componentRef.instance as DynamicComponent).component = componentRef;
+        (componentRef.instance as DynamicComponent).componentRef = componentRef;
 
         return componentRef;
+    }
+
+    createComponent<C>(componentType: Type<DynamicComponent>, injector: Injector) {
+        return this.componentFactoryResolver.resolveComponentFactory(componentType).create(injector);
     }
 }

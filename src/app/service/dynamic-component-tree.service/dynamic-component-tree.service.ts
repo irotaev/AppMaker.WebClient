@@ -8,10 +8,10 @@ export class DynamicComponentTreeService {
 
     private readonly _componentList: Array<ComponentBranch> = [];
 
-    public addBranch(branch: ComponentBranch, childOfName?: string) {
+    public addBranch(branch: ComponentBranch, childOfCode?: string) {
         this._componentList.push(branch);
 
-        const parentBranch = childOfName != null ? this.findBranchByComponentCode(childOfName) : null;
+        const parentBranch = childOfCode != null ? this.findBranchByComponentCode(childOfCode) : null;
 
         if (parentBranch != null) {
             parentBranch.addChildBranch(branch);
@@ -20,6 +20,10 @@ export class DynamicComponentTreeService {
     }
 
     public findBranchByComponentCode(code: string): ComponentBranch {
+        if (code == null) {
+            return null;
+        }
+
         if (this._componentList.length === 0) {
             return null;
         }

@@ -1,3 +1,4 @@
-<div class="container" droppable [dropScope]="'component'">
-
+<div class="container" #containerWrapperElementRef amDroppable [amDroppable_DropScope]="'component'" [amDroppable_Component]="componentRef.instance"
+     (amDroppable_OnDrop)="onDrop($event)">
+        <ng-container #viewContainerRef></ng-container>
 </div>

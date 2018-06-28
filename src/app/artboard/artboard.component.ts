@@ -13,11 +13,10 @@ import {
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
 import {ComponentUiFactory} from '../service/component-uifactory-resolver.service';
-import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
 import {FlexboxComponent} from '../flexbox/flexbox.component';
 import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
-import {ElementResizeService} from '../service/resize.service';
+import {ElementRefSetting} from '../abstract/component-setting/element-ref-setting';
 
 @Component({
     selector: 'am-artboard',
@@ -27,6 +26,8 @@ import {ElementResizeService} from '../service/resize.service';
 export class ArtboardComponent extends FlexboxComponent implements OnInit {
 
     public readonly code = ArtboardComponent.name;
+
+    elementRefSettings: ElementRefSetting[] = [];
 
     settingsEditorComponent: { type: Type<DynamicComponent>; settingsEditorComponent: ComponentRef<DynamicComponent> }[] = [{
         type: FlexboxSettingsEditorComponent,

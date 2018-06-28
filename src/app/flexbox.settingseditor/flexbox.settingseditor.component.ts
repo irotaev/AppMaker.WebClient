@@ -1,5 +1,5 @@
 import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector, OnInit, Type} from '@angular/core';
-import {SettingsEditorComponent} from '../abstract/settings-editor-component';
+import {SettingsEditorComponent} from '../abstract/component-setting/settings-editor-component';
 import {FlexboxComponent} from '../flexbox/flexbox.component';
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';

@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector,
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
+import {ElementRefSetting} from '../abstract/component-setting/element-ref-setting';
 
 @Component({
     selector: 'am-flexbox',
@@ -9,6 +10,8 @@ import {DynamicComponentTreeService} from '../service/dynamic-component-tree.ser
     styleUrls: ['./flexbox.component.scss']
 })
 export class FlexboxComponent extends DynamicComponent implements OnInit {
+
+    elementRefSettings: ElementRefSetting[] = [];
 
     settingsEditorComponent: { type: Type<DynamicComponent>, settingsEditorComponent: ComponentRef<DynamicComponent> }[] = [{
         type: FlexboxSettingsEditorComponent,

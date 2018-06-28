@@ -2,7 +2,7 @@ import {Component, ElementRef, Injector, OnInit, ViewChild, ViewContainerRef} fr
 import {ISettingsEditorComponent} from '../abstract/i-settingse-editor-component';
 import {IComponentSetting} from '../abstract/i-component-setting';
 import {DynamicComponent} from '../abstract/dynamic.component';
-import {SettingsEditorComponent} from '../abstract/settings-editor-component';
+import {SettingsEditorComponent} from '../abstract/component-setting/settings-editor-component';
 import {AbstractComponent} from '../abstract/abstract.component';
 
 @Component({

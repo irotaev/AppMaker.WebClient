@@ -3,17 +3,26 @@ import {IComponentSetting} from './i-component-setting';
 import {PropertyEditorComponent} from '../component-property/property-editor.component';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
 import {ISettingsEditorComponent} from './i-settingse-editor-component';
-import {SettingsEditorComponent} from './settings-editor-component';
+import {SettingsEditorComponent} from './component-setting/settings-editor-component';
 import {AbstractComponent} from './abstract.component';
 import {AmDraggableDirective} from '../directive/amdraggable.directive';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
 import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
+import {ElementRefSettingList} from './component-setting/element-ref-setting-list';
+import {ElementRefSetting} from './component-setting/element-ref-setting';
 
 @Component({})
 export abstract class DynamicComponent extends AbstractComponent implements IComponentSetting, OnInit {
 
     abstract settingsEditorComponent: { type: Type<DynamicComponent>, settingsEditorComponent: ComponentRef<DynamicComponent> }[];
+
+    /**
+     * List of element for general settings
+     */
+    public readonly elementRefSettingList: ElementRefSettingList = new ElementRefSettingList();
+
+    abstract elementRefSettings: ElementRefSetting[];
 
     /**
      * Ref to componentJson view if exist
@@ -69,7 +78,10 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
         draggableDirective.amDraggable_DragScope = 'component';
         draggableDirective.apply();
 
-        // this._draggableRoutine.makeDraggable(this.componentJson, false);
+
+        this.elementRefSettings.forEach(eR => {
+            this.elementRefSettingList.addElementRefSetting(eR);
+        });
     }
 
     setDimensions() {

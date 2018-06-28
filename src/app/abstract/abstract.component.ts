@@ -30,8 +30,6 @@ export class AbstractComponent extends ElementRef<HTMLElement> implements IEdita
         this._renderer = injector.get(Renderer2);
         this._componentUiFactory = injector.get(ComponentUiFactory);
         this._dynamicComponentTreeService = injector.get(DynamicComponentTreeService);
-
-        // injector.get(TypeListService).addType(this.constructor.name, this.constructor);
     }
 
     setAttribute(name: string, value: string) {

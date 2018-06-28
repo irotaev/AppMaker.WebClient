@@ -1,10 +1,12 @@
 import {Component, ElementRef, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ArtboardComponent} from './artboard/artboard.component';
 import {FlexboxComponent} from './flexbox/flexbox.component';
-import {ComponentListService} from './service/componentlist.service';
 import {PropertyEditorComponent} from './component-property/property-editor.component';
 import {ComponentUiFactory} from './service/component-uifactory-resolver.service';
 import {AbstractComponent} from './abstract/abstract.component';
+import {StaticInjector} from './service/static-injector';
+import {ComponentBranch} from './service/dynamic-component-tree.service/component-branch';
+import {DynamicComponentTreeService} from './service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-root',
@@ -26,26 +28,39 @@ export class AppComponent extends AbstractComponent implements OnInit {
     @ViewChild('artboarContainer', {read: ViewContainerRef}) artboarContainer: ViewContainerRef;
 
     constructor(elRef: ElementRef,
-                private elementListService: ComponentListService,
+                private _dynamicComponentTreeService: DynamicComponentTreeService,
                 private componentUiFactory: ComponentUiFactory,
                 injector: Injector) {
         super(elRef, injector);
+
+        StaticInjector.injector = injector;
     }
 
     ngOnInit(): void {
-        this.elementListService.addElement(null, this.componentListElRef, 'componentList');
-        this.elementListService.addElement(this.componentPropertyComponent, this.componentPropertyElRef, 'componentProperty');
+        const componentListBranch = new ComponentBranch();
+        componentListBranch.addElement(this.componentListElRef, 'componentList');
+        this._dynamicComponentTreeService.addBranch(componentListBranch);
 
-        const artboardComponent = this.componentUiFactory.createComponent(ArtboardComponent, this.artboarContainer);
+        const componentPropertyBranch = new ComponentBranch();
+        componentPropertyBranch.addComponent(this.componentPropertyComponent);
+        this._dynamicComponentTreeService.addBranch(componentPropertyBranch);
 
-        this.elementListService.addElement(artboardComponent.instance, null, 'artboard');
+        // this.elementListService.addElement(null, this.componentListElRef, 'componentList');
+        // this.elementListService.addElement(this.componentPropertyComponent, this.componentPropertyElRef, 'componentProperty');
+
+        const artboardComponentRef = this.componentUiFactory.createComponent(ArtboardComponent, this.artboarContainer);
+
+        // this.elementListService.addElement(artboardComponent.instance, null, 'artboard');
+
+        const componentArtboardBranch = new ComponentBranch();
+        componentArtboardBranch.addComponentRef(artboardComponentRef);
+        this._dynamicComponentTreeService.addBranch(componentArtboardBranch);
     }
 
     changeArtboardFormat(format: string) {
         this.artboardFormat = format;
 
-        const artboardComponent = this.elementListService.findComponent('artboard');
-
-        (artboardComponent.component as ArtboardComponent).changeFormat(format);
+        const artboardComponentBranch = this._dynamicComponentTreeService.findBranchByComponentType(ArtboardComponent.constructor.name);
+        (artboardComponentBranch.component as ArtboardComponent).changeFormat(format);
     }
 }

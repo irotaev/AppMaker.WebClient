@@ -2,7 +2,7 @@ import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector,
 import {SettingsEditorComponent} from '../abstract/settings-editor-component';
 import {FlexboxComponent} from '../flexbox/flexbox.component';
 import {DynamicComponent} from '../abstract/dynamic.component';
-import {ComponentListService} from '../service/componentlist.service';
+import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-flexbox.editorsettings',
@@ -87,8 +87,8 @@ export class FlexboxSettingsEditorComponent extends SettingsEditorComponent impl
 
     position = 'absolute';
 
-    constructor(el: ElementRef, elementListService: ComponentListService, componentFactoryResolver: ComponentFactoryResolver, injector: Injector) {
-        super(el, elementListService, componentFactoryResolver, injector);
+    constructor(el: ElementRef, dynamicComponentTreeService: DynamicComponentTreeService, componentFactoryResolver: ComponentFactoryResolver, injector: Injector) {
+        super(el, dynamicComponentTreeService, componentFactoryResolver, injector);
     }
 
     ngOnInit() {

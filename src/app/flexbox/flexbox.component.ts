@@ -1,11 +1,8 @@
-import {
-    Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector, Input, OnInit,
-    Type
-} from '@angular/core';
+import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector, OnInit, Type} from '@angular/core';
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {ElementResizeService} from '../service/resize.service';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
-import {ComponentListService} from '../service/componentlist.service';
+import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-flexbox',
@@ -22,20 +19,14 @@ export class FlexboxComponent extends DynamicComponent implements OnInit {
 
     constructor(el: ElementRef,
                 private _resizeService: ElementResizeService,
-                elementListService: ComponentListService,
+                dynamicComponentTreeService: DynamicComponentTreeService,
                 componentFactoryResolver: ComponentFactoryResolver,
                 injector: Injector) {
-        super(el, elementListService, componentFactoryResolver, injector);
+        super(el, dynamicComponentTreeService, componentFactoryResolver, injector);
     }
 
     ngOnInit() {
         super.ngOnInit();
-
-        // if (this.isMakeDraggable) {
-        //     this._draganddropService.makeDraggable(this.component, true);
-        // }
-
-        // this._resizeService.makeResizable(this.el);
     }
 
 }

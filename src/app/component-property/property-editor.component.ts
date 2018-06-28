@@ -1,10 +1,10 @@
 import {Component, ElementRef, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ISettingsEditorComponent} from '../abstract/i-settingse-editor-component';
 import {IComponentSetting} from '../abstract/i-component-setting';
-import {ComponentListService} from '../service/componentlist.service';
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {SettingsEditorComponent} from '../abstract/settings-editor-component';
 import {AbstractComponent} from '../abstract/abstract.component';
+import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-component-property',
@@ -15,17 +15,19 @@ export class PropertyEditorComponent extends AbstractComponent implements OnInit
 
     @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
 
+    public code: string = PropertyEditorComponent.name;
+
     componentPropertyEl: HTMLElement = null;
 
     shownSettingsComponents: SettingsEditorComponent[] = [];
 
-    constructor(elRef: ElementRef, private componentListservice: ComponentListService, injector: Injector) {
+    constructor(elRef: ElementRef, private _dynamicComponentTreeService: DynamicComponentTreeService, injector: Injector) {
         super(elRef, injector);
     }
 
     ngOnInit() {
-        const componentProperty = this.componentListservice.findComponent('componentProperty');
-        this.componentPropertyEl = componentProperty.element.nativeElement;
+        const componentProperty = this._dynamicComponentTreeService.findBranchByComponentCode(PropertyEditorComponent.name);
+        this.componentPropertyEl = componentProperty.component.el.nativeElement;
     }
 
     deleteSettings() {

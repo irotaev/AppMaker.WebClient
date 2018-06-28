@@ -1,19 +1,22 @@
 import {
     Component,
-    ComponentFactoryResolver, ComponentRef,
+    ComponentFactoryResolver,
+    ComponentRef,
     ElementRef,
-    HostListener, Injector,
-    OnInit, Type,
+    HostListener,
+    Injector,
+    OnInit,
+    Type,
     ViewChild,
-    ViewContainerRef, ViewRef
+    ViewContainerRef
 } from '@angular/core';
-import {DropEvent} from 'ng-drag-drop';
-import {ComponentListService} from '../service/componentlist.service';
 import {DynamicComponent} from '../abstract/dynamic.component';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
 import {ComponentUiFactory} from '../service/component-uifactory-resolver.service';
 import {DataTransferStore} from '../directive/amdraggable.datatransferstore';
 import {FlexboxComponent} from '../flexbox/flexbox.component';
+import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
+import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({
     selector: 'am-artboard',
@@ -21,6 +24,8 @@ import {FlexboxComponent} from '../flexbox/flexbox.component';
     styleUrls: ['./artboard.component.scss']
 })
 export class ArtboardComponent extends DynamicComponent implements OnInit {
+
+    public readonly code = 'ArtboardComponent';
 
     settingsEditorComponent: { type: Type<DynamicComponent>; settingsEditorComponent: ComponentRef<DynamicComponent> }[] = [{
         type: FlexboxSettingsEditorComponent,
@@ -34,16 +39,21 @@ export class ArtboardComponent extends DynamicComponent implements OnInit {
 
 
     constructor(private elRef: ElementRef,
+                private _dynamicComponentTree: DynamicComponentTreeService,
                 private compiler: ComponentFactoryResolver,
-                elementListService: ComponentListService,
+                dynamicComponentTreeService: DynamicComponentTreeService,
                 componentFactoryResolver: ComponentFactoryResolver,
                 private componentUiFactory: ComponentUiFactory,
                 injector: Injector) {
 
-        super(elRef, elementListService, componentFactoryResolver, injector);
+        super(elRef, dynamicComponentTreeService, componentFactoryResolver, injector);
 
         this.width = 'inherit';
         this.height = 'inherit';
+
+        const componentBranch = new ComponentBranch();
+        componentBranch.addComponent(this);
+        this._dynamicComponentTree.addBranch(componentBranch);
     }
 
     ngOnInit() {
@@ -89,8 +99,7 @@ export class ArtboardComponent extends DynamicComponent implements OnInit {
             if (fix) {
                 const fixScaleX: number = Number((this.elRef.nativeElement.offsetWidth / this.artboard.nativeElement.offsetWidth).toFixed(2));
                 const fixScaleY: number = Number((this.elRef.nativeElement.offsetHeight / this.artboard.nativeElement.offsetHeight).toFixed(2));
-                const aa = fixScaleX <= fixScaleY ? fixScaleX : fixScaleY;
-                this.scale = aa;
+                this.scale = fixScaleX <= fixScaleY ? fixScaleX : fixScaleY;
             }
 
             return false;
@@ -139,6 +148,14 @@ export class ArtboardComponent extends DynamicComponent implements OnInit {
 
     onComponentDrop(event: any) {
         const store = JSON.parse(event.dataTransfer.getData('data')) as DataTransferStore;
-        this.componentUiFactory.createComponent(FlexboxComponent, this.artboardContainerRef);
+        const component = this.componentUiFactory.createComponent(FlexboxComponent, this.artboardContainerRef);
+
+        const componentBranch = new ComponentBranch();
+        componentBranch.addComponent(component.instance)
+
+        this._dynamicComponentTree.addBranch(componentBranch, 'ArtboardComponent');
+
+        const jsonObj = this._dynamicComponentTree.findBranchByComponentCode('ArtboardComponent').serialize();
+        const obj = ComponentBranch.deserialize(jsonObj);
     }
 }

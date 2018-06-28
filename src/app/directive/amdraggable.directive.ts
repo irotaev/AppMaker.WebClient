@@ -41,7 +41,7 @@ export class AmDraggableDirective implements OnInit {
 
         this.element = this.amDraggable_El || this._element.nativeElement;
 
-        this._renderer.setAttribute(this.element, 'draggable', 'true');
+        this._renderer.setAttribute(this._element.nativeElement, 'draggable', 'true');
 
         if (this.amDraggable_ChangeLocation) {
             this._renderer.setStyle(this.element, 'position', 'absolute');
@@ -50,21 +50,21 @@ export class AmDraggableDirective implements OnInit {
             // this._renderer.setStyle(this.element, 'left', this.element.offsetWidth + 'px');
         }
 
-        (<any>this.element).ondragstart = (event) => {
+        (<any>this._element.nativeElement).ondragstart = (event) => {
             this.onDragStart(event);
 
             event.stopPropagation();
             event.stopImmediatePropagation();
         };
 
-        (<any>this.element).ondragend = (event) => {
+        (<any>this._element.nativeElement).ondragend = (event) => {
             this.onDragEnd(event);
 
             event.stopPropagation();
             event.stopImmediatePropagation();
         };
 
-        (<any>this.element).ondrag = (event) => {
+        (<any>this._element.nativeElement).ondrag = (event) => {
             this.onDrag(event);
 
             event.stopPropagation();

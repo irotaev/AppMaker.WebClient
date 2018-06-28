@@ -1,18 +1,23 @@
 import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injector, OnInit, Type} from '@angular/core';
 import {IComponentSetting} from './i-component-setting';
-import {ComponentListService} from '../service/componentlist.service';
 import {PropertyEditorComponent} from '../component-property/property-editor.component';
 import {FlexboxSettingsEditorComponent} from '../flexbox.settingseditor/flexbox.settingseditor.component';
 import {ISettingsEditorComponent} from './i-settingse-editor-component';
 import {SettingsEditorComponent} from './settings-editor-component';
 import {AbstractComponent} from './abstract.component';
 import {AmDraggableDirective} from '../directive/amdraggable.directive';
+import {Guid} from 'guid-typescript';
+import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 
 @Component({})
 export abstract class DynamicComponent extends AbstractComponent implements IComponentSetting, OnInit {
 
     abstract settingsEditorComponent: { type: Type<DynamicComponent>, settingsEditorComponent: ComponentRef<DynamicComponent> }[];
 
+    /**
+     * Ref to componentJson view if exist
+     * @type {any}
+     */
     component: ComponentRef<DynamicComponent> = null;
 
     isSettingsEditorShown = false;
@@ -46,7 +51,7 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
     //#endregion
 
     constructor(el: ElementRef,
-                protected elementListService: ComponentListService,
+                protected _dynamicComponentTreeService: DynamicComponentTreeService,
                 protected componentFactoryResolver: ComponentFactoryResolver,
                 injector: Injector) {
         super(el, injector);
@@ -61,7 +66,7 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
         draggableDirective.amDraggable_ChangeLocation = true;
         draggableDirective.apply();
 
-        // this._draggableRoutine.makeDraggable(this.component, false);
+        // this._draggableRoutine.makeDraggable(this.componentJson, false);
     }
 
     setDimensions() {
@@ -81,7 +86,7 @@ export abstract class DynamicComponent extends AbstractComponent implements ICom
             return;
         }
 
-        const componentPropertyRef = this.elementListService.findComponent('componentProperty');
+        const componentPropertyRef = this._dynamicComponentTreeService.findBranchByComponentType(PropertyEditorComponent.name);
         (componentPropertyRef.component as PropertyEditorComponent).container.clear();
 
 

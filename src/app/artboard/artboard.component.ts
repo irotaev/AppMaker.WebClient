@@ -99,8 +99,8 @@ export class ArtboardComponent extends FlexboxComponent implements OnInit {
             || this.artboard.nativeElement.offsetHeight * scale >= this.elRef.nativeElement.offsetHeight) {
 
             if (fix) {
-                const fixScaleX: number = Number((this.elRef.nativeElement.offsetWidth / this.artboard.nativeElement.offsetWidth).toFixed(2));
-                const fixScaleY: number = Number((this.elRef.nativeElement.offsetHeight / this.artboard.nativeElement.offsetHeight).toFixed(2));
+                const fixScaleX: number = Number((this.elRef.nativeElement.offsetWidth / this.artboard.nativeElement.offsetWidth).toFixed(2)) - 0.01;
+                const fixScaleY: number = Number((this.elRef.nativeElement.offsetHeight / this.artboard.nativeElement.offsetHeight).toFixed(2)) - 0.01;
                 this.scale = fixScaleX <= fixScaleY ? fixScaleX : fixScaleY;
             }
 

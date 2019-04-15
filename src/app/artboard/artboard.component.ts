@@ -17,6 +17,7 @@ import {FlexboxComponent} from '../flexbox/flexbox.component';
 import {ComponentBranch} from '../service/dynamic-component-tree.service/component-branch';
 import {DynamicComponentTreeService} from '../service/dynamic-component-tree.service/dynamic-component-tree.service';
 import {ElementRefSetting} from '../abstract/component-setting/element-ref-setting';
+import {ComponentResizeService} from '../service/component-resize.service';
 
 @Component({
     selector: 'am-artboard',
@@ -46,9 +47,10 @@ export class ArtboardComponent extends FlexboxComponent implements OnInit {
                 dynamicComponentTreeService: DynamicComponentTreeService,
                 componentFactoryResolver: ComponentFactoryResolver,
                 private componentUiFactory: ComponentUiFactory,
-                injector: Injector) {
+                injector: Injector,
+                componentResizeService: ComponentResizeService) {
 
-        super(elRef, dynamicComponentTreeService, componentFactoryResolver, injector);
+        super(elRef, dynamicComponentTreeService, componentFactoryResolver, injector, componentResizeService);
 
         this.width = 'inherit';
         this.height = 'inherit';

@@ -47,9 +47,6 @@ export class AmDraggableDirective implements OnInit {
 
         if (this.amDraggable_ChangeLocation) {
             this._renderer.setStyle(this.element, 'position', 'absolute');
-
-            // this._renderer.setStyle(this.element, 'top', this.element.offsetHeight + 'px');
-            // this._renderer.setStyle(this.element, 'left', this.element.offsetWidth + 'px');
         }
 
         (<any>this._element.nativeElement).ondragstart = (event) => {

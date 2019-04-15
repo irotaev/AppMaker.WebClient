@@ -8,7 +8,8 @@ import {ComponentResizeService} from '../service/component-resize.service';
 @Component({
   selector: 'am-flexbox',
   templateUrl: './flexbox.component.html',
-  styleUrls: ['./flexbox.component.scss']
+  styleUrls: ['./flexbox.component.scss'],
+  providers: [ComponentResizeService]
 })
 export class FlexboxComponent extends DynamicComponent implements OnInit {
 

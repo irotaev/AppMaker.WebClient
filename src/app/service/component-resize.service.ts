@@ -1,8 +1,6 @@
 import {ElementRef, HostListener, Injectable} from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ComponentResizeService {
 
   fontSize = 18;
@@ -23,22 +21,19 @@ export class ComponentResizeService {
     this.appendResizeArrow(ArrowDirection.BottomRight);
     // this.appendResizeArrow(el.nativeElement, ArrowDirection.BottomLeft);
 
-    document.onmouseup = (event: MouseEvent) => {
+    document.addEventListener('mouseup', (event: MouseEvent) => {
       this._isChangeable = false;
       this._clickedEl = null;
       this._clickedElDirection = null;
+    });
 
-      event.stopImmediatePropagation();
-      event.stopPropagation();
-    };
-
-    document.onmousemove = (event: MouseEvent) => {
+    document.addEventListener('mousemove', (event: MouseEvent) => {
       if (!this._isChangeable) {
         return;
       }
 
       this.resizeElement(event);
-    };
+    });
   }
 
   private appendResizeArrow(direction: ArrowDirection): HTMLElement {
@@ -54,8 +49,6 @@ export class ComponentResizeService {
       this._clickedEl = event.target as HTMLElement;
       this._clickedElDirection = direction;
 
-      event.stopImmediatePropagation();
-      event.stopPropagation();
       event.preventDefault();
     };
 

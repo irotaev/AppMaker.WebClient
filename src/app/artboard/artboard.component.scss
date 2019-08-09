@@ -1,13 +1,19 @@
 @import "~src/framework";
 
-.artboard-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+:host(apm-artboard) {
   height: 100%;
-  background-color: $colorBg1;
+  flex: 1;
+  overflow: hidden;
+
+  .artboard-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: $colorBg1;
+  }
 
   .artboard-size-switcher-wrapper {
     position: absolute;

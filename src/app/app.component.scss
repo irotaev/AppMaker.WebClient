@@ -1,8 +1,17 @@
 @import "~src/framework";
 
 :host(apm-root) {
-  position: relative;
   width: 100%;
   height: 100%;
   background-color: $colorBg1;
+
+  .app-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    background-color: $colorBg1;
+  }
 }

@@ -1,0 +1,83 @@
+@import "~src/framework";
+
+.artboard-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: $colorBg1;
+
+  .artboard-size-switcher-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    height: $gapBase;
+
+    .resizer {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+      background-color: $colorGreyLight;
+      cursor: pointer;
+      text-align: center;
+      @include text('h2');
+
+      &:hover {
+        background-color: darken($colorGreyLight, +10%);
+      }
+
+      &.laptop-l {
+        width: $sizeLaptopL;
+      }
+      &.laptop {
+        width: $sizeLaptop;
+      }
+      &.tablet {
+        width: $sizeTablet;
+      }
+      &.mobile-l {
+        width: $sizeMobileL;
+      }
+      &.mobile-m {
+        width: $sizeMobileM;
+      }
+      &.mobile-s {
+        width: $sizeMobileS;
+      }
+    }
+  }
+
+  .artboard {
+    width: 100%;
+    height: calc(100% - #{$gapBase});
+    margin-top: $gapBase;
+    background-color: white;
+
+    &.laptop-l {
+      width: $sizeLaptopL;
+    }
+    &.laptop {
+      width: $sizeLaptop;
+    }
+    &.tablet {
+      width: $sizeTablet;
+    }
+    &.mobile-l {
+      width: $sizeMobileL;
+    }
+    &.mobile-m {
+      width: $sizeMobileM;
+    }
+    &.mobile-s {
+      width: $sizeMobileS;
+    }
+  }
+}

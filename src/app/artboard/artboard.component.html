@@ -1,0 +1,14 @@
+<section class="artboard-wrapper">
+  <div class="artboard-size-switcher-wrapper">
+    <div class="resizer laptop-l" (click)="artboarSize='laptop-l'"></div>
+    <div class="resizer laptop" (click)="artboarSize='laptop'"></div>
+    <div class="resizer tablet" (click)="artboarSize='tablet'"></div>
+    <div class="resizer mobile-l" (click)="artboarSize='mobile-l'"></div>
+    <div class="resizer mobile-m" (click)="artboarSize='mobile-m'"></div>
+    <div class="resizer mobile-s text" (click)="artboarSize='mobile-s'">{{artboarSize}}</div>
+  </div>
+
+  <div class="artboard" [ngClass]="artboarSize" [ngStyle]="{'transform': 'scale(' + artboardScale + ')'}">
+
+  </div>
+</section>

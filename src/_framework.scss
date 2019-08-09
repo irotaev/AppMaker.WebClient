@@ -1,0 +1,39 @@
+$colorBg1: #f3f3f391;
+$colorGreyLight: #e6e6e6;
+
+//#region Size
+$sizeLaptopL: 1440px;
+$sizeLaptop: 1024px;
+$sizeTablet: 768px;
+$sizeMobileL: 425px;
+$sizeMobileM: 375px;
+$sizeMobileS: 320px;
+//#endregion
+
+$gapBase: 20px;
+
+//#region Text
+$textLetterSpacing: 1px;
+
+$textColorDefault: black;
+
+$textSizeSpan: 13px;
+$textLineHeightSpan: 18px;
+
+$textSizeH2: 15px;
+$textLineHeightH2: 23px;
+
+@mixin text($mode: 'span', $modifier: 'default') {
+  @if ($mode: 'span') {
+    font-size: $textSizeSpan;
+    line-height: $textLineHeightSpan;
+  } @elseif ($mode: 'h2') {
+    font-size: $textSizeH2;
+    line-height: $textLineHeightH2;
+  }
+
+  @if ($modifier: 'default') {
+    color: $textColorDefault;
+  }
+}
+//#region

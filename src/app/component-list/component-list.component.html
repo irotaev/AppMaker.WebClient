@@ -1,3 +1,7 @@
-<section class="component-list-wrapper">
-  <div class="component"></div>
+<section cdkDropList id="component-list" [cdkDropListConnectedTo]="['artboard']" class="component-list-wrapper">
+  <div *ngFor="let component of draggableComponents"
+    class="component"
+    cdkDrag
+    [cdkDragData]="component"
+    style="background-color: green"></div>
 </section>

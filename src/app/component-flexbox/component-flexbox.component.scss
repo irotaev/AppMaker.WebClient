@@ -1,0 +1,9 @@
+@import "~src/framework";
+
+:host(apm-component-flexbox) {
+  position: relative;
+  display: flex;
+  width: 10*$gapBase;
+  height: 2*$gapBase;
+  border: 1px dotted $colorGreyLight;
+}

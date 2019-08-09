@@ -8,7 +8,15 @@
     <div class="resizer mobile-s text" (click)="artboarSize='mobile-s'">{{artboarSize}}</div>
   </div>
 
-  <div class="artboard" [ngClass]="artboarSize" [ngStyle]="{'transform': 'scale(' + artboardScale + ')'}">
+  <div
+    cdkDropList
+    id="artboard"
+    [cdkDropListConnectedTo]="['component-list']"
+    (cdkDropListDropped)="drop($event)"
+    class="artboard"
+    [ngClass]="artboarSize" [ngStyle]="{'transform': 'scale(' + artboardScale + ')'}">
+    <div *ngFor="let component of droppedComponents">
+    </div>
 
   </div>
 </section>

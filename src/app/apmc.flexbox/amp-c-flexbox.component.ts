@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-component.abstract/ApmComponent';
 import {StoreDispatcher} from '../store.abstract/store-dispatcher';
 import {CssPropertyBaseStore} from '../store.css-property/css-property-base.store';
@@ -15,7 +15,7 @@ export class AmpCFlexboxComponent
     super();
   }
 
-  cssStyles: {};
+  cssStyles = {};
 
   component: Component = this as Component;
   componentContainer: ViewContainerRef;
@@ -24,7 +24,12 @@ export class AmpCFlexboxComponent
     const store = new CssPropertyBaseStore();
     this._storeDispatcher.addStore(store);
 
-    this.cssStyles = store.toStyleObject();
+    store.width.valueEvent.subscribe(val => {
+      this.cssStyles = store.toStyleObject();
+    });
   }
 
+  onClick() {
+    console.log('click!');
+  }
 }

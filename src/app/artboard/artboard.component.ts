@@ -3,6 +3,7 @@ import {ComponentDispatcher} from '../apm-component.abstract/ComponentDispatcher
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {IComponent} from '../apm-component.abstract/IComponent';
 import {ApmComponent} from '../apm-component.abstract/ApmComponent';
+import {StoreDispatcher} from "../store.abstract/store-dispatcher";
 
 @Component({
   selector: 'apm-artboard',
@@ -10,7 +11,8 @@ import {ApmComponent} from '../apm-component.abstract/ApmComponent';
   styleUrls: ['./artboard.component.scss']
 })
 export class ArtboardComponent extends ApmComponent implements OnInit {
-  constructor(private componentDispatcher: ComponentDispatcher) {
+  constructor(private componentDispatcher: ComponentDispatcher,
+              private _storeDispatcher: StoreDispatcher) {
     super();
   }
 
@@ -23,6 +25,11 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) componentContainer: ViewContainerRef;
 
   ngOnInit() {
+    // @ts-ignore
+    window.document.componentDispatcher = this.componentDispatcher;
+
+    // @ts-ignore
+    window.document.storeDispatcher = this._storeDispatcher;
   }
 
   @HostListener('document:keydown', ['$event'])

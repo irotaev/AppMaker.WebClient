@@ -11,12 +11,10 @@
   <div
     cdkDropList
     id="artboard"
-    [cdkDropListConnectedTo]="['component-list']"
+    [cdkDropListConnectedTo]="['c-list']"
     (cdkDropListDropped)="drop($event)"
     class="artboard"
     [ngClass]="artboarSize" [ngStyle]="{'transform': 'scale(' + artboardScale + ')'}">
-    <div *ngFor="let component of droppedComponents">
-    </div>
-
+    <ng-template #artboardContainer></ng-template>
   </div>
 </section>

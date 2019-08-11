@@ -1,13 +1,12 @@
 @import "~src/framework";
 
-:host(apm-component-list) {
+:host(apm-c-list) {
   position: relative;
-  width: 10*$gapBase;
-  height: 100%;
+  width: 100%;
+  flex: 1;
   background-color: white;
-  z-index: 1000;
 
-  .component-list-wrapper {
+  .c-list-wrapper {
     position: relative;
     width: 100%;
     height: 100%;

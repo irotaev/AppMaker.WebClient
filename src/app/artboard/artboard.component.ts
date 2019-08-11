@@ -1,28 +1,28 @@
-import {Component, Host, HostListener, OnInit, ViewChild} from '@angular/core';
-import {ComponentFlexboxComponent} from '../component-flexbox/component-flexbox.component';
-import {ComponentDispatcher} from '../Abstract.Component/ComponentDispatcher';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {IComponent} from '../Abstract.Component/IComponent';
+import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ComponentDispatcher} from '../apm-component.abstract/ComponentDispatcher';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {IComponent} from '../apm-component.abstract/IComponent';
+import {ApmComponent} from '../apm-component.abstract/ApmComponent';
 
 @Component({
   selector: 'apm-artboard',
   templateUrl: './artboard.component.html',
   styleUrls: ['./artboard.component.scss']
 })
-export class ArtboardComponent implements OnInit {
+export class ArtboardComponent extends ApmComponent implements OnInit {
+  constructor(private componentDispatcher: ComponentDispatcher) {
+    super();
+  }
 
-  artboarSize = 'laptop-l';
-  artboardScale = 0.9;
+  artboarSize = 'laptop';
+  artboardScale = 1;
 
   droppedComponents: IComponent[] = [];
 
-  // @ViewChild('firstComponent', { static: true }) firstComponent: ComponentFlexboxComponent;
-
-  constructor(private componentDispatcher: ComponentDispatcher) {
-  }
+  component = this as Component;
+  @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) componentContainer: ViewContainerRef;
 
   ngOnInit() {
-
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -36,5 +36,6 @@ export class ArtboardComponent implements OnInit {
 
   drop(event: CdkDragDrop<IComponent>) {
     this.droppedComponents.push(event.item.data);
+    this.componentDispatcher.addComponent(event.item.data, this.component as IComponent);
   }
 }

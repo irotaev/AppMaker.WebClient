@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentFlexboxComponent } from './component-flexbox.component';
+import { CPropertyListComponent } from './c-property-list.component';
 
-describe('ComponentFlexboxComponent', () => {
-  let component: ComponentFlexboxComponent;
-  let fixture: ComponentFixture<ComponentFlexboxComponent>;
+describe('CPropertyListComponent', () => {
+  let component: CPropertyListComponent;
+  let fixture: ComponentFixture<CPropertyListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComponentFlexboxComponent ]
+      declarations: [ CPropertyListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComponentFlexboxComponent);
+    fixture = TestBed.createComponent(CPropertyListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

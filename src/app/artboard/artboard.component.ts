@@ -3,7 +3,8 @@ import {ComponentDispatcher} from '../apm-component.abstract/ComponentDispatcher
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {IComponent} from '../apm-component.abstract/IComponent';
 import {ApmComponent} from '../apm-component.abstract/ApmComponent';
-import {StoreDispatcher} from "../store.abstract/store-dispatcher";
+import {StoreDispatcher} from '../store.abstract/store-dispatcher';
+import {UniqueElementService} from '../routine/unique-element.service';
 
 @Component({
   selector: 'apm-artboard',
@@ -12,8 +13,9 @@ import {StoreDispatcher} from "../store.abstract/store-dispatcher";
 })
 export class ArtboardComponent extends ApmComponent implements OnInit {
   constructor(private componentDispatcher: ComponentDispatcher,
-              private _storeDispatcher: StoreDispatcher) {
-    super();
+              private _storeDispatcher: StoreDispatcher,
+              _uniqueElementService: UniqueElementService) {
+    super(_uniqueElementService);
   }
 
   artboarSize = 'laptop';

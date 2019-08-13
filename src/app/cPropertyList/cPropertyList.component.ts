@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'apm-c-property-list',
-  templateUrl: './c-property-list.component.html',
-  styleUrls: ['./c-property-list.component.scss']
+  templateUrl: './cPropertyList.component.html',
+  styleUrls: ['./cPropertyList.component.scss']
 })
 export class CPropertyListComponent implements OnInit {
 

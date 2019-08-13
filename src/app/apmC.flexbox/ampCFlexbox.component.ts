@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {UniqueElementService} from '../routine/unique-element.service';
-import {ComponentDispatcher} from '../apm-c.abstract/c-dispatcher';
-import {StoreField} from '../store.abstract/store-field';
+import {ApmComponent} from '../apmC.abstract/apmC';
+import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {ComponentDispatcher} from '../apmC.abstract/cDispatcher';
+import {StoreField} from '../store.abstract/storeField';
 
 @Component({
   selector: 'apm-c-flexbox',
-  templateUrl: './amp-c-flexbox.component.html',
-  styleUrls: ['./amp-c-flexbox.component.scss']
+  templateUrl: './ampCFlexbox.component.html',
+  styleUrls: ['./ampCFlexbox.component.scss']
 })
 export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 

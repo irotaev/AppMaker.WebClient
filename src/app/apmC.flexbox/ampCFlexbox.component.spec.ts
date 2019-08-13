@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AmpCFlexboxComponent } from './amp-c-flexbox.component';
+import { AmpCFlexboxComponent } from './ampCFlexbox.component';
 
 describe('CFlexboxComponent', () => {
   let component: AmpCFlexboxComponent;

@@ -1,9 +1,9 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {ComponentDispatcher} from '../apm-c.abstract/c-dispatcher';
+import {Component, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ComponentDispatcher} from '../apmC.abstract/cDispatcher';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
-import {IComponent} from '../apm-c.abstract/IComponent';
-import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {UniqueElementService} from '../routine/unique-element.service';
+import {IComponent} from '../apmC.abstract/iComponent';
+import {ApmComponent} from '../apmC.abstract/apmC';
+import {UniqueElementService} from '../abstract/uniqueElement.service';
 
 @Component({
   selector: 'apm-artboard',

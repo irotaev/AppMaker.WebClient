@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CPropertyListComponent } from './c-property-list.component';
+import { CPropertyListComponent } from './cPropertyList.component';
 
 describe('CPropertyListComponent', () => {
   let component: CPropertyListComponent;

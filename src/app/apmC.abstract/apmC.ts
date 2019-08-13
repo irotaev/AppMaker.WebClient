@@ -1,9 +1,9 @@
-import {IComponent} from './IComponent';
+import {IComponent} from './iComponent';
 import {Component, ViewContainerRef} from '@angular/core';
-import {UniqueElementService} from '../routine/unique-element.service';
-import {UniqueElement} from '../abstract/unique-element';
+import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {UniqueElement} from '../abstract/uniqueElement';
 import {Store} from '../store.abstract/store';
-import {StoreField} from '../store.abstract/store-field';
+import {StoreField} from '../store.abstract/storeField';
 
 export abstract class ApmComponent extends UniqueElement<StoreField<ApmComponent>> implements IComponent {
   protected constructor(protected _uniqueElementService: UniqueElementService) {

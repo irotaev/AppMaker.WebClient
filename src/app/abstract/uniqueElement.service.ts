@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {UniqueElement} from '../abstract/unique-element';
+import {UniqueElement} from './uniqueElement';
 
 @Injectable({
   providedIn: 'root',

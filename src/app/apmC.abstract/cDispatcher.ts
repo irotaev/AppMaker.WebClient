@@ -1,10 +1,9 @@
-import {IComponent} from './IComponent';
+import {IComponent} from './iComponent';
 import {ComponentFactoryResolver, ComponentRef, Injectable, Type} from '@angular/core';
 
 import {Store} from '../store.abstract/store';
-import {UniqueElementService} from '../routine/unique-element.service';
-import {StoreField} from '../store.abstract/store-field';
-import {ApmComponent} from './apm-c';
+import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {StoreField} from '../store.abstract/storeField';
 
 import * as _ from 'lodash';
 

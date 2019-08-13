@@ -1,9 +1,9 @@
 import {IStore} from './iStore';
-import {UniqueElementService} from '../routine/unique-element.service';
-import {UniqueElement} from '../abstract/unique-element';
+import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {UniqueElement} from '../abstract/uniqueElement';
 
 import * as _ from 'lodash';
-import {StoreField} from './store-field';
+import {StoreField} from './storeField';
 
 export class Store extends UniqueElement<IStore> implements IStore {
   constructor(private _uniqueElementService: UniqueElementService) {

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CListComponent } from './c-list.component';
+import { CListComponent } from './cList.component';
 
 describe('ComponentListComponent', () => {
   let component: CListComponent;

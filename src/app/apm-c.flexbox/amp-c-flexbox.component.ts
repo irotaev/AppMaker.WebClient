@@ -31,9 +31,9 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     height.value = '50px';
     this._cssSettingsStore.addField(height);
 
-    this._cssSettingsStore.getFieldByName('width').uniqueElement.subscribe(() => {
+    this._cssSettingsStore.getField('width').subscribe(() => {
       this.cssStyles = this._cssSettingsStore.toNameValueJson();
-      this._componentDispatcher.getComponent(this.uniqueId).value.changeDetectorRef.detectChanges();
+      this._componentDispatcher.getComponent(this.uniqueId).changeDetectorRef.detectChanges();
     });
   }
 }

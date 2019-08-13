@@ -10,25 +10,17 @@ export class Store extends UniqueElement<IStore> implements IStore {
     super(null, _uniqueElementService.generateUniqueId());
   }
 
-  private readonly _fields: UniqueElement<StoreField<any>>[] = [];
+  private readonly _fields: StoreField<any>[] = [];
 
   addField<T>(field: StoreField<T>) {
-    this._fields.push(new UniqueElement(field, this._uniqueElementService.generateUniqueId()));
-  }
-
-  addUniqueField<T>(field: UniqueElement<StoreField<T>>) {
     this._fields.push(field);
   }
 
-  getField<T>(uniqueId: number): StoreField<T> {
-    return _.find(this._fields, x => x.uniqueId === uniqueId).uniqueElement;
+  getField<T>(name: string) {
+    return _.find(this._fields, x => x.name === name);
   }
 
-  getFieldByName<T>(name: string) {
-    return _.find(this._fields, x => x.uniqueElement.name === name);
-  }
-
-  getFieldByIndex<T>(index: number): UniqueElement<StoreField<T>> {
+  getFieldByIndex<T>(index: number): StoreField<T> {
     return this._fields[index];
   }
 
@@ -36,7 +28,7 @@ export class Store extends UniqueElement<IStore> implements IStore {
     const json: any = {};
 
     _.forEach(this._fields, (x, index, collection) => {
-      json[x.uniqueElement.name] = x.uniqueElement.value;
+      json[x.name] = x.value;
     });
 
     return json;

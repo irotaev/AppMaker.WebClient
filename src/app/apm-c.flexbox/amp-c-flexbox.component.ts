@@ -1,7 +1,9 @@
-import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-component.abstract/ApmComponent';
 import {StoreDispatcher} from '../store.abstract/store-dispatcher';
 import {CssPropertyBaseStore} from '../store.css-property/css-property-base.store';
+import {UniqueElementService} from '../routine/unique-element.service';
+import {ComponentDispatcher} from '../apm-component.abstract/ComponentDispatcher';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -11,8 +13,11 @@ import {CssPropertyBaseStore} from '../store.css-property/css-property-base.stor
 export class AmpCFlexboxComponent
   extends ApmComponent implements OnInit {
 
-  constructor(private _storeDispatcher: StoreDispatcher) {
-    super();
+  constructor(
+    private _storeDispatcher: StoreDispatcher,
+    private _componentDispatcher: ComponentDispatcher,
+    _uniqueElementService: UniqueElementService) {
+    super(_uniqueElementService);
   }
 
   cssStyles = {};
@@ -26,6 +31,7 @@ export class AmpCFlexboxComponent
 
     store.width.valueEvent.subscribe(val => {
       this.cssStyles = store.toStyleObject();
+      this._componentDispatcher.getComponent(this.id).element.changeDetectorRef.detectChanges();
     });
   }
 

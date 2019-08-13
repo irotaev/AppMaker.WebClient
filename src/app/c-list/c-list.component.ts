@@ -1,6 +1,6 @@
 import {Component, OnInit, Type} from '@angular/core';
 import {IComponent} from '../apm-component.abstract/IComponent';
-import {AmpCFlexboxComponent} from '../apmc.flexbox/amp-c-flexbox.component';
+import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
 
 @Component({
   selector: 'apm-c-list',

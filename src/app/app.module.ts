@@ -11,7 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ArtboardComponent} from './artboard/artboard.component';
 import {CListComponent} from './c-list/c-list.component';
-import {AmpCFlexboxComponent} from './apmc.flexbox/amp-c-flexbox.component';
+import {AmpCFlexboxComponent} from './apm-c.flexbox/amp-c-flexbox.component';
 import { CPropertyListComponent } from './c-property-list/c-property-list.component';
 
 

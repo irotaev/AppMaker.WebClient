@@ -1,3 +1,3 @@
 export interface IUnique {
-  readonly id: number;
+  readonly uniqueId: number;
 }

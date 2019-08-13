@@ -1,5 +1,5 @@
 import {Component, OnInit, Type} from '@angular/core';
-import {IComponent} from '../apm-component.abstract/IComponent';
+import {IComponent} from '../apm-c.abstract/IComponent';
 import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
 
 @Component({

@@ -1,9 +1,8 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {ComponentDispatcher} from '../apm-component.abstract/ComponentDispatcher';
+import {ComponentDispatcher} from '../apm-c.abstract/c-dispatcher';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
-import {IComponent} from '../apm-component.abstract/IComponent';
-import {ApmComponent} from '../apm-component.abstract/ApmComponent';
-import {StoreDispatcher} from '../store.abstract/store-dispatcher';
+import {IComponent} from '../apm-c.abstract/IComponent';
+import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {UniqueElementService} from '../routine/unique-element.service';
 
 @Component({
@@ -13,7 +12,6 @@ import {UniqueElementService} from '../routine/unique-element.service';
 })
 export class ArtboardComponent extends ApmComponent implements OnInit {
   constructor(private componentDispatcher: ComponentDispatcher,
-              private _storeDispatcher: StoreDispatcher,
               _uniqueElementService: UniqueElementService) {
     super(_uniqueElementService);
   }
@@ -29,7 +27,6 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
   ngOnInit() {
     // @ts-ignore
     window.document.componentDispatcher = this.componentDispatcher;
-
     // @ts-ignore
     window.document.storeDispatcher = this._storeDispatcher;
   }

@@ -25,6 +25,12 @@ export class StoreField<T> {
     return (typeof this.value);
   }
 
+  setValue(value: T): { value: T; storeField: StoreField<T> } {
+    this.value = value;
+
+    return {value, storeField: this};
+  }
+
   subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void) {
     return this.valueEvent.subscribe(next, error, complete);
   }

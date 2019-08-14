@@ -1,7 +1,7 @@
 import {Component, ViewContainerRef} from '@angular/core';
-import {IUnique} from '../abstract/iUnique';
+import {IUniqueElement} from '../abstract/IUniqueElement';
 
-export interface IComponent extends IUnique {
+export interface IComponent extends IUniqueElement {
   componentContainer: ViewContainerRef;
   component: Component;
 }

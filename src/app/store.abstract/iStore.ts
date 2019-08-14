@@ -1,5 +1,5 @@
-import {IUnique} from '../abstract/iUnique';
+import {IUniqueElement} from '../abstract/IUniqueElement';
 
-export interface IStore extends IUnique {
+export interface IStore extends IUniqueElement {
 
 }

@@ -1,13 +1,6 @@
-import {IUnique} from './iUnique';
+import {IUniqueElement} from './IUniqueElement';
 
-export class UniqueElement<T> implements IUnique {
+export class UniqueElement<T> implements IUniqueElement {
   constructor(public readonly uniqueElement: T, public readonly uniqueId: number) {
-
-    // For nesting
-    //
-    if (uniqueElement == null) {
-      // @ts-ignore
-      uniqueElement = this;
-    }
   }
 }

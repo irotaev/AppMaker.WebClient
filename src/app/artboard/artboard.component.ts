@@ -4,6 +4,7 @@ import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {IComponent} from '../apmC.abstract/iComponent';
 import {ApmComponent} from '../apmC.abstract/apmC';
 import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 
 @Component({
   selector: 'apm-artboard',
@@ -11,9 +12,10 @@ import {UniqueElementService} from '../abstract/uniqueElement.service';
   styleUrls: ['./artboard.component.scss']
 })
 export class ArtboardComponent extends ApmComponent implements OnInit {
-  constructor(private componentDispatcher: ComponentDispatcher,
-              _uniqueElementService: UniqueElementService) {
-    super(_uniqueElementService);
+  constructor(private _componentDispatcher: ComponentDispatcher,
+              storeToClassAdapter: StoreToClassAdapter,
+              uniqueElementService: UniqueElementService) {
+    super(storeToClassAdapter, uniqueElementService);
   }
 
   artboarSize = 'laptop';
@@ -26,7 +28,7 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
 
   ngOnInit() {
     // @ts-ignore
-    window.document.componentDispatcher = this.componentDispatcher;
+    window.document.componentDispatcher = this._componentDispatcher;
     // @ts-ignore
     window.document.storeDispatcher = this._storeDispatcher;
   }
@@ -42,6 +44,6 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
 
   drop(event: CdkDragDrop<IComponent>) {
     this.droppedComponents.push(event.item.data);
-    this.componentDispatcher.addComponent(event.item.data, this.component as IComponent);
+    this._componentDispatcher.addComponent(event.item.data, this.component as IComponent);
   }
 }

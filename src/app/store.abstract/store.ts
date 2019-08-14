@@ -12,11 +12,13 @@ export class Store extends UniqueElement<IStore> implements IStore {
 
   private readonly _fields: StoreField<any>[] = [];
 
-  addField<T>(field: StoreField<T>) {
+  addField<T>(field: StoreField<T>): { field: StoreField<T>; store: Store } {
     this._fields.push(field);
+
+    return {field, store: this};
   }
 
-  getField<T>(name: string) {
+  getField<T>(name: string): StoreField<T> {
     return _.find(this._fields, x => x.name === name);
   }
 

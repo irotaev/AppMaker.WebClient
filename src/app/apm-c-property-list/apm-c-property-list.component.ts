@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, Injector, OnInit, Renderer2, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {UniqueElementService} from '../abstract/unique-element.service';
@@ -12,12 +12,15 @@ import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 export class ApmCPropertyListComponent extends ApmComponent implements OnInit {
 
   constructor(
-    private _er: ElementRef,
     private _renderer: Renderer2,
     storeToClassAdapter: StoreToClassAdapter,
     uniqueElementService: UniqueElementService,
-    componentDispatcher: ComponentDispatcher) {
-    super(uniqueElementService, componentDispatcher, null, '__CPropertyList');
+    componentDispatcher: ComponentDispatcher,
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef,
+    renderer2: Renderer2,
+    injector: Injector) {
+    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector, null, '__CPropertyList');
   }
 
   @ViewChild('componentContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
@@ -37,6 +40,6 @@ export class ApmCPropertyListComponent extends ApmComponent implements OnInit {
   }
 
   tryDisplayComponent() {
-    this._renderer.setStyle(this._er.nativeElement, 'display', this._isDisplayed ? 'block' : 'none');
+    this._renderer.setStyle(this._elementRef.nativeElement, 'display', this._isDisplayed ? 'block' : 'none');
   }
 }

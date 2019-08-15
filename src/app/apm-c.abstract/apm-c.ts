@@ -1,15 +1,21 @@
 import {IApmC} from './i-apm-c';
-import {ViewContainerRef} from '@angular/core';
+import {AfterViewInit, ElementRef, Inject, InjectionToken, Injector, Renderer2, ViewContainerRef} from '@angular/core';
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
 import {ComponentSettingsStore, CssSettings} from '../store/component-settings.store';
 import {StoreField} from '../store.abstract/store-field';
 import {ComponentDispatcher} from './apm-c-dispatcher';
 
-export abstract class ApmComponent implements IApmC {
+import * as _ from 'lodash';
+
+export abstract class ApmComponent implements IApmC, AfterViewInit {
   protected constructor(
     protected _uniqueElementService: UniqueElementService,
     protected _componentDispatcher: ComponentDispatcher,
+    protected _elementRef: ElementRef,
+    protected _viewContainerRef: ViewContainerRef,
+    protected _renderer2: Renderer2,
+    protected _injector: Injector,
     componentSettings: ComponentSettingsStore = null,
     uniqueId: string = null) {
     this.uniqueId = uniqueId || _uniqueElementService.generateUniqueId();
@@ -22,7 +28,19 @@ export abstract class ApmComponent implements IApmC {
   abstract childComponentsContainer: ViewContainerRef;
 
   readonly uniqueId: string;
-  protected _cssStyles = {};
+
+  protected _componentSettings: ComponentSettingsStore;
+
+  ngAfterViewInit(): void {
+    this._elementRef.nativeElement.onclick = ($event) => {
+      this.onClick($event);
+    };
+  }
+
+  onClick($event: MouseEvent) {
+    const createApmCPropertyEditorRoutine = this._injector.get(new InjectionToken<any>('__CreateApmCPropertyEditorRoutine'));
+    createApmCPropertyEditorRoutine.Do(this._componentSettings);
+  }
 
   //#region ComponentSettings
 
@@ -33,8 +51,6 @@ export abstract class ApmComponent implements IApmC {
   set componentSettings(value: ComponentSettingsStore) {
     this._componentSettings = value;
   }
-
-  protected _componentSettings: ComponentSettingsStore;
 
   private createComponentSettings() {
     const componentSettings = new ComponentSettingsStore(this._uniqueElementService);
@@ -53,16 +69,16 @@ export abstract class ApmComponent implements IApmC {
 
   //#region CssSettings
 
-  get cssStyles() {
-    return this._cssStyles;
-  }
-
   protected addCssSettingsField(name: string, value: string) {
     const field = new StoreField<string>(name).setValue(value);
 
     this._componentSettings.cssSettingsCurrent.value.settings.value.addField(field.storeField)
       .field.subscribe(() => {
-      this._cssStyles = this._componentSettings.cssSettingsCurrent.value.settings.value.toNameValueJson();
+
+      const styleObj = this._componentSettings.cssSettingsCurrent.value.settings.value.toNameValueJson();
+      _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
+        this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
+      });
 
       this._componentDispatcher.getComponent(this.uniqueId).changeDetectorRef.detectChanges();
     });
@@ -70,3 +86,4 @@ export abstract class ApmComponent implements IApmC {
 
   //#endregion
 }
+

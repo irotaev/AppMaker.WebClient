@@ -9,12 +9,12 @@
   </div>
 
   <div
+    #artboardContainerWrapper
     cdkDropList
     id="apm-c-artboard"
     [cdkDropListConnectedTo]="['c-list']"
     (cdkDropListDropped)="drop($event)"
-    class="artboard"
-    [ngClass]="artboarSize" [ngStyle]="{'transform': 'scale(' + artboardScale + ')'}">
+    class="artboard">
     <ng-template #artboardContainer></ng-template>
   </div>
 </section>

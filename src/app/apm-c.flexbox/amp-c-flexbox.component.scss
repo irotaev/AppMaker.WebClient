@@ -2,12 +2,8 @@
 
 :host(apm-c-flexbox) {
   display: block;
-
-  .flexbox-wrapper {
-    position: relative;
-    display: flex;
-    width: 10*$gapBase;
-    height: 2*$gapBase;
-    border: 1px dotted $colorGreyLight;
-  }
+  position: relative;
+  width: 10*$gapBase;
+  height: 2*$gapBase;
+  border: 1px dotted $colorGreyLight;
 }

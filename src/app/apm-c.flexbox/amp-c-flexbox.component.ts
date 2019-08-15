@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, Injector, OnInit, Renderer2, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
-import {ApmCPropertyEditorComponent} from '../apm-c-property-editor/apm-c-property-editor.component';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -13,8 +12,12 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
   constructor(
     componentDispatcher: ComponentDispatcher,
-    uniqueElementService: UniqueElementService) {
-    super(uniqueElementService, componentDispatcher);
+    uniqueElementService: UniqueElementService,
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef,
+    renderer2: Renderer2,
+    injector: Injector) {
+    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector);
   }
 
   component: Component = this as Component;
@@ -23,13 +26,5 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   ngOnInit() {
     this.addCssSettingsField('width', '200px');
     this.addCssSettingsField('height', '50px');
-  }
-
-  onClick($event: MouseEvent) {
-    const cPropertyList = this._componentDispatcher.getComponent('__CPropertyList');
-    cPropertyList.instance.childComponentsContainer.clear();
-    const componentEditor = this._componentDispatcher.createComponent(ApmCPropertyEditorComponent, cPropertyList.instance);
-
-    componentEditor.instance.componentSettings = this._componentSettings;
   }
 }

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import {MatButtonModule} from '@angular/material/button';
@@ -16,6 +16,7 @@ import {AmpCFlexboxComponent} from './apm-c.flexbox/amp-c-flexbox.component';
 import {ApmCPropertyListComponent} from './apm-c-property-list/apm-c-property-list.component';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 import {FormsModule} from '@angular/forms';
+import {__CreateApmCPropertyEditorRoutine} from './routine/__createApmCPropertyEditor.routine';
 
 
 @NgModule({
@@ -42,8 +43,14 @@ import {FormsModule} from '@angular/forms';
     AmpCFlexboxComponent,
     ApmCPropertyListComponent,
     ApmCPropertyEditorComponent,
-    ApmCArtboardComponent],
-  providers: [],
+    ApmCArtboardComponent
+  ],
+  providers: [
+    {
+      provide: new InjectionToken<any>('__CreateApmCPropertyEditorRoutine'),
+      useValue: __CreateApmCPropertyEditorRoutine
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

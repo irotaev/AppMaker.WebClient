@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  ElementRef, Injector,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ComponentDispatcher} from './apm-c.abstract/apm-c-dispatcher';
 import {IApmC} from './apm-c.abstract/i-apm-c';
 import {ApmCPropertyListComponent} from './apm-c-property-list/apm-c-property-list.component';
@@ -15,8 +24,12 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     componentDispatcher: ComponentDispatcher,
-    uniqueElementService: UniqueElementService) {
-    super(uniqueElementService, componentDispatcher, null, '__AppComponent');
+    uniqueElementService: UniqueElementService,
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef,
+    renderer2: Renderer2,
+    injector: Injector) {
+    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector, null, '__AppComponent');
   }
 
   title = 'AppMaker';

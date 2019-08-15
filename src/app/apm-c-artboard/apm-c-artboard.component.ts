@@ -8,14 +8,14 @@ import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 
 @Component({
   selector: 'apm-artboard',
-  templateUrl: './artboard.component.html',
-  styleUrls: ['./artboard.component.scss']
+  templateUrl: './apm-c-artboard.component.html',
+  styleUrls: ['./apm-c-artboard.component.scss']
 })
-export class ArtboardComponent extends ApmComponent implements OnInit {
+export class ApmCArtboardComponent extends ApmComponent implements OnInit {
   constructor(private _componentDispatcher: ComponentDispatcher,
               storeToClassAdapter: StoreToClassAdapter,
               uniqueElementService: UniqueElementService) {
-    super(storeToClassAdapter, uniqueElementService);
+    super(uniqueElementService);
   }
 
   artboarSize = 'laptop';
@@ -23,8 +23,7 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
 
   droppedComponents: IApmC[] = [];
 
-  component = this as Component;
-  @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) componentContainer: ViewContainerRef;
+  @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
     // @ts-ignore
@@ -44,6 +43,6 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
 
   drop(event: CdkDragDrop<IApmC>) {
     this.droppedComponents.push(event.item.data);
-    this._componentDispatcher.createComponent(event.item.data, this.component as IApmC);
+    this._componentDispatcher.createComponent(event.item.data, this as IApmC);
   }
 }

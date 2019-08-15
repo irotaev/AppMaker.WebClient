@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CPropertyListComponent } from './c-property-list.component';
+import { ApmCPropertyListComponent } from './apm-c-property-list.component';
 
-describe('CPropertyListComponent', () => {
-  let component: CPropertyListComponent;
-  let fixture: ComponentFixture<CPropertyListComponent>;
+describe('ApmCPropertyListComponent', () => {
+  let component: ApmCPropertyListComponent;
+  let fixture: ComponentFixture<ApmCPropertyListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CPropertyListComponent ]
+      declarations: [ ApmCPropertyListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CPropertyListComponent);
+    fixture = TestBed.createComponent(ApmCPropertyListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

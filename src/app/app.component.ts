@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ComponentDispatcher} from './apm-c.abstract/apm-c-dispatcher';
 import {IApmC} from './apm-c.abstract/i-apm-c';
-import {CPropertyListComponent} from './c-property-list/c-property-list.component';
+import {ApmCPropertyListComponent} from './apm-c-property-list/apm-c-property-list.component';
 
 @Component({
   selector: 'apm-root',
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this._cPropertyListComponent.isDisplayed = value;
   }
 
-  private _cPropertyListComponent: CPropertyListComponent;
+  private _cPropertyListComponent: ApmCPropertyListComponent;
 
   @ViewChild('cPropertyListContainer', {read: ViewContainerRef, static: false}) cPropertyListContainer: ViewContainerRef;
 
@@ -35,10 +35,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(CPropertyListComponent);
+    const factory = this.componentFactoryResolver.resolveComponentFactory(ApmCPropertyListComponent);
     const component = this.cPropertyListContainer.createComponent<IApmC>(factory);
 
-    this._cPropertyListComponent = component.instance as CPropertyListComponent;
+    this._cPropertyListComponent = component.instance as ApmCPropertyListComponent;
 
     this._componentDispatcher.addComponent(component);
   }

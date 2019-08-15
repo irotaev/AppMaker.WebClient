@@ -31,7 +31,7 @@ export class ComponentDispatcher {
 
   public createComponent(componentTypeLink: Type<any>, to: IApmC): ComponentRef<IApmC> {
     const factory = this.componentFactoryResolver.resolveComponentFactory(componentTypeLink);
-    const component = to.componentContainer.createComponent<IApmC>(factory);
+    const component = to.childComponentsContainer.createComponent<IApmC>(factory);
 
     this._components.push(component);
 

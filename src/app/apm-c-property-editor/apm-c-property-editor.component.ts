@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {UniqueElementService} from '../abstract/unique-element.service';
 
 @Component({
@@ -10,11 +9,11 @@ import {UniqueElementService} from '../abstract/unique-element.service';
 })
 export class ApmCPropertyEditorComponent extends ApmComponent implements OnInit {
 
-  constructor(storeToClassAdapter: StoreToClassAdapter, uniqueElementService: UniqueElementService) {
-    super(storeToClassAdapter, uniqueElementService);
+  constructor(uniqueElementService: UniqueElementService) {
+    super(uniqueElementService);
   }
 
-  componentContainer: ViewContainerRef = null;
+  childComponentsContainer: ViewContainerRef = null;
 
   ngOnInit() {
   }

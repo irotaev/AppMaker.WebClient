@@ -2,12 +2,10 @@ import {IApmC} from './i-apm-c';
 import {Component, ViewContainerRef} from '@angular/core';
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
-import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {ComponentSettings, CssSettings} from '../store/component-settings';
 
 export abstract class ApmComponent implements IApmC {
   protected constructor(
-    protected _storeToClassAdapter: StoreToClassAdapter,
     protected _uniqueElementService: UniqueElementService,
     componentSettings: Store = null,
     uniqueId: string = null) {
@@ -28,8 +26,7 @@ export abstract class ApmComponent implements IApmC {
     this._componentSettings = value;
   }
 
-  component: Component;
-  abstract componentContainer: ViewContainerRef;
+  abstract childComponentsContainer: ViewContainerRef;
 
   private createComponentSettings() {
     const componentSettings = new ComponentSettings(this._uniqueElementService);

@@ -4,7 +4,6 @@ import {UniqueElementService} from '../abstract/unique-element.service';
 import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 import {StoreField} from '../store.abstract/store-field';
 import {Store} from '../store.abstract/store';
-import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {ApmCPropertyEditorComponent} from '../apm-c-property-editor/apm-c-property-editor.component';
 
 @Component({
@@ -16,15 +15,14 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
   constructor(
     private _componentDispatcher: ComponentDispatcher,
-    storeToClassAdapter: StoreToClassAdapter,
     uniqueElementService: UniqueElementService) {
-    super(storeToClassAdapter, uniqueElementService);
+    super(uniqueElementService);
   }
 
   cssStyles = {};
 
   component: Component = this as Component;
-  @ViewChild('componentContainer', {static: false}) componentContainer: ViewContainerRef;
+  @ViewChild('componentContainer', {static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
     const width = new StoreField<string>('width');
@@ -66,7 +64,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
   onClick($event: MouseEvent) {
     const cPropertyList = this._componentDispatcher.getComponent('__CPropertyList');
-    cPropertyList.instance.componentContainer.clear();
+    cPropertyList.instance.childComponentsContainer.clear();
     const componentEditor =  this._componentDispatcher.createComponent(ApmCPropertyEditorComponent, cPropertyList.instance);
 
     componentEditor.instance.componentSettings = this._componentSettings

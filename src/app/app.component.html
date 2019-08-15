@@ -2,7 +2,7 @@
   <div class="settings-wrapper">
     <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>
     <ng-container #cPropertyListContainer></ng-container>
-<!--    <apm-c-property-list [ngStyle]="{'display': isPropertyListDisplayed ? 'block' : 'none'}"></apm-c-property-list>-->
+<!--    <apm-apm-c-property-list [ngStyle]="{'display': isPropertyListDisplayed ? 'block' : 'none'}"></apm-apm-c-property-list>-->
 
     <mat-button-toggle-group #group="matButtonToggleGroup" class="switchers-wrapper" (change)="isComponentListDisplayed = false; isPropertyListDisplayed = false">
       <mat-button-toggle color="accent" aria-label="Component List" (change)="isComponentListDisplayed = $event.source.checked">

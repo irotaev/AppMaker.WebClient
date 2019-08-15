@@ -5,20 +5,20 @@ import {UniqueElementService} from '../abstract/unique-element.service';
 
 @Component({
   selector: 'apm-c-property-list',
-  templateUrl: './c-property-list.component.html',
-  styleUrls: ['./c-property-list.component.scss']
+  templateUrl: './apm-c-property-list.component.html',
+  styleUrls: ['./apm-c-property-list.component.scss']
 })
-export class CPropertyListComponent extends ApmComponent implements OnInit {
+export class ApmCPropertyListComponent extends ApmComponent implements OnInit {
 
   constructor(
     private _er: ElementRef,
     private _renderer: Renderer2,
     storeToClassAdapter: StoreToClassAdapter,
     uniqueElementService: UniqueElementService) {
-    super(storeToClassAdapter, uniqueElementService, null, '__CPropertyList');
+    super(uniqueElementService, null, '__CPropertyList');
   }
 
-  @ViewChild('componentContainer', {read: ViewContainerRef, static: false}) componentContainer: ViewContainerRef;
+  @ViewChild('componentContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
 
   private _isDisplayed = false;
   get isDisplayed() {

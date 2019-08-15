@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArtboardComponent } from './artboard.component';
+import { ApmCArtboardComponent } from './apm-c-artboard.component';
 
-describe('ArtboardComponent', () => {
-  let component: ArtboardComponent;
-  let fixture: ComponentFixture<ArtboardComponent>;
+describe('ApmCArtboardComponent', () => {
+  let component: ApmCArtboardComponent;
+  let fixture: ComponentFixture<ApmCArtboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArtboardComponent ]
+      declarations: [ ApmCArtboardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArtboardComponent);
+    fixture = TestBed.createComponent(ApmCArtboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

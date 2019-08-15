@@ -19,14 +19,24 @@ export class Store implements IStore {
 
   protected bindFields() {
     const fields = Object.getOwnPropertyNames(this);
-    _.forEach(fields, field => {
-      if ((this[field] as object).constructor.name === 'StoreField') {
-        this.addField(this[field]);
+    _.forEach(fields, fieldName => {
+
+      if ((this[fieldName] as object).constructor.name === 'StoreField') {
+        if (!this[fieldName].name) {
+          this[fieldName].name = fieldName;
+        }
+
+        this.addField(this[fieldName]);
       }
+
     });
   }
 
   addField<T>(field: StoreField<T>): { field: StoreField<T>; store: Store } {
+    if (!field.name) {
+      throw new Error('Field must have not empty name');
+    }
+
     this._fields.push(field);
 
     return {field, store: this};

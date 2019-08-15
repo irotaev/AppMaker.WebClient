@@ -8,11 +8,11 @@ export class ComponentSettingsStore extends Store {
     this.bindFields();
   }
 
-  parentComponentUniqueId = new StoreField<string>('parentComponentUniqueId');
-  childComponentUniqueIds = new StoreField<string[]>('childComponentUniqueIds').setValue([]).storeField;
+  parentComponentUniqueId = new StoreField<string>();
+  childComponentUniqueIds = new StoreField<string[]>().setValue([]).storeField;
 
-  cssSettingsAll = new StoreField<Array<CssSettings>>('cssSettingsAll').setValue([]).storeField;
-  cssSettingsCurrent = new StoreField<CssSettings>('cssSettingsCurrent');
+  cssSettingsAll = new StoreField<CssSettings[]>().setValue([]).storeField;
+  cssSettingsCurrent = new StoreField<CssSettings>();
 }
 
 export class CssSettings extends Store {
@@ -21,6 +21,6 @@ export class CssSettings extends Store {
     this.bindFields();
   }
 
-  screenWidth = new StoreField<string>('screenWidth');
-  settings = new StoreField<Store>('settings');
+  screenWidth = new StoreField<string>();
+  settings = new StoreField<Store>();
 }

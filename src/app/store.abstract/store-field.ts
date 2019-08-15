@@ -3,10 +3,7 @@ import {IStoreField} from './i-store-field';
 import {Subscription} from 'rxjs';
 
 export class StoreField<T> implements IStoreField<T> {
-  constructor(private _name: string) {
-    if (!_name) {
-      throw new Error('Can not set null name for StoreField ');
-    }
+  constructor(private _name: string = null) {
   }
 
   private readonly valueEvent: BehaviorSubject<T> = new BehaviorSubject<T>(null);
@@ -21,6 +18,14 @@ export class StoreField<T> implements IStoreField<T> {
 
   get name() {
     return this._name;
+  }
+
+  set name(value: string) {
+    if (this._name) {
+      throw new Error('Name of StoreField already exists: ' + this._name);
+    }
+
+    this._name = value;
   }
 
   get type() {

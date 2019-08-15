@@ -47,8 +47,8 @@ import {__CreateApmCPropertyEditorRoutine} from './routine/__createApmCPropertyE
   ],
   providers: [
     {
-      provide: new InjectionToken<any>('__CreateApmCPropertyEditorRoutine'),
-      useValue: __CreateApmCPropertyEditorRoutine
+      provide: new InjectionToken<__CreateApmCPropertyEditorRoutine>('__CreateApmCPropertyEditorRoutine'),
+      useClass: __CreateApmCPropertyEditorRoutine
     }
   ],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import {IApmC} from './i-apm-c';
-import {AfterViewInit, ElementRef, Inject, InjectionToken, Injector, Renderer2, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, ElementRef, Injector, Renderer2, ViewContainerRef} from '@angular/core';
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
 import {ComponentSettingsStore, CssSettings} from '../store/component-settings.store';
@@ -38,8 +38,8 @@ export abstract class ApmComponent implements IApmC, AfterViewInit {
   }
 
   onClick($event: MouseEvent) {
-    const createApmCPropertyEditorRoutine = this._injector.get(new InjectionToken<any>('__CreateApmCPropertyEditorRoutine'));
-    createApmCPropertyEditorRoutine.Do(this._componentSettings);
+    const createApmCPropertyEditorRoutine = this._injector.get('StoreToClassAdapter');
+    // createApmCPropertyEditorRoutine.Do(this._componentSettings);
   }
 
   //#region ComponentSettings

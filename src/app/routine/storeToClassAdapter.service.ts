@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Store} from '../store.abstract/store';
-import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {UniqueElementService} from '../abstract/unique-element.service';
 
 import * as _ from 'lodash';
-import {StoreField} from '../store.abstract/storeField';
+import {StoreField} from '../store.abstract/store-field';
 
 @Injectable({
   providedIn: 'root',

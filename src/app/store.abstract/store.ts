@@ -1,19 +1,29 @@
-import {IStore} from './iStore';
-import {UniqueElementService} from '../abstract/uniqueElement.service';
-import {UniqueElement} from '../abstract/uniqueElement';
+import {IStore} from './i-store';
+import {UniqueElementService} from '../abstract/unique-element.service';
 
 import * as _ from 'lodash';
-import {StoreField} from './storeField';
+import {StoreField} from './store-field';
 
-export class Store extends UniqueElement<IStore> implements IStore {
+export class Store implements IStore {
   constructor(private _uniqueElementService: UniqueElementService) {
-    super(null, _uniqueElementService.generateUniqueId());
+    this.uniqueId = this._uniqueElementService.generateUniqueId();
+  }
+
+  get fields() {
+    return this._fields;
   }
 
   private readonly _fields: StoreField<any>[] = [];
 
-  get fields() {
-    return this._fields;
+  readonly uniqueId: string;
+
+  protected bindFields() {
+    const fields = Object.getOwnPropertyNames(this);
+    _.forEach(fields, field => {
+      if ((this[field] as object).constructor.name === 'StoreField') {
+        this.addField(this[field]);
+      }
+    });
   }
 
   addField<T>(field: StoreField<T>): { field: StoreField<T>; store: Store } {

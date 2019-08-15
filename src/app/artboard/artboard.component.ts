@@ -1,9 +1,9 @@
 import {Component, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {ComponentDispatcher} from '../apmC.abstract/cDispatcher';
+import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
-import {IComponent} from '../apmC.abstract/iComponent';
-import {ApmComponent} from '../apmC.abstract/apmC';
-import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {IApmC} from '../apm-c.abstract/i-apm-c';
+import {ApmComponent} from '../apm-c.abstract/apm-c';
+import {UniqueElementService} from '../abstract/unique-element.service';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
   artboarSize = 'laptop';
   artboardScale = 1;
 
-  droppedComponents: IComponent[] = [];
+  droppedComponents: IApmC[] = [];
 
   component = this as Component;
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) componentContainer: ViewContainerRef;
@@ -42,8 +42,8 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
     }
   }
 
-  drop(event: CdkDragDrop<IComponent>) {
+  drop(event: CdkDragDrop<IApmC>) {
     this.droppedComponents.push(event.item.data);
-    this._componentDispatcher.createComponent(event.item.data, this.component as IComponent);
+    this._componentDispatcher.createComponent(event.item.data, this.component as IApmC);
   }
 }

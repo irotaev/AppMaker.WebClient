@@ -1,6 +1,8 @@
 import {BehaviorSubject} from 'rxjs';
+import {IStoreField} from './i-store-field';
+import {Subscription} from 'rxjs';
 
-export class StoreField<T> {
+export class StoreField<T> implements IStoreField<T> {
   constructor(private _name: string) {
     if (!_name) {
       throw new Error('Can not set null name for StoreField ');
@@ -31,7 +33,7 @@ export class StoreField<T> {
     return {value, storeField: this};
   }
 
-  subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void) {
+  subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this.valueEvent.subscribe(next, error, complete);
   }
 }

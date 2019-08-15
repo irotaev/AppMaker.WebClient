@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild, ViewContainerRef} from '@angular/core';
-import {ApmComponent} from '../apmC.abstract/apmC';
+import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
-import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {UniqueElementService} from '../abstract/unique-element.service';
 
 @Component({
   selector: 'apm-c-property-list',

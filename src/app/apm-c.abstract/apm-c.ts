@@ -1,11 +1,11 @@
-import {IComponent} from './iComponent';
+import {IApmC} from './i-apm-c';
 import {Component, ViewContainerRef} from '@angular/core';
-import {UniqueElementService} from '../abstract/uniqueElement.service';
+import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
-import {ComponentSettings, CssSettings} from '../store.virtual/ComponentSettings';
+import {ComponentSettings, CssSettings} from '../store/component-settings';
 
-export abstract class ApmComponent implements IComponent {
+export abstract class ApmComponent implements IApmC {
   protected constructor(
     protected _storeToClassAdapter: StoreToClassAdapter,
     protected _uniqueElementService: UniqueElementService,
@@ -13,7 +13,7 @@ export abstract class ApmComponent implements IComponent {
     uniqueId: string = null) {
     this.uniqueId = uniqueId || _uniqueElementService.generateUniqueId();
 
-    componentSettings = componentSettings || this._storeToClassAdapter.toStore(this.createComponentSettings());
+    componentSettings = componentSettings || this.createComponentSettings();
 
     this._componentSettings = componentSettings;
   }
@@ -23,6 +23,7 @@ export abstract class ApmComponent implements IComponent {
   get componentSettings() {
     return this._componentSettings;
   }
+
   set componentSettings(value: Store) {
     this._componentSettings = value;
   }
@@ -31,14 +32,14 @@ export abstract class ApmComponent implements IComponent {
   abstract componentContainer: ViewContainerRef;
 
   private createComponentSettings() {
-    const componentSettings = new ComponentSettings();
+    const componentSettings = new ComponentSettings(this._uniqueElementService);
 
-    const cssSettingsFullHd = new CssSettings();
-    cssSettingsFullHd.screenWidth = 'FullHd';
-    cssSettingsFullHd.settings = new Store(this._uniqueElementService);
+    const cssSettingsFullHd = new CssSettings(this._uniqueElementService);
+    cssSettingsFullHd.screenWidth.setValue('FullHd');
+    cssSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
 
-    componentSettings.cssSettingsAll.push(cssSettingsFullHd);
-    componentSettings.cssSettingsCurrent = cssSettingsFullHd;
+    componentSettings.cssSettingsAll.value.push(cssSettingsFullHd);
+    componentSettings.cssSettingsCurrent.setValue(cssSettingsFullHd);
 
     return componentSettings;
   }

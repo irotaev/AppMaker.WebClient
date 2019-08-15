@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {ComponentDispatcher} from './apmC.abstract/cDispatcher';
-import {IComponent} from './apmC.abstract/iComponent';
+import {ComponentDispatcher} from './apm-c.abstract/apm-c-dispatcher';
+import {IApmC} from './apm-c.abstract/i-apm-c';
 import {CPropertyListComponent} from './cPropertyList/cPropertyList.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const factory = this.componentFactoryResolver.resolveComponentFactory(CPropertyListComponent);
-    const component = this.cPropertyListContainer.createComponent<IComponent>(factory);
+    const component = this.cPropertyListContainer.createComponent<IApmC>(factory);
 
     this._cPropertyListComponent = component.instance as CPropertyListComponent;
 

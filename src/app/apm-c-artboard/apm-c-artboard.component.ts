@@ -110,8 +110,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     }
   }
 
-  drop(event: CdkDragDrop<IApmC>) {
-    this.droppedComponents.push(event.item.data);
-    this._componentDispatcher.createComponent(event.item.data, this as IApmC);
+  drop($event: CdkDragDrop<IApmC>) {
+    this.droppedComponents.push($event.item.data);
+    this._componentDispatcher.createComponent($event.item.data, this as IApmC);
   }
 }

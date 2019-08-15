@@ -7,8 +7,12 @@ export class StoreEventField<T> implements IStoreField<T> {
   constructor(protected _name: string = null) {
   }
 
-  get value(): T {
+  get value() {
     return null;
+  }
+
+  setValue(value: T): { value: T; storeField: IStoreField<T> } {
+    return {value, storeField: this};
   }
 
   get name() {
@@ -21,6 +25,10 @@ export class StoreEventField<T> implements IStoreField<T> {
     }
 
     this._name = value;
+  }
+
+  next($event: T) {
+    this.valueEvent.next($event);
   }
 
   get type() {

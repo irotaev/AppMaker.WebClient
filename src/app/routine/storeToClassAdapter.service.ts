@@ -3,7 +3,7 @@ import {Store} from '../store.abstract/store';
 import {UniqueElementService} from '../abstract/unique-element.service';
 
 import * as _ from 'lodash';
-import {StoreField} from '../store.abstract/store-field';
+import {StoreScalarField} from '../store.abstract/store-scalar-field';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class StoreToClassAdapter {
 
     const fieldNames = Object.getOwnPropertyNames(obj);
     _.forEach(fieldNames, objField => {
-      const storeField = new StoreField(objField);
+      const storeField = new StoreScalarField(objField);
 
       if (typeof obj[objField] === 'object' && (obj[objField] as object).constructor.name !== 'Store') {
 

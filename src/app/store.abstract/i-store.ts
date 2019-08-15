@@ -1,9 +1,9 @@
 import {IUniqueElement} from '../abstract/i-unique-element';
-import {StoreField} from './store-field';
+import {StoreScalarField} from './store-scalar-field';
 
 export interface IStore extends IUniqueElement {
 
-  fields: StoreField<any>[];
+  fields: StoreScalarField<any>[];
 
   toNameValueJson(): object;
 }

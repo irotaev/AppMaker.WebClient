@@ -3,7 +3,7 @@ import {AfterViewInit, ElementRef, Injector, Renderer2, ViewContainerRef} from '
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
 import {ComponentSettingsStore, CssSettings} from '../store/component-settings.store';
-import {StoreField} from '../store.abstract/store-field';
+import {StoreScalarField} from '../store.abstract/store-scalar-field';
 import {ComponentDispatcher} from './apm-c-dispatcher';
 
 import * as _ from 'lodash';
@@ -70,7 +70,7 @@ export abstract class ApmComponent implements IApmC, AfterViewInit {
   //#region CssSettings
 
   protected addCssSettingsField(name: string, value: string) {
-    const field = new StoreField<string>(name).setValue(value);
+    const field = new StoreScalarField<string>(name).setValue(value);
 
     this._componentSettings.cssSettingsCurrent.value.settings.value.addField(field.storeField)
       .field.subscribe(() => {

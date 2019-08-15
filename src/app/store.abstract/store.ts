@@ -2,7 +2,7 @@ import {IStore} from './i-store';
 import {UniqueElementService} from '../abstract/unique-element.service';
 
 import * as _ from 'lodash';
-import {StoreField} from './store-field';
+import {StoreScalarField} from './store-scalar-field';
 
 export class Store implements IStore {
   constructor(private _uniqueElementService: UniqueElementService) {
@@ -13,7 +13,7 @@ export class Store implements IStore {
     return this._fields;
   }
 
-  private readonly _fields: StoreField<any>[] = [];
+  private readonly _fields: StoreScalarField<any>[] = [];
 
   readonly uniqueId: string;
 
@@ -32,7 +32,7 @@ export class Store implements IStore {
     });
   }
 
-  addField<T>(field: StoreField<T>): { field: StoreField<T>; store: Store } {
+  addField<T>(field: StoreScalarField<T>): { field: StoreScalarField<T>; store: Store } {
     if (!field.name) {
       throw new Error('Field must have not empty name');
     }
@@ -42,11 +42,11 @@ export class Store implements IStore {
     return {field, store: this};
   }
 
-  getField<T>(name: string): StoreField<T> {
+  getField<T>(name: string): StoreScalarField<T> {
     return _.find(this._fields, x => x.name === name);
   }
 
-  getFieldByIndex<T>(index: number): StoreField<T> {
+  getFieldByIndex<T>(index: number): StoreScalarField<T> {
     return this._fields[index];
   }
 

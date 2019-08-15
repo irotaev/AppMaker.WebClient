@@ -1,6 +1,9 @@
+@import '~src/framework';
+
 :host(apm-c-property-list) {
   position: relative;
   width: 100%;
   flex: 1;
   background-color: white;
+  padding: $gapBase;
 }

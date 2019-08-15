@@ -3,7 +3,7 @@ import {ComponentFactoryResolver, ComponentRef, Injectable, Type, ViewContainerR
 
 import {Store} from '../store.abstract/store';
 import {UniqueElementService} from '../abstract/unique-element.service';
-import {StoreScalarField} from '../store.abstract/store-scalar-field';
+import {StoreValueField} from '../store.abstract/store-value-field';
 
 import * as _ from 'lodash';
 
@@ -17,7 +17,7 @@ export class ComponentDispatcher {
     private _uniqueElementService: UniqueElementService) {
 
     this._componentStore = new Store(_uniqueElementService);
-    const componentsField = new StoreScalarField<Array<ComponentRef<IApmC>>>('components');
+    const componentsField = new StoreValueField<Array<ComponentRef<IApmC>>>('components');
     componentsField.value = this._components;
     this._componentStore.addField(componentsField);
   }

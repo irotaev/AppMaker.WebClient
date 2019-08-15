@@ -1,6 +1,6 @@
 import {StoreEventField} from './store-event-field';
 
-export class StoreScalarField<T> extends StoreEventField<T> {
+export class StoreValueField<T> extends StoreEventField<T> {
   constructor(_name: string = null) {
     super(_name);
   }
@@ -13,7 +13,7 @@ export class StoreScalarField<T> extends StoreEventField<T> {
     this.valueEvent.next(value);
   }
 
-  setValue(value: T): { value: T; storeField: StoreScalarField<T> } {
+  setValue(value: T): { value: T; storeField: StoreValueField<T> } {
     this.value = value;
 
     return {value, storeField: this};

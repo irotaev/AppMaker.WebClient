@@ -1,5 +1,5 @@
 import {Store} from '../store.abstract/store';
-import {StoreScalarField} from '../store.abstract/store-scalar-field';
+import {StoreValueField} from '../store.abstract/store-value-field';
 import {UniqueElementService} from '../abstract/unique-element.service';
 
 export class ComponentSettingsStore extends Store {
@@ -8,11 +8,11 @@ export class ComponentSettingsStore extends Store {
     this.bindFields();
   }
 
-  parentComponentUniqueId = new StoreScalarField<string>();
-  childComponentUniqueIds = new StoreScalarField<string[]>().setValue([]).storeField;
+  parentComponentUniqueId = new StoreValueField<string>();
+  childComponentUniqueIds = new StoreValueField<string[]>().setValue([]).storeField;
 
-  cssSettingsAll = new StoreScalarField<CssSettings[]>().setValue([]).storeField;
-  cssSettingsCurrent = new StoreScalarField<CssSettings>();
+  cssSettingsAll = new StoreValueField<CssSettings[]>().setValue([]).storeField;
+  cssSettingsCurrent = new StoreValueField<CssSettings>();
 
   event
 }
@@ -23,6 +23,6 @@ export class CssSettings extends Store {
     this.bindFields();
   }
 
-  screenWidth = new StoreScalarField<string>();
-  settings = new StoreScalarField<Store>();
+  screenWidth = new StoreValueField<string>();
+  settings = new StoreValueField<Store>();
 }

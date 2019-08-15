@@ -1,9 +1,14 @@
 import {BehaviorSubject, Subscription} from 'rxjs';
+import {IStoreField} from './i-store-field';
 
-export class StoreEventField<T> {
+export class StoreEventField<T> implements IStoreField<T> {
   protected readonly valueEvent: BehaviorSubject<T> = new BehaviorSubject<T>(null);
 
   constructor(protected _name: string = null) {
+  }
+
+  get value(): T {
+    return null;
   }
 
   get name() {
@@ -12,7 +17,7 @@ export class StoreEventField<T> {
 
   set name(value: string) {
     if (this._name) {
-      throw new Error('Name of StoreScalarField already exists: ' + this._name);
+      throw new Error('Name of StoreValueField already exists: ' + this._name);
     }
 
     this._name = value;

@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apmC.abstract/apmC';
 import {UniqueElementService} from '../abstract/uniqueElement.service';
 import {ComponentDispatcher} from '../apmC.abstract/cDispatcher';
 import {StoreField} from '../store.abstract/storeField';
 import {Store} from '../store.abstract/store';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
+import {ApmCPropertyEditorComponent} from '../apm-c-property-editor/apm-c-property-editor.component';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -23,7 +24,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   cssStyles = {};
 
   component: Component = this as Component;
-  componentContainer: ViewContainerRef;
+  @ViewChild('componentContainer', {static: false}) componentContainer: ViewContainerRef;
 
   ngOnInit() {
     const width = new StoreField<string>('width');
@@ -61,5 +62,15 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
   onResize($event: any) {
     console.log($event);
+  }
+
+  onClick($event: MouseEvent) {
+    const cPropertyList = this._componentDispatcher.getComponent('__CPropertyList');
+    cPropertyList.instance.componentContainer.clear();
+    const componentEditor =  this._componentDispatcher.createComponent(ApmCPropertyEditorComponent, cPropertyList.instance);
+
+    componentEditor.instance.componentSettings = this._componentSettings
+      .getField<Store>('cssSettingsCurrent').value
+      .getField<Store>('settings').value;
   }
 }

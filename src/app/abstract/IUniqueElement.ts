@@ -1,3 +1,3 @@
 export interface IUniqueElement {
-  readonly uniqueId: number;
+  readonly uniqueId: string;
 }

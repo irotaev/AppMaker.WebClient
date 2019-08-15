@@ -12,7 +12,8 @@ import {AppComponent} from './app.component';
 import {ArtboardComponent} from './artboard/artboard.component';
 import {CListComponent} from './cList/cList.component';
 import {AmpCFlexboxComponent} from './apmC.flexbox/ampCFlexbox.component';
-import { CPropertyListComponent } from './cPropertyList/cPropertyList.component';
+import {CPropertyListComponent} from './cPropertyList/cPropertyList.component';
+import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CPropertyListComponent } from './cPropertyList/cPropertyList.component'
     ArtboardComponent,
     CListComponent,
     AmpCFlexboxComponent,
-    CPropertyListComponent
+    CPropertyListComponent,
+    ApmCPropertyEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,7 @@ import { CPropertyListComponent } from './cPropertyList/cPropertyList.component'
     BrowserAnimationsModule,
     MatButtonToggleModule
   ],
-  entryComponents: [AmpCFlexboxComponent],
+  entryComponents: [AmpCFlexboxComponent, CPropertyListComponent, ApmCPropertyEditorComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

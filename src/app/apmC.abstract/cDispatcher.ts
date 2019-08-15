@@ -25,14 +25,20 @@ export class ComponentDispatcher {
   private readonly _componentStore: Store;
   private readonly _components: Array<ComponentRef<IComponent>> = [];
 
-  public addComponent(componentTypeLink: Type<any>, to: IComponent) {
+  public addComponent(component: ComponentRef<IComponent>) {
+    this._components.push(component);
+  }
+
+  public createComponent(componentTypeLink: Type<any>, to: IComponent): ComponentRef<IComponent> {
     const factory = this.componentFactoryResolver.resolveComponentFactory(componentTypeLink);
     const component = to.componentContainer.createComponent<IComponent>(factory);
 
     this._components.push(component);
+
+    return component;
   }
 
-  public getComponent(uniqueId: number) {
+  public getComponent<T>(uniqueId: string): ComponentRef<IComponent> {
     return _.find(this._components, x => x.instance.uniqueId === uniqueId);
   }
 

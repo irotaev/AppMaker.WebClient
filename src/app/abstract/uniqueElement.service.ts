@@ -6,7 +6,7 @@ import {UniqueElement} from './uniqueElement';
 })
 export class UniqueElementService {
   generateUniqueId() {
-    return Math.random() * 100;
+    return (Math.random() * 100).toString();
   }
 
   createUniqueElement<T>(element: T) {

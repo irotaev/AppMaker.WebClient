@@ -2,18 +2,35 @@ import {IComponent} from './iComponent';
 import {Component, ViewContainerRef} from '@angular/core';
 import {UniqueElementService} from '../abstract/uniqueElement.service';
 import {Store} from '../store.abstract/store';
-import {IUniqueElement} from '../abstract/IUniqueElement';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {ComponentSettings, CssSettings} from '../store.virtual/ComponentSettings';
 
-export abstract class ApmComponent implements IComponent, IUniqueElement {
+export abstract class ApmComponent implements IComponent {
   protected constructor(
     protected _storeToClassAdapter: StoreToClassAdapter,
-    protected _uniqueElementService: UniqueElementService) {
-    this.uniqueId = _uniqueElementService.generateUniqueId();
+    protected _uniqueElementService: UniqueElementService,
+    componentSettings: Store = null,
+    uniqueId: string = null) {
+    this.uniqueId = uniqueId || _uniqueElementService.generateUniqueId();
 
-    //#region Create CssSettings store
+    componentSettings = componentSettings || this._storeToClassAdapter.toStore(this.createComponentSettings());
 
+    this._componentSettings = componentSettings;
+  }
+
+  readonly uniqueId: string;
+  protected _componentSettings: Store;
+  get componentSettings() {
+    return this._componentSettings;
+  }
+  set componentSettings(value: Store) {
+    this._componentSettings = value;
+  }
+
+  component: Component;
+  abstract componentContainer: ViewContainerRef;
+
+  private createComponentSettings() {
     const componentSettings = new ComponentSettings();
 
     const cssSettingsFullHd = new CssSettings();
@@ -23,14 +40,6 @@ export abstract class ApmComponent implements IComponent, IUniqueElement {
     componentSettings.cssSettingsAll.push(cssSettingsFullHd);
     componentSettings.cssSettingsCurrent = cssSettingsFullHd;
 
-    this._componentSettings = this._storeToClassAdapter.toStore(componentSettings);
-
-    //#endregion
+    return componentSettings;
   }
-
-  readonly uniqueId: number;
-  protected _componentSettings: Store;
-
-  component: Component;
-  componentContainer: ViewContainerRef;
 }

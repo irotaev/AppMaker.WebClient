@@ -12,6 +12,10 @@ export class Store extends UniqueElement<IStore> implements IStore {
 
   private readonly _fields: StoreField<any>[] = [];
 
+  get fields() {
+    return this._fields;
+  }
+
   addField<T>(field: StoreField<T>): { field: StoreField<T>; store: Store } {
     this._fields.push(field);
 

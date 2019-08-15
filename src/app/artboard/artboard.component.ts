@@ -44,6 +44,6 @@ export class ArtboardComponent extends ApmComponent implements OnInit {
 
   drop(event: CdkDragDrop<IComponent>) {
     this.droppedComponents.push(event.item.data);
-    this._componentDispatcher.addComponent(event.item.data, this.component as IComponent);
+    this._componentDispatcher.createComponent(event.item.data, this.component as IComponent);
   }
 }

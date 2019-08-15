@@ -3,10 +3,13 @@ import {ViewContainerRef} from '@angular/core';
 import {UniqueElementService} from '../abstract/unique-element.service';
 import {Store} from '../store.abstract/store';
 import {ComponentSettingsStore, CssSettings} from '../store/component-settings.store';
+import {StoreField} from '../store.abstract/store-field';
+import {ComponentDispatcher} from './apm-c-dispatcher';
 
 export abstract class ApmComponent implements IApmC {
   protected constructor(
     protected _uniqueElementService: UniqueElementService,
+    protected _componentDispatcher: ComponentDispatcher,
     componentSettings: ComponentSettingsStore = null,
     uniqueId: string = null) {
     this.uniqueId = uniqueId || _uniqueElementService.generateUniqueId();
@@ -16,8 +19,13 @@ export abstract class ApmComponent implements IApmC {
     this._componentSettings = componentSettings;
   }
 
+  abstract childComponentsContainer: ViewContainerRef;
+
   readonly uniqueId: string;
-  protected _componentSettings: ComponentSettingsStore;
+  protected _cssStyles = {};
+
+  //#region ComponentSettings
+
   get componentSettings() {
     return this._componentSettings;
   }
@@ -26,7 +34,7 @@ export abstract class ApmComponent implements IApmC {
     this._componentSettings = value;
   }
 
-  abstract childComponentsContainer: ViewContainerRef;
+  protected _componentSettings: ComponentSettingsStore;
 
   private createComponentSettings() {
     const componentSettings = new ComponentSettingsStore(this._uniqueElementService);
@@ -40,4 +48,25 @@ export abstract class ApmComponent implements IApmC {
 
     return componentSettings;
   }
+
+  //#endregion
+
+  //#region CssSettings
+
+  get cssStyles() {
+    return this._cssStyles;
+  }
+
+  protected addCssSettingsField(name: string, value: string) {
+    const field = new StoreField<string>(name).setValue(value);
+
+    this._componentSettings.cssSettingsCurrent.value.settings.value.addField(field.storeField)
+      .field.subscribe(() => {
+      this._cssStyles = this._componentSettings.cssSettingsCurrent.value.settings.value.toNameValueJson();
+
+      this._componentDispatcher.getComponent(this.uniqueId).changeDetectorRef.detectChanges();
+    });
+  }
+
+  //#endregion
 }

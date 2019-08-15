@@ -14,9 +14,9 @@ import {UniqueElementService} from './abstract/unique-element.service';
 export class AppComponent extends ApmComponent implements OnInit, AfterViewInit {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private _componentDispatcher: ComponentDispatcher,
+    componentDispatcher: ComponentDispatcher,
     uniqueElementService: UniqueElementService) {
-    super(uniqueElementService, null, '__AppComponent');
+    super(uniqueElementService, componentDispatcher, null, '__AppComponent');
   }
 
   title = 'AppMaker';

@@ -21,11 +21,11 @@ import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
   styleUrls: ['./apm-c-artboard.component.scss']
 })
 export class ApmCArtboardComponent extends ApmComponent implements OnInit {
-  constructor(private _componentDispatcher: ComponentDispatcher,
+  constructor(componentDispatcher: ComponentDispatcher,
               private cdref: ChangeDetectorRef,
               storeToClassAdapter: StoreToClassAdapter,
               uniqueElementService: UniqueElementService) {
-    super(uniqueElementService, null, '__ApmCArtboard');
+    super(uniqueElementService, componentDispatcher, null, '__ApmCArtboard');
   }
 
   artboarSize = 'tablet';

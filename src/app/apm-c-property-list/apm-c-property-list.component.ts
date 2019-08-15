@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild, ViewContainerRef} f
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 import {UniqueElementService} from '../abstract/unique-element.service';
+import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 
 @Component({
   selector: 'apm-c-property-list',
@@ -14,8 +15,9 @@ export class ApmCPropertyListComponent extends ApmComponent implements OnInit {
     private _er: ElementRef,
     private _renderer: Renderer2,
     storeToClassAdapter: StoreToClassAdapter,
-    uniqueElementService: UniqueElementService) {
-    super(uniqueElementService, null, '__CPropertyList');
+    uniqueElementService: UniqueElementService,
+    componentDispatcher: ComponentDispatcher) {
+    super(uniqueElementService, componentDispatcher, null, '__CPropertyList');
   }
 
   @ViewChild('componentContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;

@@ -1,4 +1,13 @@
-import {Component, HostListener, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {IApmC} from '../apm-c.abstract/i-apm-c';
@@ -13,12 +22,13 @@ import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 })
 export class ApmCArtboardComponent extends ApmComponent implements OnInit {
   constructor(private _componentDispatcher: ComponentDispatcher,
+              private cdref: ChangeDetectorRef,
               storeToClassAdapter: StoreToClassAdapter,
               uniqueElementService: UniqueElementService) {
-    super(uniqueElementService);
+    super(uniqueElementService, null, '__ApmCArtboard');
   }
 
-  artboarSize = 'laptop';
+  artboarSize = 'tablet';
   artboardScale = 1;
 
   droppedComponents: IApmC[] = [];

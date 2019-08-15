@@ -1,8 +1,7 @@
 <div class="app-wrapper">
-  <div class="settings-wrapper">
+  <div class="settings-wrapper" #childComponentsContainer>
     <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>
-    <ng-container #cPropertyListContainer></ng-container>
-<!--    <apm-apm-c-property-list [ngStyle]="{'display': isPropertyListDisplayed ? 'block' : 'none'}"></apm-apm-c-property-list>-->
+    <ng-container #apmCPropertyListContainer></ng-container>
 
     <mat-button-toggle-group #group="matButtonToggleGroup" class="switchers-wrapper" (change)="isComponentListDisplayed = false; isPropertyListDisplayed = false">
       <mat-button-toggle color="accent" aria-label="Component List" (change)="isComponentListDisplayed = $event.source.checked">
@@ -15,5 +14,5 @@
     </mat-button-toggle-group>
   </div>
 
-  <apm-artboard class="section"></apm-artboard>
+  <ng-container class="section" #apmCArtboard></ng-container>
 </div>

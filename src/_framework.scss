@@ -24,16 +24,18 @@ $textSizeH2: 15px;
 $textLineHeightH2: 23px;
 
 @mixin text($mode: 'span', $modifier: 'default') {
-  @if ($mode: 'span') {
+  @if ($mode == 'span') {
     font-size: $textSizeSpan;
     line-height: $textLineHeightSpan;
-  } @elseif ($mode: 'h2') {
+  } @elseif ($mode == 'h2') {
     font-size: $textSizeH2;
     line-height: $textLineHeightH2;
   }
 
-  @if ($modifier: 'default') {
+  @if ($modifier == 'default') {
     color: $textColorDefault;
+  } @elseif ($modifier: 'bold') {
+    font-weight: bold;
   }
 }
 //#region

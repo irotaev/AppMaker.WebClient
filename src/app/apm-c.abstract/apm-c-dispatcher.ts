@@ -1,5 +1,5 @@
 import {IApmC} from './i-apm-c';
-import {ComponentFactoryResolver, ComponentRef, Injectable, Type} from '@angular/core';
+import {ComponentFactoryResolver, ComponentRef, Injectable, Type, ViewContainerRef} from '@angular/core';
 
 import {Store} from '../store.abstract/store';
 import {UniqueElementService} from '../abstract/unique-element.service';
@@ -25,15 +25,17 @@ export class ComponentDispatcher {
   private readonly _componentStore: Store;
   private readonly _components: Array<ComponentRef<IApmC>> = [];
 
-  public addComponent(component: ComponentRef<IApmC>) {
-    this._components.push(component);
-  }
+  public createComponent(componentTypeLink: Type<any>, to: IApmC, insertToView: ViewContainerRef = null): ComponentRef<IApmC> {
+    insertToView = insertToView || to.childComponentsContainer;
 
-  public createComponent(componentTypeLink: Type<any>, to: IApmC): ComponentRef<IApmC> {
     const factory = this.componentFactoryResolver.resolveComponentFactory(componentTypeLink);
-    const component = to.childComponentsContainer.createComponent<IApmC>(factory);
-
+    const component = insertToView.createComponent<IApmC>(factory);
     this._components.push(component);
+
+    component.instance.componentSettings.parentComponentUniqueId.setValue(to.uniqueId);
+    to.componentSettings.childComponentUniqueIds.value.push(component.instance.uniqueId);
+
+    component.changeDetectorRef.detectChanges();
 
     return component;
   }

@@ -25,22 +25,15 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   @ViewChild('componentContainer', {static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
-    const width = new StoreField<string>('width');
-    width.value = '200px';
-    this._componentSettings
-      .getField<Store>('cssSettingsCurrent').value
-      .getField<Store>('settings').value
-      .addField(width)
-      .field.subscribe(($value) => {
-      this.cssStyles = this._componentSettings
-        .getField<Store>('cssSettingsCurrent').value
-        .getField<Store>('settings').value
-        .toNameValueJson();
+    const width = new StoreField<string>('width').setValue('200px');
+
+    this._componentSettings.cssSettingsCurrent.value.settings.value.addField(width.storeField)
+      .field.subscribe(() => {
+      this.cssStyles = this._componentSettings.cssSettingsCurrent.value.settings.value.toNameValueJson();
 
       this._componentDispatcher.getComponent(this.uniqueId).changeDetectorRef.detectChanges();
-
-      this.onResize($value);
     });
+
 
     const height = new StoreField<string>('height');
     height.value = '50px';
@@ -58,17 +51,11 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     });
   }
 
-  onResize($event: any) {
-    console.log($event);
-  }
-
   onClick($event: MouseEvent) {
     const cPropertyList = this._componentDispatcher.getComponent('__CPropertyList');
     cPropertyList.instance.childComponentsContainer.clear();
-    const componentEditor =  this._componentDispatcher.createComponent(ApmCPropertyEditorComponent, cPropertyList.instance);
+    const componentEditor = this._componentDispatcher.createComponent(ApmCPropertyEditorComponent, cPropertyList.instance);
 
-    componentEditor.instance.componentSettings = this._componentSettings
-      .getField<Store>('cssSettingsCurrent').value
-      .getField<Store>('settings').value;
+    componentEditor.instance.componentSettings = this._componentSettings;
   }
 }

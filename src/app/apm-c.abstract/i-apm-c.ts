@@ -1,8 +1,8 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {ViewContainerRef} from '@angular/core';
 import {IUniqueElement} from '../abstract/i-unique-element';
-import {Store} from '../store.abstract/store';
+import {ComponentSettingsStore} from '../store/component-settings.store';
 
 export interface IApmC extends IUniqueElement {
   childComponentsContainer: ViewContainerRef;
-  componentSettings: Store;
+  componentSettings: ComponentSettingsStore;
 }

@@ -38,7 +38,11 @@ import {FormsModule} from '@angular/forms';
     MatInputModule,
     FormsModule
   ],
-  entryComponents: [AmpCFlexboxComponent, ApmCPropertyListComponent, ApmCPropertyEditorComponent],
+  entryComponents: [
+    AmpCFlexboxComponent,
+    ApmCPropertyListComponent,
+    ApmCPropertyEditorComponent,
+    ApmCArtboardComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

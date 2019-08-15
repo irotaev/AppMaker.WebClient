@@ -1,8 +1,30 @@
+@import "~src/framework";
+
 .settings-wrapper {
   position: relative;
 
-  .settings-field {
-    display: flex;
-    justify-content: space-between;
+  .settings-to-width-wrapper {
+  }
+
+  .settings-to-width-block {
+    position: relative;
+    margin-bottom: $gapBase;
+
+    &:last-child {margin-bottom: 0;}
+
+    .width {
+      @include text('h2', 'bold');
+      margin: $gapBase;
+    }
+
+    .settings-wrapper {
+    }
+    .settings-block {
+      position: relative;
+
+      .value {
+        width: 100%;
+      }
+    }
   }
 }

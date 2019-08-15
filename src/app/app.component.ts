@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ComponentDispatcher} from './apm-c.abstract/apm-c-dispatcher';
 import {IApmC} from './apm-c.abstract/i-apm-c';
-import {CPropertyListComponent} from './cPropertyList/cPropertyList.component';
+import {CPropertyListComponent} from './c-property-list/c-property-list.component';
 
 @Component({
   selector: 'apm-root',

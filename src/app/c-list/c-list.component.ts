@@ -4,8 +4,8 @@ import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
 
 @Component({
   selector: 'apm-c-list',
-  templateUrl: './cList.component.html',
-  styleUrls: ['./cList.component.scss']
+  templateUrl: './c-list.component.html',
+  styleUrls: ['./c-list.component.scss']
 })
 export class CListComponent implements OnInit {
 

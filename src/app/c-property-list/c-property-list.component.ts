@@ -5,8 +5,8 @@ import {UniqueElementService} from '../abstract/unique-element.service';
 
 @Component({
   selector: 'apm-c-property-list',
-  templateUrl: './cPropertyList.component.html',
-  styleUrls: ['./cPropertyList.component.scss']
+  templateUrl: './c-property-list.component.html',
+  styleUrls: ['./c-property-list.component.scss']
 })
 export class CPropertyListComponent extends ApmComponent implements OnInit {
 

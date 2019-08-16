@@ -15,7 +15,15 @@ export class ApmStoreFactoryRoutine {
     private _listStore: ListStore) {
   }
 
-  createStore<T extends ApmComponent>(componentRef: ComponentRef<T> = null): ApmCStore<T> {
-    return new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore, componentRef);
+  createStore<T extends ApmComponent>(componentRef: ComponentRef<T> = null, initComponent = true): ApmCStore<T> {
+    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
+
+    if (initComponent) {
+      store.initComponent(componentRef);
+    }
+
+    this._listStore.addStore(store);
+
+    return store;
   }
 }

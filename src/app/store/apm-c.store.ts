@@ -4,7 +4,7 @@ import {UniqueElementRoutine} from '../routine/unique-element.routine';
 import {ApmCFactoryRoutine} from '../routine/apm-c.factory.routine';
 import {ListStore} from './list.store';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {ComponentRef} from '@angular/core';
+import {ComponentRef, Type} from '@angular/core';
 
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
@@ -12,7 +12,8 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   childComponentStoreUniqueIds = new StoreValueField<string[]>().setValue([]).storeField;
   styleSettingsAll = new StoreValueField<StyleSettingsStore[]>().setValue([]).storeField;
   styleSettingsCurrent = new StoreValueField<StyleSettingsStore>();
-  events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService));
+  events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
+  componentType: string | Type<TComponent>;
 
   private _apmComponentRef: ComponentRef<TComponent>;
 
@@ -27,19 +28,26 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   constructor(
     _uniqueElementService: UniqueElementRoutine,
     private _apmCFactoryRoutine: ApmCFactoryRoutine,
-    private _listStore: ListStore,
-    componentRef: ComponentRef<TComponent> = null) {
+    private _listStore: ListStore) {
     super(_uniqueElementService);
     this.bindFields();
+  }
 
+  public initComponent(componentRef: ComponentRef<TComponent> = null) {
     this._apmComponentRef = componentRef;
     if (!componentRef) {
+      if (!this.componentType) {
+        throw new Error('Component type in current store settings not set, so it component can not be init');
+      }
+
       this.createComponent();
     } else {
+      this.componentType = typeof this._apmComponentRef.instance;
       this.syncStoreToComponentIds();
     }
 
     this.setDefaultStyleSettings();
+    this._apmComponent.events = this.events as StoreValueField<Store>;
 
     this._apmComponent.apmOnComponentInit();
   }
@@ -51,9 +59,15 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
       return;
     }
 
-    this._apmComponentRef = this._apmCFactoryRoutine.createComponentByStr<TComponent>(
-      typeof this._apmComponent,
-      parentC.apmComponent.instance);
+    if (this.componentType instanceof String) {
+      this._apmComponentRef = this._apmCFactoryRoutine.createComponentByStr<TComponent>(
+        this.componentType as string,
+        parentC.apmComponent.instance);
+    } else {
+      this._apmComponentRef = this._apmCFactoryRoutine.createComponentByType<TComponent>(
+        this.componentType as Type<TComponent>,
+        parentC.apmComponent.instance);
+    }
 
     this.syncStoreToComponentIds();
 

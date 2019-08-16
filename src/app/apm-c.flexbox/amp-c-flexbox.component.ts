@@ -21,7 +21,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   apmOnComponentInit() {
     super.apmOnComponentInit();
 
-    this.addCssSettingsField('width', '200px');
-    this.addCssSettingsField('height', '50px');
+    this.addStyleSettingsField('width', '200px');
+    this.addStyleSettingsField('height', '50px');
   }
 }

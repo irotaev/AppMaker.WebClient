@@ -16,4 +16,8 @@ export class ListStore extends Store {
   getStoreByUniqueId<T extends Store>(uniqueId: string): T {
     return _.find(this._stores, x => x.uniqueId === uniqueId) as T;
   }
+
+  getStoreByIndex<T extends Store>(index: number): T {
+    return this._stores[index] as T;
+  }
 }

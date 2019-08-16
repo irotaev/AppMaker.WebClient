@@ -3,6 +3,7 @@ import {StyleSettingsStore} from '../store/apm-c.store';
 import {StoreValueField} from '../store.abstract/store-value-field';
 
 import * as _ from 'lodash';
+import {Store} from '../store.abstract/store';
 
 export abstract class ApmComponent implements AfterViewInit {
   protected _elementRef: ElementRef;
@@ -21,6 +22,7 @@ export abstract class ApmComponent implements AfterViewInit {
   uniqueId: string;
 
   styleSettings: StyleSettingsStore;
+  events: StoreValueField<Store>;
 
   ngAfterViewInit(): void {
     // this._elementRef.nativeElement.onclick = ($event) => {
@@ -37,32 +39,9 @@ export abstract class ApmComponent implements AfterViewInit {
   //   // createApmCPropertyEditorRoutine.Do(this._componentSettings);
   // }
 
-  //#region ComponentSettings
-
-  // get componentSettings() {
-  //   return this._componentSettings;
-  // }
-  //
-  // set componentSettings(value: ApmCStore) {
-  //   this._componentSettings = value;
-  // }
-  //
-  // private createComponentSettings(): StyleSettingsStore {
-  //   const cssSettingsFullHd = new StyleSettingsStore(this._uniqueElementService);
-  //   cssSettingsFullHd.screenWidth.setValue('FullHd');
-  //   cssSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
-  //
-  //   componentSettings.styleSettingsAll.value.push(cssSettingsFullHd);
-  //   componentSettings.styleSettingsCurrent.setValue(cssSettingsFullHd);
-  //
-  //   return componentSettings;
-  // }
-
-  //#endregion
-
   //#region StyleSettingsStore
 
-  protected addCssSettingsField(name: string, value: string) {
+  protected addStyleSettingsField(name: string, value: string) {
     const field = new StoreValueField<string>(name).setValue(value);
 
     this.styleSettings.settings.value.addField(field.storeField)

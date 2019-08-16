@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {StoreEventField} from '../store.abstract/store-event-field';
 
 @Component({
   selector: 'apm-artboard',
@@ -64,10 +66,6 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   @ViewChild('artboardContainerWrapper', {read: ViewContainerRef, static: false}) artboardContainerWrapper: ViewContainerRef;
 
   ngOnInit() {
-    // @ts-ignore
-    window.document.componentDispatcher = this._componentDispatcher;
-    // @ts-ignore
-    window.document.storeDispatcher = this._storeDispatcher;
   }
 
   ngAfterViewInit() {
@@ -77,8 +75,10 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   apmOnComponentInit() {
     super.apmOnComponentInit();
 
-    this.addCssSettingsField('width', '1024px');
-    this.addCssSettingsField('transform', 'scale(1)');
+    this.addStyleSettingsField('width', '1024px');
+    this.addStyleSettingsField('transform', 'scale(1)');
+
+    this.events.value.addField(new StoreEventField('drop'));
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -90,8 +90,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     }
   }
 
-  // drop($event: CdkDragDrop<IApmC>) {
-  //   this.droppedComponents.push($event.item.data);
-  //   this._componentDispatcher.createComponent($event.item.data, this as IApmC);
-  // }
+  drop($event: CdkDragDrop<ApmComponent>) {
+    this.events.value.getField('drop').next($event);
+  }
 }

@@ -4,6 +4,8 @@ import {ApmComponent} from './apm-c.abstract/apm-c';
 import {ListStore} from './store/list.store';
 import {ApmCFactoryRoutine} from './routine/apm-c.factory.routine';
 import {ApmStoreFactoryRoutine} from './routine/apm-store.factory.routine';
+import {ApmCStore} from './store/apm-c.store';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-root',
@@ -22,19 +24,39 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   @ViewChild('apmCArtboard', {read: ViewContainerRef, static: false}) apmCArtboard: ViewContainerRef;
 
   ngOnInit(): void {
+    // @ts-ignore
+    window.document.ListStore = this._listStore;
   }
 
   ngAfterViewInit(): void {
     // @ts-ignore
     const apmCAppComponentStore = this._apmStoreFactoryRoutine.createStore<AppComponent>({instance: this} as ComponentRef<AppComponent>);
 
-    this._listStore.addStore(apmCAppComponentStore);
-
     const apmCArtboard = this._apmCFactoryRoutine.createComponentByType(ApmCArtboardComponent, this, this.apmCArtboard);
     const apmCArtboardStore = this._apmStoreFactoryRoutine.createStore<ApmCArtboardComponent>(apmCArtboard);
-    this._listStore.addStore(apmCArtboardStore);
 
     apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
     apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
+
+
+    // ------------------------------------------------------------------------------
+    // Application Events
+    //
+    this.bindEvents();
+  }
+
+  private bindEvents() {
+    const apmCArtboardStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
+
+    apmCArtboardStore.events.value.getField('drop').subscribe(($dropEvent: CdkDragDrop<ApmComponent>) => {
+      if (!$dropEvent) {
+        return;
+      }
+
+      const componentStore = this._apmStoreFactoryRoutine.createStore($dropEvent.item.data, false);
+      componentStore.parentComponentStoreUniqueId.setValue(apmCArtboardStore.uniqueId);
+      componentStore.componentType = $dropEvent.item.data;
+      componentStore.initComponent();
+    });
   }
 }

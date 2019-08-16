@@ -27,6 +27,7 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   ngAfterViewInit(): void {
     // @ts-ignore
     const apmCAppComponentStore = this._apmStoreFactoryRoutine.createStore<AppComponent>({instance: this} as ComponentRef<AppComponent>);
+
     this._listStore.addStore(apmCAppComponentStore);
 
     const apmCArtboard = this._apmCFactoryRoutine.createComponentByType(ApmCArtboardComponent, this, this.apmCArtboard);

@@ -15,9 +15,6 @@ export class ApmCFactoryRoutine {
     const factory = this._componentFactoryResolver.resolveComponentFactory<T>(componentTypeLinkStr);
     const component = insertToView.createComponent<T>(factory);
 
-    // component.instance.componentSettings.parentComponentStoreUniqueId.setValue(to.uniqueId);
-    // to.componentSettings.childComponentStoreUniqueIds.value.push(component.instance.uniqueId);
-
     component.changeDetectorRef.detectChanges();
 
     return component;

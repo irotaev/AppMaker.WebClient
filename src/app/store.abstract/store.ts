@@ -6,7 +6,7 @@ import {IStoreField} from './i-store-field';
 import {StoreEventField} from './store-event-field';
 
 export class Store implements IStore {
-  readonly uniqueId: string;
+  uniqueId: string;
   private readonly _fields: IStoreField<any>[] = [];
 
   constructor(protected _uniqueElementService: UniqueElementRoutine) {

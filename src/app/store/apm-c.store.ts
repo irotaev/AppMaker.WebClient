@@ -27,7 +27,11 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService));
 
   private _apmComponentRef: ComponentRef<TComponent>;
-  private _apmComponent: TComponent = this._apmComponentRef && this._apmComponentRef.instance;
+
+  private get _apmComponent(): TComponent {
+    return this._apmComponentRef && this._apmComponentRef.instance;
+  }
+
   get apmComponent(): ComponentRef<TComponent> {
     return this._apmComponentRef;
   }
@@ -43,6 +47,8 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this._apmComponentRef = componentRef;
     if (!componentRef) {
       this.createComponent();
+    } else {
+      this.syncStoreToComponentIds();
     }
 
     const defaultStyleSettings = this.createDefaultStyleSettings();
@@ -61,7 +67,14 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
       typeof this._apmComponent,
       parentC.apmComponent.instance);
 
+    this.syncStoreToComponentIds();
+
     parentC.childComponentStoreUniqueIds.value.push(this.uniqueId);
+  }
+
+  private syncStoreToComponentIds() {
+    this.uniqueId = this._apmComponent.uniqueId || this.uniqueId;
+    this._apmComponent.uniqueId = this._apmComponent.uniqueId || this.uniqueId;
   }
 
   private createDefaultStyleSettings(): StyleSettingsStore {

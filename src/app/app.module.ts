@@ -41,8 +41,7 @@ import {FormsModule} from '@angular/forms';
     ApmCPropertyEditorComponent,
     ApmCArtboardComponent
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -8,22 +8,10 @@ import {ComponentRef} from '@angular/core';
 
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
-  get styleSettingsCurrent(): StoreValueField<StyleSettingsStore> {
-    return this._styleSettingsCurrent;
-  }
-
-  set styleSettingsCurrent(value: StoreValueField<StyleSettingsStore>) {
-    this._styleSettingsCurrent = value;
-
-    if (this._apmComponent) {
-      this._apmComponent.styleSettings = this._styleSettingsCurrent.value;
-    }
-  }
-
   parentComponentStoreUniqueId = new StoreValueField<string>();
   childComponentStoreUniqueIds = new StoreValueField<string[]>().setValue([]).storeField;
   styleSettingsAll = new StoreValueField<StyleSettingsStore[]>().setValue([]).storeField;
-  private _styleSettingsCurrent = new StoreValueField<StyleSettingsStore>();
+  styleSettingsCurrent = new StoreValueField<StyleSettingsStore>();
   events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService));
 
   private _apmComponentRef: ComponentRef<TComponent>;
@@ -51,9 +39,9 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
       this.syncStoreToComponentIds();
     }
 
-    const defaultStyleSettings = this.createDefaultStyleSettings();
-    this.styleSettingsAll.value.push(defaultStyleSettings);
-    this._styleSettingsCurrent.setValue(defaultStyleSettings);
+    this.setDefaultStyleSettings();
+
+    this._apmComponent.apmOnComponentInit();
   }
 
   private createComponent() {
@@ -83,6 +71,19 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     styleSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
 
     return styleSettingsFullHd;
+  }
+
+  private setDefaultStyleSettings() {
+    const defaultStyleSettings = this.createDefaultStyleSettings();
+
+    this.styleSettingsAll.value.push(defaultStyleSettings);
+
+    this.styleSettingsCurrent.subscribe(() => {
+      if (this._apmComponent) {
+        this._apmComponent.styleSettings = this.styleSettingsCurrent.value;
+      }
+    });
+    this.styleSettingsCurrent.setValue(defaultStyleSettings);
   }
 }
 

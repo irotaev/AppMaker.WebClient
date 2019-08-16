@@ -16,6 +16,11 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   @ViewChild('componentContainer', {static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
+  }
+
+  apmOnComponentInit() {
+    super.apmOnComponentInit();
+
     this.addCssSettingsField('width', '200px');
     this.addCssSettingsField('height', '50px');
   }

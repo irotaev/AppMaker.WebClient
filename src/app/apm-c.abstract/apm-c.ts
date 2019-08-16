@@ -12,6 +12,7 @@ export abstract class ApmComponent implements AfterViewInit {
   protected constructor(injector: Injector, uniqueId: string = null) {
     this._elementRef = injector.get<ElementRef>(ElementRef);
     this._renderer2 = injector.get(Renderer2);
+    this._changeDetectorRef = injector.get(ChangeDetectorRef);
 
     this.uniqueId = uniqueId;
   }
@@ -25,6 +26,10 @@ export abstract class ApmComponent implements AfterViewInit {
     // this._elementRef.nativeElement.onclick = ($event) => {
     //   this.onClick($event);
     // };
+  }
+
+  apmOnComponentInit() {
+
   }
 
   // onClick($event: MouseEvent) {

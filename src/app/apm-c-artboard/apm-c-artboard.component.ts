@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 
 @Component({
@@ -72,6 +72,10 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
   ngAfterViewInit() {
     this._elementRef = this.artboardContainerWrapper.element;
+  }
+
+  apmOnComponentInit() {
+    super.apmOnComponentInit();
 
     this.addCssSettingsField('width', '1024px');
     this.addCssSettingsField('transform', 'scale(1)');

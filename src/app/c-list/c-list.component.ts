@@ -1,6 +1,6 @@
 import {Component, OnInit, Type} from '@angular/core';
-import {IApmC} from '../apm-c.abstract/i-apm-c';
 import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
+import {ApmComponent} from '../apm-c.abstract/apm-c';
 
 @Component({
   selector: 'apm-c-list',
@@ -9,12 +9,11 @@ import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
 })
 export class CListComponent implements OnInit {
 
-  draggableComponents: Type<IApmC>[] = [];
+  draggableComponents: Type<ApmComponent>[] = [];
 
   constructor() { }
 
   ngOnInit() {
     this.draggableComponents.push(AmpCFlexboxComponent);
   }
-
 }

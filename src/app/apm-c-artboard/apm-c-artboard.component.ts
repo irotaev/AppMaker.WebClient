@@ -1,20 +1,5 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener, Injector,
-  OnInit,
-  Renderer2,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
-import {IApmC} from '../apm-c.abstract/i-apm-c';
+import {AfterViewInit, Component, ElementRef, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {UniqueElementService} from '../abstract/unique-element.service';
-import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
 
 @Component({
   selector: 'apm-artboard',
@@ -22,15 +7,8 @@ import {StoreToClassAdapter} from '../routine/storeToClassAdapter.service';
   styleUrls: ['./apm-c-artboard.component.scss']
 })
 export class ApmCArtboardComponent extends ApmComponent implements OnInit, AfterViewInit {
-  constructor(componentDispatcher: ComponentDispatcher,
-              private cdref: ChangeDetectorRef,
-              elementRef: ElementRef,
-              viewContainerRef: ViewContainerRef,
-              storeToClassAdapter: StoreToClassAdapter,
-              uniqueElementService: UniqueElementService,
-              renderer2: Renderer2,
-              injector: Injector) {
-    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector, null, '__ApmCArtboard');
+  constructor(injector: Injector) {
+    super(injector, '__ApmCArtboard');
   }
 
   private _artboarSize = 'tablet';
@@ -44,7 +22,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   set artboardScale(value: number) {
     this._artboardScale = value;
 
-    this._componentSettings.cssSettingsCurrent.value.settings.value.getField('transform').setValue('scale(' + value + ')');
+    this.styleSettings.getField('transform').setValue('scale(' + value + ')');
   }
 
   get artboarSize(): string {
@@ -78,11 +56,9 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
         width = value;
     }
 
-    this._componentSettings.cssSettingsCurrent.value.screenWidth.setValue(width);
-    this._componentSettings.cssSettingsCurrent.value.settings.value.getField('width').setValue(width);
+    this.styleSettings.screenWidth.setValue(width);
+    this.styleSettings.settings.value.getField('width').setValue(width);
   }
-
-  droppedComponents: IApmC[] = [];
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
   @ViewChild('artboardContainerWrapper', {read: ViewContainerRef, static: false}) artboardContainerWrapper: ViewContainerRef;
@@ -110,8 +86,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     }
   }
 
-  drop($event: CdkDragDrop<IApmC>) {
-    this.droppedComponents.push($event.item.data);
-    this._componentDispatcher.createComponent($event.item.data, this as IApmC);
-  }
+  // drop($event: CdkDragDrop<IApmC>) {
+  //   this.droppedComponents.push($event.item.data);
+  //   this._componentDispatcher.createComponent($event.item.data, this as IApmC);
+  // }
 }

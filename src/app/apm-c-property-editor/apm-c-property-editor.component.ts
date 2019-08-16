@@ -1,7 +1,5 @@
-import {Component, ElementRef, Injector, OnInit, Renderer2, ViewContainerRef} from '@angular/core';
+import {Component, Injector, OnInit, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {UniqueElementService} from '../abstract/unique-element.service';
-import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 
 @Component({
   selector: 'apm-apm-c-property-editor',
@@ -10,14 +8,8 @@ import {ComponentDispatcher} from '../apm-c.abstract/apm-c-dispatcher';
 })
 export class ApmCPropertyEditorComponent extends ApmComponent implements OnInit {
 
-  constructor(
-    uniqueElementService: UniqueElementService,
-    componentDispatcher: ComponentDispatcher,
-    elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef,
-    renderer2: Renderer2,
-    injector: Injector) {
-    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector);
+  constructor(injector: Injector) {
+    super(injector);
   }
 
   childComponentsContainer: ViewContainerRef = null;

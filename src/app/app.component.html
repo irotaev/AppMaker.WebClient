@@ -1,18 +1,20 @@
 <div class="app-wrapper">
   <div class="settings-wrapper" #childComponentsContainer>
-    <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>
-    <ng-container #apmCPropertyListContainer></ng-container>
+    <apm-c-list class="section"></apm-c-list>
+<!--    <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>-->
+<!--    <ng-container #apmCPropertyListContainer></ng-container>-->
 
-    <mat-button-toggle-group #group="matButtonToggleGroup" class="switchers-wrapper" (change)="isComponentListDisplayed = false; isPropertyListDisplayed = false">
-      <mat-button-toggle color="accent" aria-label="Component List" (change)="isComponentListDisplayed = $event.source.checked">
-        <mat-icon>list</mat-icon>
-      </mat-button-toggle>
+<!--    <mat-button-toggle-group #group="matButtonToggleGroup" class="switchers-wrapper" (change)="isComponentListDisplayed = false; isPropertyListDisplayed = false">-->
+<!--      <mat-button-toggle color="accent" aria-label="Component List" (change)="isComponentListDisplayed = $event.source.checked">-->
+<!--        <mat-icon>list</mat-icon>-->
+<!--      </mat-button-toggle>-->
 
-      <mat-button-toggle color="accent" aria-label="Properties" (change)="isPropertyListDisplayed = $event.source.checked">
-        <mat-icon>drag_indicator</mat-icon>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+<!--      <mat-button-toggle color="accent" aria-label="Properties" (change)="isPropertyListDisplayed = $event.source.checked">-->
+<!--        <mat-icon>drag_indicator</mat-icon>-->
+<!--      </mat-button-toggle>-->
+<!--    </mat-button-toggle-group>-->
   </div>
 
   <ng-container class="section" #apmCArtboard></ng-container>
 </div>
+<ng-container #childComponentsContainer></ng-container>

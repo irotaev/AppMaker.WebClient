@@ -1,86 +1,74 @@
-import {IApmC} from './i-apm-c';
-import {AfterViewInit, ElementRef, Injector, Renderer2, ViewContainerRef} from '@angular/core';
-import {UniqueElementService} from '../abstract/unique-element.service';
-import {Store} from '../store.abstract/store';
-import {ComponentSettingsStore, CssSettings} from '../store/component-settings.store';
+import {AfterViewInit, ChangeDetectorRef, ElementRef, Injector, Renderer2, ViewContainerRef} from '@angular/core';
+import {StyleSettingsStore} from '../store/apm-c.store';
 import {StoreValueField} from '../store.abstract/store-value-field';
-import {ComponentDispatcher} from './apm-c-dispatcher';
 
 import * as _ from 'lodash';
 
-export abstract class ApmComponent implements IApmC, AfterViewInit {
-  protected constructor(
-    protected _uniqueElementService: UniqueElementService,
-    protected _componentDispatcher: ComponentDispatcher,
-    protected _elementRef: ElementRef,
-    protected _viewContainerRef: ViewContainerRef,
-    protected _renderer2: Renderer2,
-    protected _injector: Injector,
-    componentSettings: ComponentSettingsStore = null,
-    uniqueId: string = null) {
-    this.uniqueId = uniqueId || _uniqueElementService.generateUniqueId();
+export abstract class ApmComponent implements AfterViewInit {
+  protected _elementRef: ElementRef;
+  private readonly _renderer2: Renderer2;
+  private readonly _changeDetectorRef: ChangeDetectorRef;
 
-    componentSettings = componentSettings || this.createComponentSettings();
+  protected constructor(injector: Injector, uniqueId: string = null) {
+    this._elementRef = injector.get<ElementRef>(ElementRef);
+    this._renderer2 = injector.get(Renderer2);
 
-    this._componentSettings = componentSettings;
+    this.uniqueId = uniqueId;
   }
 
   abstract childComponentsContainer: ViewContainerRef;
+  uniqueId: string;
 
-  readonly uniqueId: string;
-
-  protected _componentSettings: ComponentSettingsStore;
+  styleSettings: StyleSettingsStore;
 
   ngAfterViewInit(): void {
-    this._elementRef.nativeElement.onclick = ($event) => {
-      this.onClick($event);
-    };
+    // this._elementRef.nativeElement.onclick = ($event) => {
+    //   this.onClick($event);
+    // };
   }
 
-  onClick($event: MouseEvent) {
-    const createApmCPropertyEditorRoutine = this._injector.get('StoreToClassAdapter');
-    // createApmCPropertyEditorRoutine.Do(this._componentSettings);
-  }
+  // onClick($event: MouseEvent) {
+  //   const createApmCPropertyEditorRoutine = this._injector.get('StoreToClassAdapter');
+  //   // createApmCPropertyEditorRoutine.Do(this._componentSettings);
+  // }
 
   //#region ComponentSettings
 
-  get componentSettings() {
-    return this._componentSettings;
-  }
-
-  set componentSettings(value: ComponentSettingsStore) {
-    this._componentSettings = value;
-  }
-
-  private createComponentSettings() {
-    const componentSettings = new ComponentSettingsStore(this._uniqueElementService);
-
-    const cssSettingsFullHd = new CssSettings(this._uniqueElementService);
-    cssSettingsFullHd.screenWidth.setValue('FullHd');
-    cssSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
-
-    componentSettings.cssSettingsAll.value.push(cssSettingsFullHd);
-    componentSettings.cssSettingsCurrent.setValue(cssSettingsFullHd);
-
-    return componentSettings;
-  }
+  // get componentSettings() {
+  //   return this._componentSettings;
+  // }
+  //
+  // set componentSettings(value: ApmCStore) {
+  //   this._componentSettings = value;
+  // }
+  //
+  // private createComponentSettings(): StyleSettingsStore {
+  //   const cssSettingsFullHd = new StyleSettingsStore(this._uniqueElementService);
+  //   cssSettingsFullHd.screenWidth.setValue('FullHd');
+  //   cssSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
+  //
+  //   componentSettings.styleSettingsAll.value.push(cssSettingsFullHd);
+  //   componentSettings.styleSettingsCurrent.setValue(cssSettingsFullHd);
+  //
+  //   return componentSettings;
+  // }
 
   //#endregion
 
-  //#region CssSettings
+  //#region StyleSettingsStore
 
   protected addCssSettingsField(name: string, value: string) {
     const field = new StoreValueField<string>(name).setValue(value);
 
-    this._componentSettings.cssSettingsCurrent.value.settings.value.addField(field.storeField)
+    this.styleSettings.settings.value.addField(field.storeField)
       .field.subscribe(() => {
 
-      const styleObj = this._componentSettings.cssSettingsCurrent.value.settings.value.toNameValueJson();
+      const styleObj = this.styleSettings.settings.value.toNameValueJson();
       _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
         this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
       });
 
-      this._componentDispatcher.getComponent(this.uniqueId).changeDetectorRef.detectChanges();
+      this._changeDetectorRef.detectChanges();
     });
   }
 

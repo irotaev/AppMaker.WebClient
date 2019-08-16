@@ -1,15 +1,15 @@
 import {IStore} from './i-store';
-import {UniqueElementService} from '../abstract/unique-element.service';
+import {UniqueElementRoutine} from '../routine/unique-element.routine';
 
 import * as _ from 'lodash';
 import {IStoreField} from './i-store-field';
-import {StoreEventField} from "./store-event-field";
+import {StoreEventField} from './store-event-field';
 
 export class Store implements IStore {
   readonly uniqueId: string;
   private readonly _fields: IStoreField<any>[] = [];
 
-  constructor(protected _uniqueElementService: UniqueElementService) {
+  constructor(protected _uniqueElementService: UniqueElementRoutine) {
     this.uniqueId = this._uniqueElementService.generateUniqueId();
   }
 

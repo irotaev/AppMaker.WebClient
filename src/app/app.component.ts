@@ -1,19 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  ElementRef, Injector,
-  OnInit,
-  Renderer2,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import {ComponentDispatcher} from './apm-c.abstract/apm-c-dispatcher';
-import {IApmC} from './apm-c.abstract/i-apm-c';
-import {ApmCPropertyListComponent} from './apm-c-property-list/apm-c-property-list.component';
+import {AfterViewInit, Component, ComponentRef, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmCArtboardComponent} from './apm-c-artboard/apm-c-artboard.component';
 import {ApmComponent} from './apm-c.abstract/apm-c';
-import {UniqueElementService} from './abstract/unique-element.service';
+import {ListStore} from './store/list.store';
+import {ApmCFactoryRoutine} from './routine/apm-c.factory.routine';
+import {ApmStoreFactoryRoutine} from './routine/apm-store.factory.routine';
 
 @Component({
   selector: 'apm-root',
@@ -21,44 +11,29 @@ import {UniqueElementService} from './abstract/unique-element.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends ApmComponent implements OnInit, AfterViewInit {
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    componentDispatcher: ComponentDispatcher,
-    uniqueElementService: UniqueElementService,
-    elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef,
-    renderer2: Renderer2,
-    injector: Injector) {
-    super(uniqueElementService, componentDispatcher, elementRef, viewContainerRef, renderer2, injector, null, '__AppComponent');
+  constructor(injector: Injector,
+              private _listStore: ListStore,
+              private _apmCFactoryRoutine: ApmCFactoryRoutine,
+              private _apmStoreFactoryRoutine: ApmStoreFactoryRoutine) {
+    super(injector, '__AppComponent');
   }
-
-  title = 'AppMaker';
-
-  isComponentListDisplayed = true;
-
-  private _isPropertyListDisplayed;
-  get isPropertyListDisplayed() {
-    return this._isPropertyListDisplayed;
-  }
-
-  set isPropertyListDisplayed(value: boolean) {
-    this._isPropertyListDisplayed = value;
-    this._cPropertyListComponent.isDisplayed = value;
-  }
-
-  private _cPropertyListComponent: ApmCPropertyListComponent;
 
   @ViewChild('childComponentsContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
-  @ViewChild('apmCPropertyListContainer', {read: ViewContainerRef, static: false}) apmCPropertyListContainer: ViewContainerRef;
   @ViewChild('apmCArtboard', {read: ViewContainerRef, static: false}) apmCArtboard: ViewContainerRef;
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this._cPropertyListComponent = this._componentDispatcher
-      .createComponent(ApmCPropertyListComponent, this as IApmC, this.apmCPropertyListContainer).instance as ApmCPropertyListComponent;
+    // @ts-ignore
+    const apmCAppComponentStore = this._apmStoreFactoryRoutine.createStore<AppComponent>({instance: this} as ComponentRef<AppComponent>);
+    this._listStore.addStore(apmCAppComponentStore);
 
-    this._componentDispatcher.createComponent(ApmCArtboardComponent, this as IApmC);
+    const apmCArtboard = this._apmCFactoryRoutine.createComponentByType(ApmCArtboardComponent, this, this.apmCArtboard);
+    const apmCArtboardStore = this._apmStoreFactoryRoutine.createStore<ApmCArtboardComponent>(apmCArtboard);
+    this._listStore.addStore(apmCArtboardStore);
+
+    apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
+    apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
   }
 }

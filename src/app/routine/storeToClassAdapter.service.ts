@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Store} from '../store.abstract/store';
-import {UniqueElementService} from '../abstract/unique-element.service';
+import {UniqueElementRoutine} from './unique-element.routine';
 
 import * as _ from 'lodash';
 import {StoreValueField} from '../store.abstract/store-value-field';
@@ -9,7 +9,7 @@ import {StoreValueField} from '../store.abstract/store-value-field';
   providedIn: 'root',
 })
 export class StoreToClassAdapter {
-  constructor(private _uniqueElementService: UniqueElementService) {
+  constructor(private _uniqueElementService: UniqueElementRoutine) {
   }
 
   toStore<T>(obj: T): Store {

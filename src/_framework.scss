@@ -1,5 +1,6 @@
 $colorBg1: #f3f3f391;
 $colorGreyLight: #e6e6e6;
+$colorBlack1: #222;
 
 //#region Size
 $sizeLaptopL: 1440px;
@@ -15,7 +16,7 @@ $gapBase: 20px;
 //#region Text
 $textLetterSpacing: 1px;
 
-$textColorDefault: black;
+$textColorDefault: $colorBlack1;
 
 $textSizeSpan: 13px;
 $textLineHeightSpan: 18px;

@@ -6,6 +6,8 @@ import {ApmCFactoryRoutine} from './routine/apm-c.factory.routine';
 import {ApmStoreFactoryRoutine} from './routine/apm-store.factory.routine';
 import {ApmCStore} from './store/apm-c.store';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {MatDialog} from '@angular/material';
+import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 
 @Component({
   selector: 'apm-root',
@@ -13,15 +15,20 @@ import {CdkDragDrop} from '@angular/cdk/drag-drop';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends ApmComponent implements OnInit, AfterViewInit {
+  isComponentListDisplayed = true;
+  isPropertyListDisplayed = false;
+
   constructor(injector: Injector,
               private _listStore: ListStore,
               private _apmCFactoryRoutine: ApmCFactoryRoutine,
-              private _apmStoreFactoryRoutine: ApmStoreFactoryRoutine) {
+              private _apmStoreFactoryRoutine: ApmStoreFactoryRoutine,
+              private _matDialog: MatDialog) {
     super(injector, '__AppComponent');
   }
 
   @ViewChild('childComponentsContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
   @ViewChild('apmCArtboard', {read: ViewContainerRef, static: false}) apmCArtboard: ViewContainerRef;
+  @ViewChild('apmCPropertyListContainer', {read: ViewContainerRef, static: false}) apmCPropertyListContainer: ViewContainerRef;
 
   ngOnInit(): void {
     // @ts-ignore
@@ -29,11 +36,12 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
+    const apmCAppComponentStore = this._apmStoreFactoryRoutine.createApmComponentStoreEmpty<AppComponent>();
     // @ts-ignore
-    const apmCAppComponentStore = this._apmStoreFactoryRoutine.createStore<AppComponent>({instance: this} as ComponentRef<AppComponent>);
+    apmCAppComponentStore.setApmComponent({instance: this} as ComponentRef<AppComponent>);
 
-    const apmCArtboard = this._apmCFactoryRoutine.createComponentByType(ApmCArtboardComponent, this, this.apmCArtboard);
-    const apmCArtboardStore = this._apmStoreFactoryRoutine.createStore<ApmCArtboardComponent>(apmCArtboard);
+    const apmCArtboardStore = this._apmStoreFactoryRoutine
+      .createApmComponentStoreCustom<ApmCArtboardComponent>(ApmCArtboardComponent, this.apmCArtboard);
 
     apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
     apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
@@ -46,6 +54,7 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   }
 
   private bindEvents() {
+    const apmCAppStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__AppComponent');
     const apmCArtboardStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
 
     apmCArtboardStore.events.value.getField('drop').subscribe(($dropEvent: CdkDragDrop<ApmComponent>) => {
@@ -53,10 +62,13 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
         return;
       }
 
-      const componentStore = this._apmStoreFactoryRoutine.createStore($dropEvent.item.data, false);
-      componentStore.parentComponentStoreUniqueId.setValue(apmCArtboardStore.uniqueId);
-      componentStore.componentType = $dropEvent.item.data;
-      componentStore.initComponent();
+      const componentFlexboxStore = this._apmStoreFactoryRoutine.createApmComponentStore($dropEvent.item.data, apmCArtboardStore.uniqueId);
+
+      this.apmCPropertyListContainer.clear();
+      const apmCPropertyEditorComponentStore = this._apmStoreFactoryRoutine
+        .createApmComponentStoreCustom(ApmCPropertyEditorComponent, this.apmCPropertyListContainer);
+      apmCPropertyEditorComponentStore.styleSettingsAll.setValue(componentFlexboxStore.styleSettingsAll.value);
+      apmCPropertyEditorComponentStore.styleSettingsCurrent.setValue(componentFlexboxStore.styleSettingsCurrent.value);
     });
   }
 }

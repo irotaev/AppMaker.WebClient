@@ -15,6 +15,7 @@
     .width {
       @include text('h2', 'bold');
       margin: $gapBase;
+      margin-bottom: $gapBase;
     }
 
     .settings-wrapper {
@@ -24,6 +25,8 @@
 
       .value {
         width: 100%;
+        margin-top: $gapBase/2;
+        @include text('span');
       }
     }
   }

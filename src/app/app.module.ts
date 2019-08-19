@@ -7,6 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -34,7 +35,8 @@ import {FormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     MatButtonToggleModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   entryComponents: [
     AmpCFlexboxComponent,

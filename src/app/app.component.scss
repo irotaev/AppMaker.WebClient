@@ -21,6 +21,14 @@
       width: 14*$gapBase;
       background-color: white;
       z-index: 1000;
+      border-right: 1px solid $colorGreyLight;
+
+      .section {
+        flex: 1;
+      }
+      .store-properties {
+        padding: $gapBase;
+      }
 
       .switchers-wrapper {
         margin: 0 auto;

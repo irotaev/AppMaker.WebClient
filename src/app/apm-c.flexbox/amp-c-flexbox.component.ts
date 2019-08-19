@@ -1,6 +1,7 @@
 import {Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
+import {DragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -9,7 +10,7 @@ import {StoreEventField} from '../store.abstract/store-event-field';
 })
 export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private _dragDrop: DragDrop) {
     super(injector);
   }
 
@@ -17,6 +18,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   @ViewChild('childComponentsContainer', {static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
+    this._dragDrop.createDrag(this._elementRef);
   }
 
   apmOnComponentInit() {

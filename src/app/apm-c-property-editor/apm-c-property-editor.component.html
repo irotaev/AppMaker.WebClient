@@ -1,11 +1,11 @@
 <div class="settings-wrapper">
-  <div class="settings-to-width-wrapper" *ngFor="let settingsBlock of componentSettings.cssSettingsAll.$event">
+  <div class="settings-to-width-wrapper" *ngFor="let settingsBlock of styleSettingsAll">
 
     <div class="settings-to-width-block">
-      <div class="width text">{{settingsBlock.screenWidth.$event}}</div>
+      <div class="width text">{{settingsBlock.screenWidth.value}}</div>
 
       <div class="settings-wrapper">
-        <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.$event.fields">
+        <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.value.fields">
           <mat-form-field class="value">
             <input matInput [placeholder]="settingsField.name" [(ngModel)]="settingsField.value"/>
           </mat-form-field>

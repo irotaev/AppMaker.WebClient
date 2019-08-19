@@ -4,6 +4,7 @@ import {StoreValueField} from '../store.abstract/store-value-field';
 
 import * as _ from 'lodash';
 import {Store} from '../store.abstract/store';
+import {StoreValueArray} from '../store.abstract/store-value-array';
 
 export abstract class ApmComponent implements AfterViewInit {
   protected _elementRef: ElementRef;
@@ -21,7 +22,8 @@ export abstract class ApmComponent implements AfterViewInit {
   abstract childComponentsContainer: ViewContainerRef;
   uniqueId: string;
 
-  styleSettings: StyleSettingsStore;
+  styleSettingsAll: StoreValueArray<StyleSettingsStore>;
+  styleSettingsCurrent: StyleSettingsStore;
   events: StoreValueField<Store>;
 
   ngAfterViewInit(): void {
@@ -44,10 +46,10 @@ export abstract class ApmComponent implements AfterViewInit {
   protected addStyleSettingsField(name: string, value: string) {
     const field = new StoreValueField<string>(name).setValue(value);
 
-    this.styleSettings.settings.value.addField(field.storeField)
+    this.styleSettingsCurrent.settings.value.addField(field.storeField)
       .field.subscribe(() => {
 
-      const styleObj = this.styleSettings.settings.value.toNameValueJson();
+      const styleObj = this.styleSettingsCurrent.settings.value.toNameValueJson();
       _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
         this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
       });

@@ -5,5 +5,5 @@
   position: relative;
   width: 10*$gapBase;
   height: 2*$gapBase;
-  border: 1px dotted $colorGreyLight;
+  border: 1px dotted darken($colorGreyLight, 10%);
 }

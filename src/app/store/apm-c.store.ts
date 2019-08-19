@@ -5,12 +5,13 @@ import {ApmCFactoryRoutine} from '../routine/apm-c.factory.routine';
 import {ListStore} from './list.store';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {ComponentRef, Type} from '@angular/core';
+import {StoreValueArray} from '../store.abstract/store-value-array';
 
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
   parentComponentStoreUniqueId = new StoreValueField<string>();
   childComponentStoreUniqueIds = new StoreValueField<string[]>().setValue([]).storeField;
-  styleSettingsAll = new StoreValueField<StyleSettingsStore[]>().setValue([]).storeField;
+  styleSettingsAll = new StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(new StoreValueArray<StyleSettingsStore>()).storeField;
   styleSettingsCurrent = new StoreValueField<StyleSettingsStore>();
   events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
   componentType: string | Type<TComponent>;
@@ -23,6 +24,16 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
   get apmComponent(): ComponentRef<TComponent> {
     return this._apmComponentRef;
+  }
+
+  setApmComponent(component: ComponentRef<TComponent>) {
+    if (this._apmComponentRef) {
+      throw new Error('ComponentRef for current store is already set');
+    }
+
+    this._apmComponentRef = component;
+
+    this.syncStoreToComponentIds();
   }
 
   constructor(
@@ -60,11 +71,11 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     }
 
     if (this.componentType instanceof String) {
-      this._apmComponentRef = this._apmCFactoryRoutine.createComponentByStr<TComponent>(
+      this._apmComponentRef = this._apmCFactoryRoutine.createComponent<TComponent>(
         this.componentType as string,
         parentC.apmComponent.instance);
     } else {
-      this._apmComponentRef = this._apmCFactoryRoutine.createComponentByType<TComponent>(
+      this._apmComponentRef = this._apmCFactoryRoutine.createComponent<TComponent>(
         this.componentType as Type<TComponent>,
         parentC.apmComponent.instance);
     }
@@ -90,11 +101,16 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   private setDefaultStyleSettings() {
     const defaultStyleSettings = this.createDefaultStyleSettings();
 
+    this.styleSettingsAll.subscribe(value => {
+      if (this._apmComponent) {
+        this._apmComponent.styleSettingsAll = value;
+      }
+    });
     this.styleSettingsAll.value.push(defaultStyleSettings);
 
-    this.styleSettingsCurrent.subscribe(() => {
+    this.styleSettingsCurrent.subscribe(value => {
       if (this._apmComponent) {
-        this._apmComponent.styleSettings = this.styleSettingsCurrent.value;
+        this._apmComponent.styleSettingsCurrent = value;
       }
     });
     this.styleSettingsCurrent.setValue(defaultStyleSettings);

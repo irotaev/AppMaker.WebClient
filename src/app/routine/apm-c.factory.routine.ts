@@ -9,18 +9,18 @@ export class ApmCFactoryRoutine {
   constructor(private _componentFactoryResolver: ComponentFactoryResolver, private _typeFromStrRoutine: TypeFromStrRoutine) {
   }
 
-  createComponentByType<T>(componentTypeLinkStr: Type<T>, to: ApmComponent, insertToView: ViewContainerRef = null): ComponentRef<T> {
-    insertToView = insertToView || to.childComponentsContainer;
+  createComponent<T>(componentTypeLinkStr: Type<T> | string, to: ApmComponent | ViewContainerRef): ComponentRef<T> {
+    if (componentTypeLinkStr instanceof String) {
+      componentTypeLinkStr = this._typeFromStrRoutine.getType(componentTypeLinkStr as string);
+    }
 
-    const factory = this._componentFactoryResolver.resolveComponentFactory<T>(componentTypeLinkStr);
-    const component = insertToView.createComponent<T>(factory);
+    const factory = this._componentFactoryResolver.resolveComponentFactory<T>(componentTypeLinkStr as Type<T>);
+    const component = to instanceof ApmComponent
+      ? (to as ApmComponent).childComponentsContainer.createComponent<T>(factory)
+      : (to as ViewContainerRef).createComponent<T>(factory);
 
     component.changeDetectorRef.detectChanges();
 
     return component;
-  }
-
-  createComponentByStr<T>(componentTypeLinkStr: string, to: ApmComponent, insertToView: ViewContainerRef = null): ComponentRef<T> {
-    return this.createComponentByType(this._typeFromStrRoutine.getType(componentTypeLinkStr), to, insertToView);
   }
 }

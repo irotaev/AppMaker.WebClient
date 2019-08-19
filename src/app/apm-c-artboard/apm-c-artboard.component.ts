@@ -24,7 +24,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   set artboardScale(value: number) {
     this._artboardScale = value;
 
-    this.styleSettings.getField('transform').setValue('scale(' + value + ')');
+    this.styleSettingsCurrent.getField('transform').setValue('scale(' + value + ')');
   }
 
   get artboarSize(): string {
@@ -58,8 +58,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
         width = value;
     }
 
-    this.styleSettings.screenWidth.setValue(width);
-    this.styleSettings.settings.value.getField('width').setValue(width);
+    this.styleSettingsCurrent.screenWidth.setValue(width);
+    this.styleSettingsCurrent.settings.value.getField('width').setValue(width);
   }
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;

@@ -7,6 +7,9 @@ import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {ComponentRef, Type} from '@angular/core';
 import {StoreValueArray} from '../store.abstract/store-value-array';
 
+import * as _ from 'lodash';
+import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
+
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
   parentComponentStoreUniqueId = new StoreValueField<string>();
@@ -39,9 +42,12 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   constructor(
     _uniqueElementService: UniqueElementRoutine,
     private _apmCFactoryRoutine: ApmCFactoryRoutine,
-    private _listStore: ListStore) {
+    private _listStore: ListStore,
+    private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
     super(_uniqueElementService);
     this.bindFields();
+
+    this.setEvents();
   }
 
   public initComponent(componentRef: ComponentRef<TComponent> = null) {
@@ -58,9 +64,29 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     }
 
     this.setDefaultStyleSettings();
-    this._apmComponent.events = this.events as StoreValueField<Store>;
+    this._apmComponent.apmComponentSettingsStore = this;
 
     this._apmComponent.apmOnComponentInit();
+
+    this.enableStyleResponsiveness();
+  }
+
+  private enableStyleResponsiveness() {
+    const parentStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(this.parentComponentStoreUniqueId.value);
+
+    if (!parentStore) {
+      return;
+    }
+
+    parentStore.styleSettingsCurrent.value.getField<Store>('settings').value.getField('width').subscribe((width: string) => {
+      const newStyle = _.find(this.styleSettingsAll.value, x => parseInt(x.screenWidth.value, 10) <= parseInt(width, 10));
+
+      if (!newStyle) {
+        return;
+      }
+
+      this.styleSettingsCurrent.setValue(newStyle);
+    });
   }
 
   private createComponent() {
@@ -90,30 +116,26 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this._apmComponent.uniqueId = this._apmComponent.uniqueId || this.uniqueId;
   }
 
-  private createDefaultStyleSettings(): StyleSettingsStore {
-    const styleSettingsFullHd = new StyleSettingsStore(this._uniqueElementService);
-    styleSettingsFullHd.screenWidth.setValue('FullHd');
-    styleSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
-
-    return styleSettingsFullHd;
-  }
+  // private createDefaultStyleSettings(): StyleSettingsStore {
+  //   const styleSettingsFullHd = new StyleSettingsStore(this._uniqueElementService);
+  //   styleSettingsFullHd.screenWidth.setValue('1920px');
+  //   styleSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
+  //
+  //   return styleSettingsFullHd;
+  // }
 
   private setDefaultStyleSettings() {
-    const defaultStyleSettings = this.createDefaultStyleSettings();
+    const defaultStyleSettings = this._settingsStoreFactoryRoutine.createSettings('1920px');
 
-    this.styleSettingsAll.subscribe(value => {
-      if (this._apmComponent) {
-        this._apmComponent.styleSettingsAll = value;
-      }
-    });
     this.styleSettingsAll.value.push(defaultStyleSettings);
-
-    this.styleSettingsCurrent.subscribe(value => {
-      if (this._apmComponent) {
-        this._apmComponent.styleSettingsCurrent = value;
-      }
-    });
     this.styleSettingsCurrent.setValue(defaultStyleSettings);
+  }
+
+  private setEvents() {
+    this.styleSettingsAll.value.subscribe(() => {
+      const sortedArray = _.reverse( _.sortBy(this.styleSettingsAll.value, x => parseInt(x.screenWidth.value, 10)));
+      this.styleSettingsAll.value.updateSilent(...sortedArray);
+    });
   }
 }
 

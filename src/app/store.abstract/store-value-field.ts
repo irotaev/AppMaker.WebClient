@@ -1,5 +1,6 @@
 import {StoreEventField} from './store-event-field';
 import {IStoreField} from './i-store-field';
+import {Subscription} from 'rxjs';
 
 export class StoreValueField<T> extends StoreEventField<T> {
   constructor(_name: string = null) {
@@ -14,12 +15,13 @@ export class StoreValueField<T> extends StoreEventField<T> {
     this.valueEvent.next(value);
   }
 
-  next($event: T) {
-    this.value = $event;
+  next(value: T) {
+    this.value = value;
+    this.valueEvent.next(value);
   }
 
   setValue(value: T): { value: T; storeField: IStoreField<T> } {
-    this.value = value;
+    this.next(value);
 
     return {value, storeField: this};
   }

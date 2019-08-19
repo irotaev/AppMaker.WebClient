@@ -24,14 +24,14 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   apmOnComponentInit() {
     super.apmOnComponentInit();
 
-    this.addStyleSettingsField('width', '200px');
-    this.addStyleSettingsField('height', '50px');
+    // this.addStyleSettingsField('width', '200px');
+    // this.addStyleSettingsField('height', '50px');
 
-    this.events.value.addField(new StoreEventField('onClick'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('onClick'));
   }
 
   @HostListener('click', ['$event'])
   onClick($event: MouseEvent) {
-    this.events.value.getField('onClick').next($event);
+    this.apmComponentSettingsStore.events.value.getField('onClick').next($event);
   }
 }

@@ -6,6 +6,7 @@ import {ListStore} from '../store/list.store';
 import {ComponentFactoryResolver, ComponentRef, Injectable, Type, ViewContainerRef} from '@angular/core';
 import {TypeFromStrRoutine} from './type-from-str.routine';
 import {AppComponent} from '../app.component';
+import {StyleSettingsStoreFactoryRoutine} from './style-settings-store.factory.routine';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,12 @@ export class ApmStoreFactoryRoutine {
     private _apmCFactoryRoutine: ApmCFactoryRoutine,
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _typeFromStrRoutine: TypeFromStrRoutine,
-    private _listStore: ListStore) {
+    private _listStore: ListStore,
+    private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
   }
 
   createApmComponentStore<T extends ApmComponent>(componentRef: ComponentRef<T> | Type<T> | string, parentComponentStoreUniqueId: string): ApmCStore<T> {
-    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
+    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore, this._settingsStoreFactoryRoutine);
 
     this._listStore.addStore(store);
 
@@ -37,7 +39,7 @@ export class ApmStoreFactoryRoutine {
   }
 
   createApmComponentStoreCustom<T extends ApmComponent>(componentType: ComponentRef<T> | Type<T> | string, insertToView: ViewContainerRef): ApmCStore<T> {
-    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
+    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore, this._settingsStoreFactoryRoutine);
 
     this._listStore.addStore(store);
 
@@ -52,7 +54,7 @@ export class ApmStoreFactoryRoutine {
   }
 
   createApmComponentStoreEmpty<T extends AppComponent>(): ApmCStore<T> {
-    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
+    const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore, this._settingsStoreFactoryRoutine);
 
     this._listStore.addStore(store);
 

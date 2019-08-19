@@ -1,18 +1,21 @@
 <div class="settings-wrapper">
-  <div class="settings-to-width-wrapper" *ngFor="let settingsBlock of styleSettingsAll">
+  <div *ngIf="apmComponentSettingsStore">
+    <div class="settings-to-width-wrapper"
+         *ngFor="let settingsBlock of apmComponentSettingsStore.styleSettingsAll.value">
 
-    <div class="settings-to-width-block">
-      <div class="width text">{{settingsBlock.screenWidth.value}}</div>
+      <div class="settings-to-width-block">
+        <div class="width text">{{settingsBlock.screenWidth.value}}</div>
 
-      <div class="settings-wrapper">
-        <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.value.fields">
-          <mat-form-field class="value">
-            <input matInput [placeholder]="settingsField.name" [(ngModel)]="settingsField.value"/>
-          </mat-form-field>
+        <div class="settings-wrapper">
+          <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.value.fields">
+            <mat-form-field class="value">
+              <input matInput [placeholder]="settingsField.name" [(ngModel)]="settingsField.value"/>
+            </mat-form-field>
+          </div>
         </div>
+
       </div>
 
     </div>
-
   </div>
 </div>

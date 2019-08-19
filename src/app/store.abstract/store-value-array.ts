@@ -19,6 +19,15 @@ export class StoreValueArray<T> extends Array<T> {
     return number;
   }
 
+  updateSilent(...items: T[]) {
+    this.removeSilent();
+    return super.push(...items);
+  }
+
+  removeSilent() {
+    _.remove(this, () => true);
+  }
+
   subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this._listEvent.subscribe(next, error, complete);
   }

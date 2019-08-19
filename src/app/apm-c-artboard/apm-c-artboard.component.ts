@@ -31,7 +31,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   set artboardScale(value: number) {
     this._artboardScale = value;
 
-    this.styleSettingsCurrent.getField('transform').setValue('scale(' + value + ')');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.getField('transform').setValue('scale(' + value + ')');
   }
 
   get artboarSize(): string {
@@ -65,8 +65,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
         width = value;
     }
 
-    this.styleSettingsCurrent.screenWidth.setValue(width);
-    this.styleSettingsCurrent.settings.value.getField('width').setValue(width);
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.screenWidth.setValue(width);
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('width').setValue(width);
 
     _.forEach(this._childApmComponentStoreIds, id => {
       const store = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(id);
@@ -95,10 +95,11 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
     this._childApmComponentStoreIds = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(this.uniqueId).childComponentStoreUniqueIds.value;
 
-    this.addStyleSettingsField('width', '1024px');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('width').setValue('1024px');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('height').setValue('calc(100% - 20px)');
     this.addStyleSettingsField('transform', 'scale(1)');
 
-    this.events.value.addField(new StoreEventField('drop'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('drop'));
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -111,6 +112,6 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   }
 
   drop($event: CdkDragDrop<ApmComponent>) {
-    this.events.value.getField('drop').next($event);
+    this.apmComponentSettingsStore.events.value.getField('drop').next($event);
   }
 }

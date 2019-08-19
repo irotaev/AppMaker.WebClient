@@ -9,7 +9,7 @@ import {StoreValueArray} from '../store.abstract/store-value-array';
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
-import {StyleSettingsStore} from "./style-settings.store";
+import {StyleSettingsStore} from './style-settings.store';
 
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
   constructor(

@@ -69,9 +69,6 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
         width = value;
     }
 
-    this.apmComponentSettingsStore.styleSettingsCurrent.value.screenWidth.setValue(width);
-    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('width').setValue(width);
-
     _.forEach(this._childApmComponentStoreIds, id => {
       const store = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(id);
 
@@ -82,6 +79,9 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
         store.styleSettingsAll.value.push(styleSettings);
       }
     });
+
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.screenWidth.setValue(width);
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('width').setValue(width);
   }
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;

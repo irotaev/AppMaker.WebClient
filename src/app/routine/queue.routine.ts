@@ -6,45 +6,51 @@ import {Injectable} from '@angular/core';
   providedIn: 'root',
 })
 export class QueueRoutine {
-  private readonly _routings = new Collections.Dictionary<string, Array<{ index: number, routing: (value: any) => void }>>();
+  private readonly _routines = new Collections.Dictionary<string, Array<{ index: number, routing: (value: any) => void }>>();
 
   addRoutine(key: string, index: number, routine: (value: any) => void) {
     let exists = false;
 
-    if (!this._routings.containsKey(key)) {
-      this._routings[key] = [];
+    if (!this._routines.containsKey(key)) {
+      this._routines.setValue(key, []);
       exists = true;
     }
 
-    this._routings.getValue(key).push({index, routing: routine});
+    this._routines.getValue(key).push({index, routing: routine});
 
     return exists;
   }
 
   next(key: string, value: any) {
-    if (!this._routings.containsKey(key)) {
+    if (!this._routines.containsKey(key)) {
       return;
     }
 
-    const getRouting = (index: number) => {
-      const element = _.find(this._routings.getValue(key), x => x.index < index);
+    const routines = _.sortBy(this._routines.getValue(key), x => x.index);
 
-      if (!element) {
-        return;
-      }
-
+    _.forEach(routines, element => {
       element.routing(value);
-      getRouting(element.index);
-    };
+    });
 
-    getRouting(_.maxBy(this._routings.getValue(key), x => x.index).index + 1);
+    // const getRouting = (index: number) => {
+    //   const element = _.find(this._routines.getValue(key), x => x.index < index);
+    //
+    //   if (!element) {
+    //     return;
+    //   }
+    //
+    //   element.routing(value);
+    //   getRouting(element.index);
+    // };
+    //
+    // getRouting(_.maxBy(this._routines.getValue(key), x => x.index).index + 1);
   }
 
   getLast(key: string): (value: any) => void {
-    if (!this._routings.containsKey(key)) {
+    if (!this._routines.containsKey(key)) {
       return null;
     }
 
-    return _.maxBy(this._routings.getValue(key), x => x.index).routing;
+    return _.maxBy(this._routines.getValue(key), x => x.index).routing;
   }
 }

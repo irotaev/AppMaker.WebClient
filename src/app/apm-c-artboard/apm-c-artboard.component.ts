@@ -3,10 +3,11 @@ import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {ListStore} from '../store/list.store';
-import {ApmCStore, StyleSettingsStore} from '../store/apm-c.store';
+import {ApmCStore} from '../store/apm-c.store';
 
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
+import {StyleSettingsStore} from "../store/style-settings.store";
 
 @Component({
   selector: 'apm-artboard',
@@ -14,7 +15,10 @@ import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.
   styleUrls: ['./apm-c-artboard.component.scss']
 })
 export class ApmCArtboardComponent extends ApmComponent implements OnInit, AfterViewInit {
-  constructor(injector: Injector, private _listStore: ListStore, private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
+  constructor(
+    injector: Injector,
+    private _listStore: ListStore,
+    private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
     super(injector, '__ApmCArtboard');
   }
 
@@ -81,7 +85,10 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   }
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
-  @ViewChild('artboardContainerWrapper', {read: ViewContainerRef, static: false}) artboardContainerWrapper: ViewContainerRef;
+  @ViewChild('artboardContainerWrapper', {
+    read: ViewContainerRef,
+    static: false
+  }) artboardContainerWrapper: ViewContainerRef;
 
   ngOnInit() {
   }
@@ -99,7 +106,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('height').setValue('calc(100% - 20px)');
     this.addStyleSettingsField('transform', 'scale(1)');
 
-    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('drop'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'drop'));
   }
 
   @HostListener('document:keydown', ['$event'])

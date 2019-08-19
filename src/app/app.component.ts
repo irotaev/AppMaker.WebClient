@@ -3,7 +3,7 @@ import {ApmCArtboardComponent} from './apm-c-artboard/apm-c-artboard.component';
 import {ApmComponent} from './apm-c.abstract/apm-c';
 import {ListStore} from './store/list.store';
 import {ApmCFactoryRoutine} from './routine/apm-c.factory.routine';
-import {ApmStoreFactoryRoutine} from './routine/apm-store.factory.routine';
+import {ApmCStoreFactoryRoutine} from './routine/apm-c-store.factory.routine';
 import {ApmCStore} from './store/apm-c.store';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material';
@@ -21,7 +21,7 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   constructor(injector: Injector,
               private _listStore: ListStore,
               private _apmCFactoryRoutine: ApmCFactoryRoutine,
-              private _apmStoreFactoryRoutine: ApmStoreFactoryRoutine,
+              private _apmStoreFactoryRoutine: ApmCStoreFactoryRoutine,
               private _matDialog: MatDialog) {
     super(injector, '__AppComponent');
   }

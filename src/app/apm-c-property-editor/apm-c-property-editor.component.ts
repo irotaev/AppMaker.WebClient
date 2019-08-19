@@ -16,5 +16,4 @@ export class ApmCPropertyEditorComponent extends ApmComponent implements OnInit 
 
   ngOnInit() {
   }
-
 }

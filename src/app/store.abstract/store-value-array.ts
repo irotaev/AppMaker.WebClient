@@ -1,11 +1,12 @@
 import {BehaviorSubject, Subscription} from 'rxjs';
 import * as _ from 'lodash';
+import {QueueRoutine} from '../routine/queue.routine';
 
 
 export class StoreValueArray<T> extends Array<T> {
   protected readonly _listEvent = new BehaviorSubject<T>(null);
 
-  constructor(_name: string = null) {
+  constructor(protected _queueRoutine: QueueRoutine, _name: string = null) {
     super();
   }
 
@@ -30,5 +31,22 @@ export class StoreValueArray<T> extends Array<T> {
 
   subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this._listEvent.subscribe(next, error, complete);
+  }
+
+  subscribeWithOrder(
+    key: string,
+    index: number,
+    next?: (value: T) => void,
+    error?: (error: any) => void,
+    complete?: () => void): string {
+
+    if (this._queueRoutine.addRoutine(key, index, next)) {
+
+      this._listEvent.subscribe((value: T) => {
+        this._queueRoutine.next(key, value);
+      }, error, complete);
+    }
+
+    return key;
   }
 }

@@ -1,5 +1,4 @@
 import {Store} from '../store.abstract/store';
-import {StoreValueField} from '../store.abstract/store-value-field';
 import {UniqueElementRoutine} from '../routine/unique-element.routine';
 import {ApmCFactoryRoutine} from '../routine/apm-c.factory.routine';
 import {ListStore} from './list.store';
@@ -9,14 +8,27 @@ import {StoreValueArray} from '../store.abstract/store-value-array';
 
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
+import {StoreFactoryRoutine} from '../routine/store.factory.routine';
+import {StyleSettingsStore} from "./style-settings.store";
 
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
+  constructor(
+    _uniqueElementService: UniqueElementRoutine,
+    private _apmCFactoryRoutine: ApmCFactoryRoutine,
+    private _listStore: ListStore,
+    private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine,
+    private _storeFactoryRoutine: StoreFactoryRoutine) {
+    super(_uniqueElementService);
+    this.bindFields();
 
-  parentComponentStoreUniqueId = new StoreValueField<string>();
-  childComponentStoreUniqueIds = new StoreValueField<string[]>().setValue([]).storeField;
-  styleSettingsAll = new StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(new StoreValueArray<StyleSettingsStore>()).storeField;
-  styleSettingsCurrent = new StoreValueField<StyleSettingsStore>();
-  events = new StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
+    this.setEvents();
+  }
+
+  parentComponentStoreUniqueId = this._storeFactoryRoutine.StoreValueField<string>();
+  childComponentStoreUniqueIds = this._storeFactoryRoutine.StoreValueField<string[]>().setValue([]).storeField;
+  styleSettingsAll = this._storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(this._storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
+  styleSettingsCurrent = this._storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
+  events = this._storeFactoryRoutine.StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
   componentType: string | Type<TComponent>;
 
   private _apmComponentRef: ComponentRef<TComponent>;
@@ -37,17 +49,6 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this._apmComponentRef = component;
 
     this.syncStoreToComponentIds();
-  }
-
-  constructor(
-    _uniqueElementService: UniqueElementRoutine,
-    private _apmCFactoryRoutine: ApmCFactoryRoutine,
-    private _listStore: ListStore,
-    private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
-    super(_uniqueElementService);
-    this.bindFields();
-
-    this.setEvents();
   }
 
   public initComponent(componentRef: ComponentRef<TComponent> = null) {
@@ -125,18 +126,9 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
 
   private setEvents() {
     this.styleSettingsAll.value.subscribe(() => {
-      const sortedArray = _.reverse( _.sortBy(this.styleSettingsAll.value, x => parseInt(x.screenWidth.value, 10)));
+      const sortedArray = _.reverse(_.sortBy(this.styleSettingsAll.value, x => parseInt(x.screenWidth.value, 10)));
       this.styleSettingsAll.value.updateSilent(...sortedArray);
     });
   }
 }
 
-export class StyleSettingsStore extends Store {
-  screenWidth = new StoreValueField<string>();
-  settings = new StoreValueField<Store>();
-
-  constructor(uniqueElementService: UniqueElementRoutine) {
-    super(uniqueElementService);
-    this.bindFields();
-  }
-}

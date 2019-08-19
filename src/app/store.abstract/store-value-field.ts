@@ -1,9 +1,10 @@
 import {StoreEventField} from './store-event-field';
 import {IStoreField} from './i-store-field';
+import {QueueRoutine} from '../routine/queue.routine';
 
 export class StoreValueField<T> extends StoreEventField<T> {
-  constructor(_name: string = null) {
-    super(_name);
+  constructor(_queueRoutine: QueueRoutine, _name: string = null) {
+    super(_queueRoutine, _name);
   }
 
   get value(): T {

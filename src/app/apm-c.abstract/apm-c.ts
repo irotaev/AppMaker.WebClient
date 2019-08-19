@@ -6,17 +6,20 @@ import * as _ from 'lodash';
 import {Store} from '../store.abstract/store';
 import {IStoreField} from '../store.abstract/i-store-field';
 import {Subscription} from 'rxjs';
+import {QueueRoutine} from '../routine/queue.routine';
 
 export abstract class ApmComponent implements AfterViewInit {
   protected _elementRef: ElementRef;
-  private readonly _renderer2: Renderer2;
-  private readonly _changeDetectorRef: ChangeDetectorRef;
-  private _styleSettingsSubscriptions: Subscription[] = [];
+  protected readonly _renderer2: Renderer2;
+  protected readonly _changeDetectorRef: ChangeDetectorRef;
+  protected readonly _queueRoutine: QueueRoutine;
+  protected _styleSettingsSubscriptions: Subscription[] = [];
 
   protected constructor(injector: Injector, uniqueId: string = null) {
     this._elementRef = injector.get<ElementRef>(ElementRef);
     this._renderer2 = injector.get(Renderer2);
     this._changeDetectorRef = injector.get(ChangeDetectorRef);
+    this._queueRoutine = injector.get(QueueRoutine);
 
     this.uniqueId = uniqueId;
   }
@@ -60,7 +63,7 @@ export abstract class ApmComponent implements AfterViewInit {
   //#region StyleSettingsStore
 
   protected addStyleSettingsField(name: string, value: string) {
-    const field = new StoreValueField<string>(name).setValue(value);
+    const field = new StoreValueField<string>(this._queueRoutine, name).setValue(value);
 
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.addField(field.storeField);
     // this.styleSettingsCurrent.settings.subscribe((settings: StoreValueField<Store>) => {

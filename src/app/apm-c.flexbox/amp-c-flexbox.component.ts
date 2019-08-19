@@ -27,7 +27,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     // this.addStyleSettingsField('width', '200px');
     // this.addStyleSettingsField('height', '50px');
 
-    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('onClick'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'onClick'));
   }
 
   @HostListener('click', ['$event'])

@@ -2,6 +2,11 @@ import {AfterViewInit, Component, HostListener, Injector, OnInit, ViewChild, Vie
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {StoreEventField} from '../store.abstract/store-event-field';
+import {ListStore} from '../store/list.store';
+import {ApmCStore, StyleSettingsStore} from '../store/apm-c.store';
+
+import * as _ from 'lodash';
+import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
 
 @Component({
   selector: 'apm-artboard',
@@ -9,13 +14,15 @@ import {StoreEventField} from '../store.abstract/store-event-field';
   styleUrls: ['./apm-c-artboard.component.scss']
 })
 export class ApmCArtboardComponent extends ApmComponent implements OnInit, AfterViewInit {
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private _listStore: ListStore, private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
     super(injector, '__ApmCArtboard');
   }
 
   private _artboarSize = 'tablet';
 
   private _artboardScale = 1;
+
+  private _childApmComponentStoreIds: string[] = [];
 
   get artboardScale(): number {
     return this._artboardScale;
@@ -60,6 +67,17 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
     this.styleSettingsCurrent.screenWidth.setValue(width);
     this.styleSettingsCurrent.settings.value.getField('width').setValue(width);
+
+    _.forEach(this._childApmComponentStoreIds, id => {
+      const store = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(id);
+
+      let styleSettings = _.find<StyleSettingsStore>(store.styleSettingsAll.value, x => x.screenWidth.value === width);
+      if (!styleSettings) {
+        styleSettings = this._styleSettingsStoreFactoryRoutine.createSettings(width);
+
+        store.styleSettingsAll.value.push(styleSettings);
+      }
+    });
   }
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
@@ -74,6 +92,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
   apmOnComponentInit() {
     super.apmOnComponentInit();
+
+    this._childApmComponentStoreIds = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(this.uniqueId).childComponentStoreUniqueIds.value;
 
     this.addStyleSettingsField('width', '1024px');
     this.addStyleSettingsField('transform', 'scale(1)');

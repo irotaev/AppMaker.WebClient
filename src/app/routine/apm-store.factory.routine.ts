@@ -22,6 +22,8 @@ export class ApmStoreFactoryRoutine {
   createApmComponentStore<T extends ApmComponent>(componentRef: ComponentRef<T> | Type<T> | string, parentComponentStoreUniqueId: string): ApmCStore<T> {
     const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
 
+    this._listStore.addStore(store);
+
     if (componentRef instanceof ComponentRef) {
       store.parentComponentStoreUniqueId.setValue(parentComponentStoreUniqueId);
       store.initComponent(componentRef);
@@ -31,13 +33,13 @@ export class ApmStoreFactoryRoutine {
       store.initComponent();
     }
 
-    this._listStore.addStore(store);
-
     return store;
   }
 
   createApmComponentStoreCustom<T extends ApmComponent>(componentType: ComponentRef<T> | Type<T> | string, insertToView: ViewContainerRef): ApmCStore<T> {
     const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore);
+
+    this._listStore.addStore(store);
 
     if (componentType instanceof ComponentRef) {
       store.initComponent(componentType as ComponentRef<T>);
@@ -45,8 +47,6 @@ export class ApmStoreFactoryRoutine {
       const component = this._apmCFactoryRoutine.createComponent(componentType, insertToView);
       store.initComponent(component);
     }
-
-    this._listStore.addStore(store);
 
     return store;
   }

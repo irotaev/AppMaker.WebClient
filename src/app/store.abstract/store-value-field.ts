@@ -1,6 +1,5 @@
 import {StoreEventField} from './store-event-field';
 import {IStoreField} from './i-store-field';
-import {Subscription} from 'rxjs';
 
 export class StoreValueField<T> extends StoreEventField<T> {
   constructor(_name: string = null) {
@@ -22,6 +21,12 @@ export class StoreValueField<T> extends StoreEventField<T> {
 
   setValue(value: T): { value: T; storeField: IStoreField<T> } {
     this.next(value);
+
+    return {value, storeField: this};
+  }
+
+  setValueSilent(value: T): { value: T; storeField: IStoreField<T> } {
+    this.value = value;
 
     return {value, storeField: this};
   }

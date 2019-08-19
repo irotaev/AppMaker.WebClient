@@ -116,14 +116,6 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this._apmComponent.uniqueId = this._apmComponent.uniqueId || this.uniqueId;
   }
 
-  // private createDefaultStyleSettings(): StyleSettingsStore {
-  //   const styleSettingsFullHd = new StyleSettingsStore(this._uniqueElementService);
-  //   styleSettingsFullHd.screenWidth.setValue('1920px');
-  //   styleSettingsFullHd.settings.setValue(new Store(this._uniqueElementService));
-  //
-  //   return styleSettingsFullHd;
-  // }
-
   private setDefaultStyleSettings() {
     const defaultStyleSettings = this._settingsStoreFactoryRoutine.createSettings('1920px');
 

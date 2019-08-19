@@ -28,6 +28,7 @@ $textLineHeightH2: 23px;
   @if ($mode == 'span') {
     font-size: $textSizeSpan;
     line-height: $textLineHeightSpan;
+    color: lighten($colorBlack1, 10%);
   } @elseif ($mode == 'h2') {
     font-size: $textSizeH2;
     line-height: $textLineHeightH2;
@@ -40,3 +41,7 @@ $textLineHeightH2: 23px;
   }
 }
 //#region
+
+//#Element sizes
+$elSizeSwitcher: 20px;
+//#endregion

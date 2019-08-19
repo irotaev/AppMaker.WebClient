@@ -21,7 +21,7 @@
     left: 0;
     width: 100%;
     overflow: hidden;
-    height: $gapBase;
+    height: $elSizeSwitcher;
 
     .resizer {
       position: absolute;
@@ -34,7 +34,7 @@
       background-color: $colorGreyLight;
       cursor: pointer;
       text-align: center;
-      @include text('h2');
+      @include text('span');
 
       &:hover {
         background-color: darken($colorGreyLight, +10%);
@@ -63,8 +63,8 @@
 
   .artboard {
     width: 100%;
-    height: calc(100% - #{$gapBase});
-    margin-top: $gapBase;
+    height: calc(100% - #{$elSizeSwitcher});
+    margin-top: $elSizeSwitcher;
     background-color: white;
 
     &.laptop-l {

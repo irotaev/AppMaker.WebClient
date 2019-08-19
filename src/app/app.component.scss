@@ -18,7 +18,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      width: 14*$gapBase;
+      width: 280px;
       background-color: white;
       z-index: 1000;
       border-right: 1px solid $colorGreyLight;
@@ -27,7 +27,7 @@
         flex: 1;
       }
       .store-properties {
-        padding: $gapBase;
+        padding: 2*$gapBase;
       }
 
       .switchers-wrapper {

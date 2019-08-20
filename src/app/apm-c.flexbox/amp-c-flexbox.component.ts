@@ -1,6 +1,7 @@
 import {Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -28,5 +29,9 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   @HostListener('click', ['$event'])
   onClick($event: MouseEvent) {
     this.apmComponentSettingsStore.events.value.getField('onClick').next($event);
+  }
+
+  drop($event: CdkDragDrop<any>) {
+    console.log($event);
   }
 }

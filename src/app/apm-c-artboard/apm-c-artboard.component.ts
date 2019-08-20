@@ -1,24 +1,36 @@
-import {AfterViewInit, Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Injector,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {ListStore} from '../store/list.store';
 import {ApmCStore} from '../store/apm-c.store';
 
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
-import {StyleSettingsStore} from "../store/style-settings.store";
+import {StyleSettingsStore} from '../store/style-settings.store';
+import {DragdropRoutine} from '../routine/dragdrop.routine';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-artboard',
   templateUrl: './apm-c-artboard.component.html',
   styleUrls: ['./apm-c-artboard.component.scss']
 })
-export class ApmCArtboardComponent extends ApmComponent implements OnInit, AfterViewInit {
+export class ApmCArtboardComponent extends ApmComponent implements OnInit, AfterViewInit, AfterContentInit {
   constructor(
     injector: Injector,
     private _listStore: ListStore,
-    private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine) {
+    private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine,
+    private _dragdropRoutine: DragdropRoutine) {
     super(injector, '__ApmCArtboard');
   }
 
@@ -86,15 +98,19 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
   @ViewChild('artboardContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
   @ViewChild('artboardContainerWrapper', {
-    read: ViewContainerRef,
+    read: ElementRef,
     static: false
-  }) artboardContainerWrapper: ViewContainerRef;
+  }) artboardContainerWrapper: ElementRef;
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this._elementRef = this.artboardContainerWrapper.element;
+    this._elementRef = this.artboardContainerWrapper;
+  }
+
+  ngAfterContentInit(): void {
+
   }
 
   apmOnComponentInit() {

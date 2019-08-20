@@ -1,2 +1,8 @@
+<div
+  cdkDropList
+  id="artboardContainer"
+  [cdkDropListConnectedTo]="['cLinkList']"
+  (cdkDropListDropped)="drop($event)">
 <ng-container #childComponentsContainer></ng-container>
+</div>
 

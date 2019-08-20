@@ -31,19 +31,6 @@ export class QueueRoutine {
     _.forEach(routines, element => {
       element.routing(value);
     });
-
-    // const getRouting = (index: number) => {
-    //   const element = _.find(this._routines.getValue(key), x => x.index < index);
-    //
-    //   if (!element) {
-    //     return;
-    //   }
-    //
-    //   element.routing(value);
-    //   getRouting(element.index);
-    // };
-    //
-    // getRouting(_.maxBy(this._routines.getValue(key), x => x.index).index + 1);
   }
 
   getLast(key: string): (value: any) => void {

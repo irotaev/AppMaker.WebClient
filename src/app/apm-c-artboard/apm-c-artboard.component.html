@@ -8,13 +8,7 @@
     <div class="resizer mobile-s text" (click)="artboarSize='mobile-s'">{{artboarSize}}</div>
   </div>
 
-  <div
-    #artboardContainerWrapper
-    cdkDropList
-    id="artboardContainer"
-    [cdkDropListConnectedTo]="['cLinkList']"
-    (cdkDropListDropped)="drop($event)"
-    class="artboard">
+  <div #artboardContainerWrapper class="artboard">
     <ng-template #artboardContainer></ng-template>
   </div>
 </section>

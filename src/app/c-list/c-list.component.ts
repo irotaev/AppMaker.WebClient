@@ -3,6 +3,9 @@ import {AmpCFlexboxComponent} from '../apm-c.flexbox/amp-c-flexbox.component';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {DragdropRoutine} from '../routine/dragdrop.routine';
 
+import * as _ from 'lodash';
+import {DragRef} from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'apm-c-list',
   templateUrl: './c-list.component.html',
@@ -12,7 +15,7 @@ export class CListComponent implements OnInit, AfterViewInit {
 
   draggableComponents: Type<ApmComponent>[] = [];
 
-  constructor(private _elementRef: ElementRef, private _dragdropRoutine: DragdropRoutine) {
+  constructor(private _dragdropRoutine: DragdropRoutine) {
   }
 
   @ViewChild('cLinkList', {static: false}) cLinkList: ElementRef;
@@ -22,8 +25,28 @@ export class CListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // const dropList = this._dragdropRoutine.createCdkDropList(undefined);
-    // dropList.id = 'cLinkList';
-    // dropList.connectedTo = 'artboardContainer';
+    const dropListRef = this._dragdropRoutine.createCdkDropListService(this.cLinkList, 'cLinkList');
+
+    const dragRefs = new Array<DragRef>();
+
+    _.forEach(this.cLinkList.nativeElement.querySelectorAll('.component-link'), element => {
+      const dragRef = this._dragdropRoutine.createCdkDragService(element);
+      dragRef._withDropContainer(dropListRef);
+      dragRef.data = this.draggableComponents[0];
+      dragRefs.push(dragRef);
+    });
+
+    dropListRef.withItems(dragRefs);
+
+    setTimeout(() => {
+      this.configLinkDropList();
+    }, 1000);
+
+  }
+
+  configLinkDropList() {
+    const cLinkDropListRef = this._dragdropRoutine.getCdkDropListService('cLinkList');
+    const artboardDropListRef = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
+    cLinkDropListRef.connectedTo([artboardDropListRef]);
   }
 }

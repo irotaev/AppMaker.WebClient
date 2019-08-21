@@ -5,12 +5,12 @@ import {ListStore} from './store/list.store';
 import {ApmCFactoryRoutine} from './routine/apm-c.factory.routine';
 import {ApmCStoreFactoryRoutine} from './routine/apm-c-store.factory.routine';
 import {ApmCStore} from './store/apm-c.store';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
 
 import * as Blockly from 'blockly';
+import {DragRef} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-root',
@@ -62,12 +62,14 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
     const apmCAppStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__AppComponent');
     const apmCArtboardStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
 
-    apmCArtboardStore.events.value.getField('drop').subscribe(($dropEvent: CdkDragDrop<ApmComponent>) => {
-      if (!$dropEvent) {
+    apmCArtboardStore.events.value.getField('drop').subscribe((...args) => {
+      const item: DragRef = args[0] && args[0][0] as DragRef;
+
+      if (!item) {
         return;
       }
 
-      const componentFlexboxStore = this._apmStoreFactoryRoutine.createApmComponentStore($dropEvent.item.data, apmCArtboardStore.uniqueId);
+      const componentFlexboxStore = this._apmStoreFactoryRoutine.createApmComponentStore(item.data, apmCArtboardStore.uniqueId);
 
       this.apmCPropertyListContainer.clear();
       const apmCPropertyEditorComponentStore = this._apmStoreFactoryRoutine

@@ -17,8 +17,9 @@ import {ApmCStore} from '../store/apm-c.store';
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
 import {StyleSettingsStore} from '../store/style-settings.store';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
+import {DragdropRoutine} from '../routine/dragdrop.routine';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-artboard',
@@ -30,7 +31,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     injector: Injector,
     private _listStore: ListStore,
     private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine,
-    private _storeFactoryRoutine: StoreFactoryRoutine) {
+    private _storeFactoryRoutine: StoreFactoryRoutine,
+    private _dragdropRoutine: DragdropRoutine) {
     super(injector, '__ApmCArtboard');
   }
 
@@ -125,6 +127,18 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     this.addStyleSettingsField('transform', 'scale(1)');
 
     this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'drop'));
+
+    this.configArtboardDropList();
+  }
+
+  configArtboardDropList() {
+    this._dragdropRoutine.createCdkDropListService(this.artboardContainerWrapper, 'artboardContainerWrapper');
+
+    const dropList = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
+    dropList.withItems([]);
+    dropList.drop = (...$event) => {
+      this.apmComponentSettingsStore.events.value.getField('drop').next($event);
+    };
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -134,9 +148,5 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     } else if ($event.altKey && ($event.key === '-' || $event.key === '_') && this.artboardScale > 0.6) {
       this.artboardScale -= 0.1;
     }
-  }
-
-  drop($event: CdkDragDrop<ApmComponent>) {
-    this.apmComponentSettingsStore.events.value.getField('drop').next($event);
   }
 }

@@ -8,6 +8,7 @@ import {ApmCStore} from './store/apm-c.store';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
+import {ApmCBlockyComponent} from './apm-c.blocky/apm-c-blocky.component';
 
 @Component({
   selector: 'apm-root',
@@ -29,6 +30,7 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
   @ViewChild('childComponentsContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
   @ViewChild('apmCArtboard', {read: ViewContainerRef, static: false}) apmCArtboard: ViewContainerRef;
   @ViewChild('apmCPropertyListContainer', {read: ViewContainerRef, static: false}) apmCPropertyListContainer: ViewContainerRef;
+  @ViewChild('apmCBlockyContainer', {read: ViewContainerRef, static: false}) apmCBlockyContainer: ViewContainerRef;
 
   ngOnInit(): void {
     // @ts-ignore
@@ -46,6 +48,9 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
     apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
     apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
 
+    // ApmCBlocky
+    //
+    const apmCBlockyStore = this._apmStoreFactoryRoutine.createApmComponentStoreCustom(ApmCBlockyComponent, this.apmCBlockyContainer);
 
     // ------------------------------------------------------------------------------
     // Application Events

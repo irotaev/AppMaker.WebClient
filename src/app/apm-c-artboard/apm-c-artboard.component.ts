@@ -17,8 +17,8 @@ import {ApmCStore} from '../store/apm-c.store';
 import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
 import {StyleSettingsStore} from '../store/style-settings.store';
-import {DragdropRoutine} from '../routine/dragdrop.routine';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 
 @Component({
   selector: 'apm-artboard',
@@ -30,7 +30,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
     injector: Injector,
     private _listStore: ListStore,
     private _styleSettingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine,
-    private _dragdropRoutine: DragdropRoutine) {
+    private _storeFactoryRoutine: StoreFactoryRoutine) {
     super(injector, '__ApmCArtboard');
   }
 
@@ -118,8 +118,10 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
     this._childApmComponentStoreIds = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(this.uniqueId).childComponentStoreUniqueIds.value;
 
-    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('width').setValue('1024px');
-    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('height').setValue('calc(100% - 20px)');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
+      .addField(this._storeFactoryRoutine.StoreValueField('width')).field.setValue('1024px');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
+      .addField(this._storeFactoryRoutine.StoreValueField('height')).field.setValue('calc(100% - 20px)');
     this.addStyleSettingsField('transform', 'scale(1)');
 
     this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'drop'));
@@ -131,6 +133,8 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
       this.artboardScale += 0.1;
     } else if ($event.altKey && ($event.key === '-' || $event.key === '_') && this._artboardScale > 0.6) {
       this.artboardScale -= 0.1;
+    } else if ($event.altKey && $event.key === 'Escape') {
+
     }
   }
 

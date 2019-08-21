@@ -34,31 +34,40 @@ export abstract class ApmComponent implements AfterViewInit {
 
   apmOnComponentInit() {
     this.apmComponentSettingsStore.styleSettingsCurrent.subscribe((settings: Store) => {
+      this.updateStyleSubscriptions(settings);
 
-      _.forEach(this._styleSettingsSubscriptions, s => {
-        s.unsubscribe();
+      this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.subscribe((field: IStoreField<any>) => {
+        if (!field) {
+          return;
+        }
+
+        this.addFieldSubscription(field);
       });
-      this._styleSettingsSubscriptions = [];
-
-      _.forEach(settings.getField<Store>('settings').value.fields, (field: IStoreField<any>) => {
-        this._styleSettingsSubscriptions.push(field.subscribe(() => {
-
-          const styleObj = this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.toNameValueJson();
-          _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
-            this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
-          });
-
-          this._changeDetectorRef.detectChanges();
-        }));
-      });
-
     });
   }
 
-  // onClick($event: MouseEvent) {
-  //   const createApmCPropertyEditorRoutine = this._injector.get('StoreToClassAdapter');
-  //   // createApmCPropertyEditorRoutine.Do(this._componentSettings);
-  // }
+  private updateStyleSubscriptions(settings: Store) {
+    _.forEach(this._styleSettingsSubscriptions, s => {
+      s.unsubscribe();
+    });
+    this._styleSettingsSubscriptions = [];
+
+    _.forEach(settings.getField<Store>('settings').value.fields, (field: IStoreField<any>) => {
+      this.addFieldSubscription(field);
+    });
+  }
+
+  private addFieldSubscription(field: IStoreField<any>) {
+    this._styleSettingsSubscriptions.push(field.subscribe(() => {
+
+      const styleObj = this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.toNameValueJson();
+      _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
+        this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
+      });
+
+      this._changeDetectorRef.detectChanges();
+    }));
+  }
 
   //#region StyleSettingsStore
 

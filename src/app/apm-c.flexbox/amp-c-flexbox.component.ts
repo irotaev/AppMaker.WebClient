@@ -2,6 +2,7 @@ import {Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} 
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -10,7 +11,7 @@ import {CdkDragDrop} from '@angular/cdk/drag-drop';
 })
 export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private _storeFactoryRoutine: StoreFactoryRoutine) {
     super(injector);
   }
 
@@ -23,6 +24,10 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   apmOnComponentInit() {
     super.apmOnComponentInit();
 
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
+      .addField(this._storeFactoryRoutine.StoreValueField('width')).field.setValue('200px');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
+      .addField(this._storeFactoryRoutine.StoreValueField('height')).field.setValue('50px');
     this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'onClick'));
   }
 

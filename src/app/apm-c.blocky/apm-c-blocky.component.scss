@@ -1,0 +1,23 @@
+@import "~src/framework";
+
+.blocky {
+  position: absolute;
+  left: 2*$gapBase;
+  top: 2*$gapBase;
+  bottom: 2*$gapBase;
+  right: 2*$gapBase;
+  background-color: white;
+  z-index: 10000;
+  border: 1px solid $colorGreyLight;
+
+  .close {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    padding: $gapBase;
+    cursor: pointer;
+
+    @include text('h2');
+  }
+}

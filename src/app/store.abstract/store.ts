@@ -4,10 +4,12 @@ import {UniqueElementRoutine} from '../routine/unique-element.routine';
 import * as _ from 'lodash';
 import {IStoreField} from './i-store-field';
 import {StoreEventField} from './store-event-field';
+import {BehaviorSubject, Subscription} from 'rxjs';
 
 export class Store implements IStore {
   uniqueId: string;
   private readonly _fields: IStoreField<any>[] = [];
+  private readonly _addFieldEvent = new BehaviorSubject<IStoreField<any>>(null);
 
   constructor(protected _uniqueElementService: UniqueElementRoutine) {
     this.uniqueId = this._uniqueElementService.generateUniqueId();
@@ -28,6 +30,8 @@ export class Store implements IStore {
 
     this._fields.push(field);
 
+    this._addFieldEvent.next(field);
+
     return {field, store: this};
   }
 
@@ -47,6 +51,10 @@ export class Store implements IStore {
     });
 
     return json;
+  }
+
+  subscribe<T extends IStoreField<any>>(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+    return this._addFieldEvent.subscribe(next, error, complete);
   }
 
   protected bindFields() {

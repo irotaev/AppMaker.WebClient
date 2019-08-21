@@ -18,9 +18,9 @@ export class StyleSettingsStoreFactoryRoutine {
   createSettings(width: string): StyleSettingsStore {
     const settingsStore = this._storeFactoryRoutine.StyleSettingsStore();
     settingsStore.screenWidth.setValue(width);
-    settingsStore.settings.setValue(new Store(this._uniqueElementRoutine)
-      .addField(this._storeFactoryRoutine.StoreValueField('width').setValue('200px').storeField).store
-      .addField(this._storeFactoryRoutine.StoreValueField('height').setValue('50px').storeField).store);
+    settingsStore.settings.setValue(new Store(this._uniqueElementRoutine));
+      // .addField(this._storeFactoryRoutine.StoreValueField('width').setValue('200px').storeField).store
+      // .addField(this._storeFactoryRoutine.StoreValueField('height').setValue('50px').storeField).store);
 
     return settingsStore;
   }

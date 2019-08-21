@@ -16,6 +16,7 @@ import {CListComponent} from './c-list/c-list.component';
 import {AmpCFlexboxComponent} from './apm-c.flexbox/amp-c-flexbox.component';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 import {FormsModule} from '@angular/forms';
+import { ApmCBlockyComponent } from './apm-c.blocky/apm-c-blocky.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {FormsModule} from '@angular/forms';
     ApmCArtboardComponent,
     CListComponent,
     AmpCFlexboxComponent,
-    ApmCPropertyEditorComponent
+    ApmCPropertyEditorComponent,
+    ApmCBlockyComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import {FormsModule} from '@angular/forms';
   entryComponents: [
     AmpCFlexboxComponent,
     ApmCPropertyEditorComponent,
-    ApmCArtboardComponent
+    ApmCArtboardComponent,
+    ApmCBlockyComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

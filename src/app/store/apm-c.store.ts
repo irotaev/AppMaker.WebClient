@@ -30,6 +30,7 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   styleSettingsCurrent = this._storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
   events = this._storeFactoryRoutine.StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
   componentType: string | Type<TComponent>;
+  customSettings = this._storeFactoryRoutine.StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
 
   private _apmComponentRef: ComponentRef<TComponent>;
 

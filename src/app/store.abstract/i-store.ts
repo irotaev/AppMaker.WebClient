@@ -1,6 +1,7 @@
 import {IUniqueElement} from '../abstract/i-unique-element';
 import {IStoreField} from './i-store-field';
 import {Store} from './store';
+import {Subscription} from 'rxjs';
 
 export interface IStore extends IUniqueElement {
 
@@ -13,4 +14,6 @@ export interface IStore extends IUniqueElement {
   getFieldByIndex<T>(index: number): IStoreField<T>;
 
   toNameValueJson(): object;
+
+  subscribe<T extends IStoreField<any>>(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription;
 }

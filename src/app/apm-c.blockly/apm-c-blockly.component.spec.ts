@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApmCBlockyComponent } from './apm-c-blocky.component';
+import { ApmCBlocklyComponent } from './apm-c-blockly.component';
 
-describe('ApmCBlockyComponent', () => {
-  let component: ApmCBlockyComponent;
-  let fixture: ComponentFixture<ApmCBlockyComponent>;
+describe('ApmCBlocklyComponent', () => {
+  let component: ApmCBlocklyComponent;
+  let fixture: ComponentFixture<ApmCBlocklyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApmCBlockyComponent ]
+      declarations: [ ApmCBlocklyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApmCBlockyComponent);
+    fixture = TestBed.createComponent(ApmCBlocklyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

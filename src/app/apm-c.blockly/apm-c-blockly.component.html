@@ -1,0 +1,8 @@
+<div class="section blocky" [ngStyle]="{'display': show ? 'block' : 'none'}">
+  <div class="actions-wrapper">
+    <div class="text apply" (click)="apply($event)">Apply</div>
+    <div class="text close" (click)="show = false">X</div>
+  </div>
+
+  <div id="blocklyDiv" class="blockly-div"></div>
+</div>

@@ -10,14 +10,25 @@
   z-index: 10000;
   border: 1px solid $colorGreyLight;
 
-  .close {
+  .actions-wrapper {
     position: absolute;
-    display: block;
     right: 0;
     top: 0;
+    display: flex;
+    z-index: 10;
     padding: $gapBase;
+  }
+
+  .close, .apply {
+    padding-left: $gapBase/2;
     cursor: pointer;
 
     @include text('h2');
+  }
+
+  .blockly-div {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 }

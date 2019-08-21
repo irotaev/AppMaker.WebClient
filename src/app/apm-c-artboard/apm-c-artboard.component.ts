@@ -47,7 +47,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
   set artboardScale(value: number) {
     this._artboardScale = value;
 
-    this.apmComponentSettingsStore.styleSettingsCurrent.value.getField('transform').setValue('scale(' + value + ')');
+    this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.getField('transform').setValue('scale(' + value + ')');
   }
 
   get artboarSize(): string {
@@ -129,12 +129,10 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
   @HostListener('document:keydown', ['$event'])
   onKeydown($event: KeyboardEvent) {
-    if ($event.altKey && ($event.key === '+' || $event.key === '=') && this._artboardScale < 1) {
+    if ($event.altKey && ($event.key === '+' || $event.key === '=') && this.artboardScale < 1) {
       this.artboardScale += 0.1;
-    } else if ($event.altKey && ($event.key === '-' || $event.key === '_') && this._artboardScale > 0.6) {
+    } else if ($event.altKey && ($event.key === '-' || $event.key === '_') && this.artboardScale > 0.6) {
       this.artboardScale -= 0.1;
-    } else if ($event.altKey && $event.key === 'Escape') {
-
     }
   }
 

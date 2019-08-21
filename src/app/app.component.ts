@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ComponentRef, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, ComponentRef, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmCArtboardComponent} from './apm-c-artboard/apm-c-artboard.component';
 import {ApmComponent} from './apm-c.abstract/apm-c';
 import {ListStore} from './store/list.store';
@@ -8,7 +8,9 @@ import {ApmCStore} from './store/apm-c.store';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
-import {ApmCBlockyComponent} from './apm-c.blocky/apm-c-blocky.component';
+import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
+
+import * as Blockly from 'blockly';
 
 @Component({
   selector: 'apm-root',
@@ -48,14 +50,12 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
     apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
     apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
 
-    // ApmCBlocky
-    //
-    const apmCBlockyStore = this._apmStoreFactoryRoutine.createApmComponentStoreCustom(ApmCBlockyComponent, this.apmCBlockyContainer);
-
     // ------------------------------------------------------------------------------
     // Application Events
     //
     this.bindEvents();
+
+    this.initBlockly();
   }
 
   private bindEvents() {
@@ -75,5 +75,61 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
       apmCPropertyEditorComponentStore.styleSettingsAll.setValue(componentFlexboxStore.styleSettingsAll.value);
       apmCPropertyEditorComponentStore.styleSettingsCurrent.setValue(componentFlexboxStore.styleSettingsCurrent.value);
     });
+  }
+
+  private initBlockly() {
+    const apmCBlockyStore = this._apmStoreFactoryRoutine.createApmComponentStoreCustom(ApmCBlocklyComponent, this.apmCBlockyContainer);
+
+    // @ts-ignore
+    Blockly.Blocks.log = {
+      init() {
+        this.jsonInit({
+          message0: 'log %1',
+          args0: [
+            {
+              type: 'input_value',
+              name: 'VALUE',
+              check: 'String'
+            }
+          ],
+          output: 'String',
+          colour: 160,
+          tooltip: 'Log it'
+        });
+      }
+    };
+
+    // @ts-ignore
+    Blockly.JavaScript.log = (block) => {
+      // @ts-ignore
+      return ['document.ListStore.getStoreByUniqueId(\'__ApmCBlocklyComponent\').customSettings.value.getField(\'show\').setValue(true)', Blockly.JavaScript.ORDER_MEMBER];
+    };
+
+    // @ts-ignore
+    // TODO
+    document.workspace = Blockly.inject('blocklyDiv', {
+      toolbox: '<xml id="toolbox" style="display: none">\n' +
+        '  <block type="controls_if"></block>\n' +
+        '  <block type="controls_repeat_ext"></block>\n' +
+        '  <block type="logic_compare"></block>\n' +
+        '  <block type="math_number"></block>\n' +
+        '  <block type="math_arithmetic"></block>\n' +
+        '  <block type="text"></block>\n' +
+        '  <block type="text_print"></block>\n' +
+        '  <block type="log"></block>\n' +
+        '</xml>'
+    });
+
+    apmCBlockyStore.customSettings.value.getField('show').setValue(false);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown($event: KeyboardEvent) {
+    if ($event.altKey && $event.key === 'q') {
+      const showField = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>('__ApmCBlocklyComponent')
+        .customSettings.value.getField('show');
+
+      showField.setValue(!showField.value);
+    }
   }
 }

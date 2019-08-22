@@ -1,13 +1,18 @@
 import {BehaviorSubject, Subscription} from 'rxjs';
 import * as _ from 'lodash';
 import {QueueRoutine} from '../routine/queue.routine';
+import {JsonObject, JsonProperty} from 'json2typescript';
 
-
+@JsonObject
 export class StoreValueArray<T> extends Array<T> {
-  protected readonly _listEvent = new BehaviorSubject<T>(null);
+  @JsonProperty() protected readonly _listEvent = new BehaviorSubject<T>(null);
 
-  constructor(protected _queueRoutine: QueueRoutine, _name: string = null) {
+  protected _queueRoutine: QueueRoutine;
+
+  constructor(_name: string = null) {
     super();
+
+    this._queueRoutine = QueueRoutine.injector.get(QueueRoutine);
   }
 
   push(...items: T[]) {

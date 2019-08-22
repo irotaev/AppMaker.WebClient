@@ -23,6 +23,7 @@
     "@angular/router": "~8.2.1",
     "blockly": "^2.20190722.1",
     "core-js": "^2.5.4",
+    "json2typescript": "^1.2.3",
     "reset-css": "^4.0.1",
     "rxjs": "~6.5.2",
     "tslib": "^1.9.0",

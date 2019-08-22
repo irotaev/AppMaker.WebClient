@@ -1,11 +1,19 @@
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {IStoreField} from './i-store-field';
 import {QueueRoutine} from '../routine/queue.routine';
+import {JsonObject, JsonProperty} from 'json2typescript';
 
+@JsonObject()
 export class StoreEventField<T> implements IStoreField<T> {
-  protected readonly valueEvent: BehaviorSubject<T> = new BehaviorSubject<T>(null);
+  @JsonProperty() protected readonly valueEvent: BehaviorSubject<T> = new BehaviorSubject<T>(null);
 
-  constructor(protected _queueRoutine: QueueRoutine, protected _name: string = null) {
+  @JsonProperty() protected _name;
+
+  protected _queueRoutine: QueueRoutine
+
+  constructor(name: string = null) {
+    this._queueRoutine = QueueRoutine.injector.get(QueueRoutine);
+    this._name = name;
   }
 
   get value() {

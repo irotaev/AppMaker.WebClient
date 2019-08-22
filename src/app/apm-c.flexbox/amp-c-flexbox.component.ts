@@ -31,7 +31,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
       .addField(this._storeFactoryRoutine.StoreValueField('width')).field.setValue('200px');
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
       .addField(this._storeFactoryRoutine.StoreValueField('height')).field.setValue('50px');
-    this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'onClick'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('onClick'));
 
     this.makeDraggable();
   }
@@ -41,7 +41,7 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     const dropListRef = this._dragdropRoutine.createCdkDropListService(this._elementRef, 'flexBoxItem1');
 
     // const cLinkDropListRef = this._dragdropRoutine.getCdkDropListService('cLinkList');
-    //const artboardDropListRef = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
+    // const artboardDropListRef = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
 
     // cLinkDropListRef.connectedTo([artboardDropListRef]);
   }

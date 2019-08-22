@@ -126,7 +126,7 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
       .addField(this._storeFactoryRoutine.StoreValueField('height')).field.setValue('calc(100% - 20px)');
     this.addStyleSettingsField('transform', 'scale(1)');
 
-    this.apmComponentSettingsStore.events.value.addField(new StoreEventField(this._queueRoutine, 'drop'));
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField( 'drop'));
 
     this.configArtboardDropList();
   }

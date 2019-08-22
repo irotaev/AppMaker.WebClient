@@ -7,6 +7,7 @@ import {Store} from '../store.abstract/store';
 import {IStoreField} from '../store.abstract/i-store-field';
 import {Subscription} from 'rxjs';
 import {QueueRoutine} from '../routine/queue.routine';
+import {JsonConvert} from 'json2typescript';
 
 export abstract class ApmComponent implements AfterViewInit {
   protected _elementRef: ElementRef;
@@ -22,8 +23,6 @@ export abstract class ApmComponent implements AfterViewInit {
     this._queueRoutine = injector.get(QueueRoutine);
 
     this.uniqueId = uniqueId;
-
-    console.log((this as object).constructor.name);
   }
 
   abstract childComponentsContainer: ViewContainerRef;
@@ -46,6 +45,9 @@ export abstract class ApmComponent implements AfterViewInit {
         this.addFieldSubscription(field);
       });
     });
+
+    const json = new JsonConvert().serializeObject(this.apmComponentSettingsStore);
+    console.log(json);
   }
 
   private updateStyleSubscriptions(settings: Store) {
@@ -74,7 +76,7 @@ export abstract class ApmComponent implements AfterViewInit {
   //#region StyleSettingsStore
 
   protected addStyleSettingsField(name: string, value: string) {
-    const field = new StoreValueField<string>(this._queueRoutine, name).setValue(value);
+    const field = new StoreValueField<string>(name).setValue(value);
 
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.addField(field.storeField);
     // this.styleSettingsCurrent.settings.subscribe((settings: StoreValueField<Store>) => {

@@ -1,5 +1,4 @@
 import {Store} from '../store.abstract/store';
-import {UniqueElementRoutine} from '../routine/unique-element.routine';
 import {ApmCFactoryRoutine} from '../routine/apm-c.factory.routine';
 import {ListStore} from './list.store';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
@@ -10,27 +9,52 @@ import * as _ from 'lodash';
 import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.factory.routine';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 import {StyleSettingsStore} from './style-settings.store';
+import {JsonObject, JsonProperty} from 'json2typescript';
+import {StoreValueField} from '../store.abstract/store-value-field';
+import {QueueRoutine} from '../routine/queue.routine';
 
+@JsonObject('ApmCStore')
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
-  constructor(
-    _uniqueElementService: UniqueElementRoutine,
-    private _apmCFactoryRoutine: ApmCFactoryRoutine,
-    private _listStore: ListStore,
-    private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine,
-    private _storeFactoryRoutine: StoreFactoryRoutine) {
-    super(_uniqueElementService);
+  private _apmCFactoryRoutine: ApmCFactoryRoutine;
+  private _listStore: ListStore;
+  private _settingsStoreFactoryRoutine: StyleSettingsStoreFactoryRoutine;
+
+  private _storeFactoryRoutine: StoreFactoryRoutine;
+  get storeFactoryRoutine(): StoreFactoryRoutine {
+    this._storeFactoryRoutine = this._storeFactoryRoutine || QueueRoutine.injector.get(StoreFactoryRoutine);
+
+    return this._storeFactoryRoutine;
+  }
+
+  constructor() {
+    super();
+
+    const injector = QueueRoutine.injector;
+    this._apmCFactoryRoutine = injector.get(ApmCFactoryRoutine);
+    this._listStore = injector.get(ListStore);
+    this._settingsStoreFactoryRoutine = injector.get(StyleSettingsStoreFactoryRoutine);
+
     this.bindFields();
 
     this.setEvents();
   }
 
-  parentComponentStoreUniqueId = this._storeFactoryRoutine.StoreValueField<string>();
-  childComponentStoreUniqueIds = this._storeFactoryRoutine.StoreValueField<string[]>().setValue([]).storeField;
-  styleSettingsAll = this._storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(this._storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
-  styleSettingsCurrent = this._storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
-  events = this._storeFactoryRoutine.StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
+  @JsonProperty('parentComponentStoreUniqueId', StoreValueField)
+  parentComponentStoreUniqueId = this.storeFactoryRoutine.StoreValueField<string>();
+
+  @JsonProperty('childComponentStoreUniqueIds', StoreValueField)
+  childComponentStoreUniqueIds = this.storeFactoryRoutine.StoreValueField<string[]>().setValue([]).storeField;
+
+  styleSettingsAll = this.storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(this.storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
+
+  styleSettingsCurrent = this.storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
+
+  events = this.storeFactoryRoutine.StoreValueField<Store>().setValue(new Store()).storeField;
+
+  @JsonProperty()
   componentType: string | Type<TComponent>;
-  customSettings = this._storeFactoryRoutine.StoreValueField<Store>().setValue(new Store(this._uniqueElementService)).storeField;
+
+  customSettings = this.storeFactoryRoutine.StoreValueField<Store>().setValue(new Store()).storeField;
 
   private _apmComponentRef: ComponentRef<TComponent>;
 
@@ -52,20 +76,19 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this.syncStoreToComponentIds();
   }
 
-  public initComponent(componentRef: ComponentRef<TComponent> | Type<TComponent> | string) {
-    if (!componentRef) {
+  public initComponent(component: ComponentRef<TComponent> | Type<TComponent> | string) {
+    if (!component) {
       throw new Error('Component should be set for store initialization as Type or ComponentRef');
     }
 
-    if (componentRef instanceof ComponentRef) {
-      this._apmComponentRef = componentRef as ComponentRef<TComponent>;
-      this.componentType = (this._apmComponentRef as object).constructor.name;
+    if (component instanceof ComponentRef) {
+      this._apmComponentRef = component as ComponentRef<TComponent>;
+      this.componentType = (component.instance as object).constructor.name;
       this.syncStoreToComponentIds();
     } else {
-      this.componentType = componentRef as Type<TComponent>;
+      this.componentType = component;
       this.createComponent();
     }
-
 
     this.setDefaultStyleSettings();
     this._apmComponent.apmComponentSettingsStore = this;

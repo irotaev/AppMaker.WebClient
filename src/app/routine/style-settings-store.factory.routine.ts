@@ -18,7 +18,7 @@ export class StyleSettingsStoreFactoryRoutine {
   createSettings(width: string): StyleSettingsStore {
     const settingsStore = this._storeFactoryRoutine.StyleSettingsStore();
     settingsStore.screenWidth.setValue(width);
-    settingsStore.settings.setValue(new Store(this._uniqueElementRoutine));
+    settingsStore.settings.setValue(new Store());
       // .addField(this._storeFactoryRoutine.StoreValueField('width').setValue('200px').storeField).store
       // .addField(this._storeFactoryRoutine.StoreValueField('height').setValue('50px').storeField).store);
 

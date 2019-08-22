@@ -1,11 +1,13 @@
 import * as Collections from 'typescript-collections';
 import * as _ from 'lodash';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QueueRoutine {
+  static injector: Injector;
+
   private readonly _routines = new Collections.Dictionary<string, Array<{ index: number, routing: (value: any) => void }>>();
 
   addRoutine(key: string, index: number, routine: (value: any) => void) {

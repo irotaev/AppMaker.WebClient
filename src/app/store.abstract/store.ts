@@ -1,17 +1,22 @@
 import {IStore} from './i-store';
 import {UniqueElementRoutine} from '../routine/unique-element.routine';
-
 import * as _ from 'lodash';
 import {IStoreField} from './i-store-field';
 import {StoreEventField} from './store-event-field';
 import {BehaviorSubject, Subscription} from 'rxjs';
+import {JsonObject, JsonProperty} from 'json2typescript';
+import {QueueRoutine} from '../routine/queue.routine';
 
+@JsonObject
 export class Store implements IStore {
-  uniqueId: string;
-  private readonly _fields: IStoreField<any>[] = [];
+  @JsonProperty() uniqueId: string;
+  @JsonProperty() private readonly _fields: IStoreField<any>[] = [];
   private readonly _addFieldEvent = new BehaviorSubject<IStoreField<any>>(null);
 
-  constructor(protected _uniqueElementService: UniqueElementRoutine) {
+  protected _uniqueElementService;
+
+  constructor() {
+    this._uniqueElementService = QueueRoutine.injector.get(UniqueElementRoutine);
     this.uniqueId = this._uniqueElementService.generateUniqueId();
   }
 

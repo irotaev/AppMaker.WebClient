@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import {MatButtonModule} from '@angular/material/button';
@@ -16,7 +16,8 @@ import {CListComponent} from './c-list/c-list.component';
 import {AmpCFlexboxComponent} from './apm-c.flexbox/amp-c-flexbox.component';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 import {FormsModule} from '@angular/forms';
-import { ApmCBlocklyComponent } from './apm-c.blockly/apm-c-blockly.component';
+import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
+import {QueueRoutine} from './routine/queue.routine';
 
 
 @NgModule({
@@ -50,4 +51,7 @@ import { ApmCBlocklyComponent } from './apm-c.blockly/apm-c-blockly.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(injector: Injector) {
+    QueueRoutine.injector = injector;
+  }
 }

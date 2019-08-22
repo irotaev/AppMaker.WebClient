@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
@@ -22,7 +22,6 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   @ViewChild('childComponentsContainer', {static: false}) childComponentsContainer: ViewContainerRef;
 
   ngOnInit() {
-    // this._dragdropRoutine.createCdkDropListService(this.cLinkList, 'cLinkList');
   }
 
   apmOnComponentInit() {
@@ -38,10 +37,12 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   }
 
   private makeDraggable() {
-    this._dragdropRoutine.createCdkDragService(this._elementRef);
+    const dragRef = this._dragdropRoutine.createCdkDragService(this._elementRef);
+    const dropListRef = this._dragdropRoutine.createCdkDropListService(this._elementRef, 'flexBoxItem1');
 
     // const cLinkDropListRef = this._dragdropRoutine.getCdkDropListService('cLinkList');
-    // const artboardDropListRef = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
+    //const artboardDropListRef = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');
+
     // cLinkDropListRef.connectedTo([artboardDropListRef]);
   }
 

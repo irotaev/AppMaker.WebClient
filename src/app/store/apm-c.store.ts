@@ -52,18 +52,20 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this.syncStoreToComponentIds();
   }
 
-  public initComponent(componentRef: ComponentRef<TComponent> = null) {
-    this._apmComponentRef = componentRef;
+  public initComponent(componentRef: ComponentRef<TComponent> | Type<TComponent> | string) {
     if (!componentRef) {
-      if (!this.componentType) {
-        throw new Error('Component type in current store settings not set, so it component can not be init');
-      }
-
-      this.createComponent();
-    } else {
-      this.componentType = typeof this._apmComponentRef.instance;
-      this.syncStoreToComponentIds();
+      throw new Error('Component should be set for store initialization as Type or ComponentRef');
     }
+
+    if (componentRef instanceof ComponentRef) {
+      this._apmComponentRef = componentRef as ComponentRef<TComponent>;
+      this.componentType = (this._apmComponentRef as object).constructor.name;
+      this.syncStoreToComponentIds();
+    } else {
+      this.componentType = componentRef as Type<TComponent>;
+      this.createComponent();
+    }
+
 
     this.setDefaultStyleSettings();
     this._apmComponent.apmComponentSettingsStore = this;

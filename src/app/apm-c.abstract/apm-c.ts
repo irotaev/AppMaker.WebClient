@@ -22,6 +22,8 @@ export abstract class ApmComponent implements AfterViewInit {
     this._queueRoutine = injector.get(QueueRoutine);
 
     this.uniqueId = uniqueId;
+
+    console.log((this as object).constructor.name);
   }
 
   abstract childComponentsContainer: ViewContainerRef;

@@ -28,29 +28,20 @@ export class ApmCStoreFactoryRoutine {
 
     this._listStore.addStore(store);
 
-    if (componentRef instanceof ComponentRef) {
-      store.parentComponentStoreUniqueId.setValue(parentComponentStoreUniqueId);
-      store.initComponent(componentRef);
-    } else if (componentRef instanceof Type || String) {
-      store.parentComponentStoreUniqueId.setValue(parentComponentStoreUniqueId);
-      store.componentType = componentRef;
-      store.initComponent();
-    }
+    store.parentComponentStoreUniqueId.setValue(parentComponentStoreUniqueId);
+    store.initComponent(componentRef);
 
     return store;
   }
 
-  createApmComponentStoreCustom<T extends ApmComponent>(componentType: ComponentRef<T> | Type<T> | string, insertToView: ViewContainerRef): ApmCStore<T> {
+  createApmComponentStoreCustom<T extends ApmComponent>(componentType: Type<T> | string, insertToView: ViewContainerRef): ApmCStore<T> {
     const store = new ApmCStore<T>(this._uniqueElementRoutine, this._apmCFactoryRoutine, this._listStore, this._settingsStoreFactoryRoutine, this._storeFactoryRoutine);
 
     this._listStore.addStore(store);
 
-    if (componentType instanceof ComponentRef) {
-      store.initComponent(componentType as ComponentRef<T>);
-    } else {
-      const component = this._apmCFactoryRoutine.createComponent(componentType, insertToView);
-      store.initComponent(component);
-    }
+    const component = this._apmCFactoryRoutine.createComponent(componentType, insertToView);
+    store.initComponent(component);
+
 
     return store;
   }

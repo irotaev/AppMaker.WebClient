@@ -45,9 +45,6 @@ export abstract class ApmComponent implements AfterViewInit {
         this.addFieldSubscription(field);
       });
     });
-
-    const json = new JsonConvert().serializeObject(this.apmComponentSettingsStore);
-    console.log(json);
   }
 
   private updateStyleSubscriptions(settings: Store) {

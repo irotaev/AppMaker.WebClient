@@ -13,7 +13,7 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 import {StoreValueField} from '../store.abstract/store-value-field';
 import {QueueRoutine} from '../routine/queue.routine';
 
-@JsonObject('ApmCStore')
+@JsonObject()
 export class ApmCStore<TComponent extends ApmComponent> extends Store {
   private _apmCFactoryRoutine: ApmCFactoryRoutine;
   private _listStore: ListStore;
@@ -45,15 +45,19 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   @JsonProperty('childComponentStoreUniqueIds', StoreValueField)
   childComponentStoreUniqueIds = this.storeFactoryRoutine.StoreValueField<string[]>().setValue([]).storeField;
 
+  @JsonProperty('styleSettingsAll', StoreValueField)
   styleSettingsAll = this.storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(this.storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
 
+  @JsonProperty('styleSettingsCurrent', StoreValueField)
   styleSettingsCurrent = this.storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
 
+  @JsonProperty('events', StoreValueField)
   events = this.storeFactoryRoutine.StoreValueField<Store>().setValue(new Store()).storeField;
 
   @JsonProperty()
-  componentType: string | Type<TComponent>;
+  componentType: string | Type<TComponent> = null;
 
+  @JsonProperty('events', StoreValueField)
   customSettings = this.storeFactoryRoutine.StoreValueField<Store>().setValue(new Store()).storeField;
 
   private _apmComponentRef: ComponentRef<TComponent>;

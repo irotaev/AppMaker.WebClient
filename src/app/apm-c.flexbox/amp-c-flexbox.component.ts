@@ -3,6 +3,8 @@ import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 import {DragdropRoutine} from '../routine/dragdrop.routine';
+import {JsonConvert} from 'json2typescript';
+import {ApmCStore} from '../store/apm-c.store';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -34,6 +36,14 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     this.apmComponentSettingsStore.events.value.addField(new StoreEventField('onClick'));
 
     this.makeDraggable();
+
+    const converter = new JsonConvert();
+    converter.ignorePrimitiveChecks = true;
+
+    const json = converter.serializeObject(this.apmComponentSettingsStore);
+    console.log(json);
+    const obj = converter.deserializeObject(json, ApmCStore);
+    console.log(obj);
   }
 
   private makeDraggable() {

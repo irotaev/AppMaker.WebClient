@@ -1,21 +1,41 @@
 <div class="settings-wrapper">
   <div *ngIf="apmComponentSettingsStore">
-    <div class="settings-to-width-wrapper"
-         *ngFor="let settingsBlock of apmComponentSettingsStore.styleSettingsAll.value">
+    <mat-accordion class="settings-to-width-block">
 
-      <div class="settings-to-width-block">
-        <div class="width text">{{settingsBlock.screenWidth.value}}</div>
+      <div class="settings-to-width-wrapper">
+        <mat-expansion-panel
+          *ngFor="let settingsBlock of apmComponentSettingsStore.styleSettingsAll.value">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="width text">{{settingsBlock.screenWidth.value}}</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-        <div class="settings-wrapper">
-          <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.value.fields">
-            <mat-form-field class="value">
-              <input matInput [placeholder]="settingsField.name" [(ngModel)]="settingsField.value"/>
-            </mat-form-field>
+          <div class="settings-wrapper">
+            <div class="settings-block" *ngFor="let settingsField of settingsBlock.settings.value.fields">
+              <mat-form-field class="value">
+                <input matInput [placeholder]="settingsField.name" [(ngModel)]="settingsField.value"/>
+              </mat-form-field>
+            </div>
+
+            <div class="free-style-property-wrapper">
+              <mat-form-field class="property-name">
+                <input matInput type="text" placeholder="Custom rule" [(ngModel)]="customPropertyName"/>
+              </mat-form-field>
+
+              <button
+                mat-icon-button
+                color="primary"
+                aria-label="Add property" (click)="addCssProperty(settingsBlock.screenWidth.value)">
+                <mat-icon>add_circle_outline</mat-icon>
+              </button>
+            </div>
           </div>
-        </div>
+
+        </mat-expansion-panel>
 
       </div>
 
-    </div>
+    </mat-accordion>
   </div>
 </div>

@@ -25,6 +25,9 @@
 
     .resizer {
       position: absolute;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       top: 0;
       left: 50%;
       transform: translateX(-50%);
@@ -33,8 +36,7 @@
       border-right: 1px solid white;
       background-color: $colorGreyLight;
       cursor: pointer;
-      text-align: center;
-      @include text('span');
+      @include text('ascending');
 
       &:hover {
         background-color: darken($colorGreyLight, +10%);

@@ -18,6 +18,8 @@ import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-propert
 import {FormsModule} from '@angular/forms';
 import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
 import {QueueRoutine} from './routine/queue.routine';
+import {MatSelectModule} from '@angular/material/select';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import {QueueRoutine} from './routine/queue.routine';
     MatButtonToggleModule,
     MatInputModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatExpansionModule
   ],
   entryComponents: [
     AmpCFlexboxComponent,

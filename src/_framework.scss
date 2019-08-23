@@ -14,30 +14,50 @@ $sizeMobileS: 320px;
 $gapBase: 20px;
 
 //#region Text
-$textLetterSpacing: 1px;
-
 $textColorDefault: $colorBlack1;
 
-$textSizeSpan: 13px;
-$textLineHeightSpan: 18px;
+$textSizes: (
+  ascending: 12px,
+  span: 14px,
+  h1: 18px,
+  h2: 24px
+);
 
-$textSizeH2: 15px;
-$textLineHeightH2: 23px;
+$textLineHeights: (
+  ascending: 17px,
+  span: 20px,
+  h1: 25px,
+  h2: 34px
+);
 
-@mixin text($mode: 'span', $modifier: 'default') {
-  @if ($mode == 'span') {
-    font-size: $textSizeSpan;
-    line-height: $textLineHeightSpan;
-    color: lighten($colorBlack1, 10%);
-  } @elseif ($mode == 'h2') {
-    font-size: $textSizeH2;
-    line-height: $textLineHeightH2;
+$textLetterSpacings: (
+  ascending: 1px,
+  span: 1px,
+  h1: 2px,
+  h2: 3px
+);
+
+@mixin text($textType: 'span', $modifier: 'default', $margin: 'none') {
+  color: $textColorDefault;
+  font-size: map-get($textSizes, $textType);
+  line-height: map-get($textLineHeights, $textType);
+  letter-spacing: map-get($textLetterSpacings, $textType);
+
+  @if ($textType == 'ascending') {
+    color: lighten($textColorDefault, 30%);
+  } @elseif ($textType == 'h1') {
+    color: lighten($textColorDefault, 10%);
+  }
+  @elseif ($textType == 'h2') {
+    color: lighten($textColorDefault, 20%);
   }
 
-  @if ($modifier == 'default') {
-    color: $textColorDefault;
-  } @elseif ($modifier: 'bold') {
+  @if ($modifier == 'bold') {
     font-weight: bold;
+  }
+
+  @if ($margin != 'none') {
+    margin-#{$margin}: map-get($textLineHeights, $textType)*1;
   }
 }
 //#region

@@ -8,14 +8,11 @@
 
   .settings-to-width-block {
     position: relative;
-    margin-bottom: $gapBase;
 
     &:last-child {margin-bottom: 0;}
 
     .width {
-      @include text('h2', 'bold');
-      margin-top: $gapBase;
-      margin-bottom: $gapBase/2;
+      @include text('h1');
     }
 
     .settings-wrapper {
@@ -26,7 +23,25 @@
       .value {
         width: 100%;
         @include text('span');
+        margin-bottom: $gapBase/4;
       }
     }
+  }
+
+  .free-style-property-wrapper {
+    position: relative;
+    display: inline-flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: $gapBase/4;
+
+    .property-name {
+      width: 100px;
+      margin-right: $gapBase/2;
+    }
+  }
+
+  .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
   }
 }

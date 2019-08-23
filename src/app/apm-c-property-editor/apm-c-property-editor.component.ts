@@ -3,6 +3,9 @@ import {ApmComponent} from '../apm-c.abstract/apm-c';
 
 import * as _ from 'lodash';
 import {StoreValueField} from '../store.abstract/store-value-field';
+import {ApmCStoreFactoryRoutine} from '../routine/apm-c-store.factory.routine';
+import {ListStore} from '../store/list.store';
+import {ApmCStore} from '../store/apm-c.store';
 
 @Component({
   selector: 'apm-apm-c-property-editor',
@@ -11,7 +14,10 @@ import {StoreValueField} from '../store.abstract/store-value-field';
 })
 export class ApmCPropertyEditorComponent extends ApmComponent implements OnInit {
 
-  constructor(injector: Injector) {
+  constructor(
+    injector: Injector,
+    private _apmCStoreFactoryRoutine: ApmCStoreFactoryRoutine,
+    private _listStore: ListStore) {
     super(injector);
   }
 
@@ -22,14 +28,24 @@ export class ApmCPropertyEditorComponent extends ApmComponent implements OnInit 
   }
 
   apmOnComponentInit() {
-    super.apmOnComponentInit();
+    // No need!
+    //
+    // super.apmOnComponentInit();
   }
 
   addCssProperty(screenWidth) {
-    console.log(screenWidth);
-
     const settings = _.find(this.apmComponentSettingsStore.styleSettingsAll.value, x => x.screenWidth.value === screenWidth);
 
     settings.settings.value.addField(new StoreValueField(this.customPropertyName));
+  }
+
+  saveComponent() {
+    const compositeComponent = this._apmCStoreFactoryRoutine.createApmComponentStoreEmpty();
+
+    const artboarStore = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>('__ApmCArtboard');
+
+    _.forEach(artboarStore.childComponentStoreUniqueIds, cId => {
+
+    });
   }
 }

@@ -5,6 +5,8 @@ import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 import {DragdropRoutine} from '../routine/dragdrop.routine';
 import {JsonConvert} from 'json2typescript';
 import {ApmCStore} from '../store/apm-c.store';
+import {ApmCArtboardComponent} from '../apm-c-artboard/apm-c-artboard.component';
+import {ListStore} from '../store/list.store';
 
 @Component({
   selector: 'apm-c-flexbox',
@@ -16,7 +18,8 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
   constructor(
     injector: Injector,
     private _storeFactoryRoutine: StoreFactoryRoutine,
-    private _dragdropRoutine: DragdropRoutine) {
+    private _dragdropRoutine: DragdropRoutine,
+    private _listStore: ListStore) {
     super(injector);
   }
 
@@ -37,13 +40,26 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
 
     this.makeDraggable();
 
+
     const converter = new JsonConvert();
     converter.ignorePrimitiveChecks = true;
 
     const json = converter.serializeObject(this.apmComponentSettingsStore);
-    console.log(json);
+    // console.log(json);
     const obj = converter.deserializeObject(json, ApmCStore);
-    console.log(obj);
+    // console.log(obj);
+    const artboardC = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
+
+    // // @ts-ignore
+    // if (!document.arr) {
+    //   // @ts-ignore
+    //   document.arr = true;
+    //
+    //   console.log(obj);
+    //
+    //   obj.parentComponentStoreUniqueId.setValue(artboardC.uniqueId);
+    //   obj.initComponent(AmpCFlexboxComponent);
+    // }
   }
 
   private makeDraggable() {

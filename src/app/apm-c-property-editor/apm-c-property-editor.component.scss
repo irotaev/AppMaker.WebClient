@@ -44,4 +44,16 @@
   .mat-expansion-panel:not([class*=mat-elevation-z]) {
     box-shadow: none !important;
   }
+
+  .save-action {
+    width: 80%;
+    margin: $gapBase/2 auto 0;
+    display: block;
+
+    * {
+      @include text('h2');
+      color: white;
+      letter-spacing: map-get($textLetterSpacings, 'h2') !important;
+    };
+  }
 }

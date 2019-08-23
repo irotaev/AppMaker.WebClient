@@ -94,7 +94,10 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
       this.createComponent();
     }
 
-    this.setDefaultStyleSettings();
+    if (!this.styleSettingsCurrent.value) {
+      this.setDefaultStyleSettings();
+    }
+
     this._apmComponent.apmComponentSettingsStore = this;
 
     this._apmComponent.apmOnComponentInit();

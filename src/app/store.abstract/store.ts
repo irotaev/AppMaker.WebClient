@@ -29,8 +29,9 @@ export class Store implements IStore {
       throw new Error('Field must have not empty name');
     }
 
-    if (_.find(this._fields, x => x.name === field.name)) {
-      throw new Error('Current Store is only uniqueNames but you try to insert duplicate name: ' + field.name);
+    const previousField = _.find<IStoreField<T>>(this._fields, x => x.name === field.name);
+    if (previousField) {
+      return {field: previousField, store: this};
     }
 
     this._fields.push(field);

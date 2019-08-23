@@ -7,7 +7,6 @@ import {Store} from '../store.abstract/store';
 import {IStoreField} from '../store.abstract/i-store-field';
 import {Subscription} from 'rxjs';
 import {QueueRoutine} from '../routine/queue.routine';
-import {JsonConvert} from 'json2typescript';
 
 export abstract class ApmComponent implements AfterViewInit {
   protected _elementRef: ElementRef;
@@ -76,29 +75,6 @@ export abstract class ApmComponent implements AfterViewInit {
     const field = new StoreValueField<string>(name).setValue(value);
 
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value.addField(field.storeField);
-    // this.styleSettingsCurrent.settings.subscribe((settings: StoreValueField<Store>) => {
-    //   settings.value.addField(field.storeField)
-    //     .field.subscribe(() => {
-    //
-    //     const styleObj = this.styleSettingsCurrent.settings.value.toNameValueJson();
-    //     _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
-    //       this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
-    //     });
-    //
-    //     this._changeDetectorRef.detectChanges();
-    //   });
-    // });
-
-    // this.styleSettingsCurrent.settings.value.addField(field.storeField)
-    //   .field.subscribe(() => {
-    //
-    //   const styleObj = this.styleSettingsCurrent.settings.value.toNameValueJson();
-    //   _.forEach(Object.getOwnPropertyNames(styleObj), cssName => {
-    //     this._renderer2.setStyle(this._elementRef.nativeElement, cssName, styleObj[cssName]);
-    //   });
-    //
-    //   this._changeDetectorRef.detectChanges();
-    // });
   }
 
   //#endregion

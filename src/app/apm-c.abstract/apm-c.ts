@@ -15,6 +15,10 @@ export abstract class ApmComponent implements AfterViewInit {
   protected readonly _queueRoutine: QueueRoutine;
   protected _styleSettingsSubscriptions: Subscription[] = [];
 
+  get elementRef(): ElementRef {
+    return this._elementRef;
+  }
+
   protected constructor(injector: Injector, uniqueId: string = null) {
     this._elementRef = injector.get<ElementRef>(ElementRef);
     this._renderer2 = injector.get(Renderer2);

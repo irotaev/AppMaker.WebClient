@@ -1,6 +1,9 @@
 <div class="app-wrapper">
   <div class="settings-wrapper" #childComponentsContainer>
-    <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>
+    <div class="section store-properties" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}">
+      <ng-container #apmCListContainer></ng-container>
+    </div>
+<!--    <apm-c-list class="section" [ngStyle]="{'display': isComponentListDisplayed ? 'block' : 'none'}"></apm-c-list>-->
     <div class="section store-properties" [ngStyle]="{'display': isPropertyListDisplayed ? 'block' : 'none'}">
       <ng-container #apmCPropertyListContainer></ng-container>
     </div>

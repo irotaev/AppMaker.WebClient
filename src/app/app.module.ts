@@ -12,7 +12,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ApmCArtboardComponent} from './apm-c-artboard/apm-c-artboard.component';
-import {CListComponent} from './c-list/c-list.component';
+import {ApmCListComponent} from './c-list/apm-c-list.component';
 import {AmpCFlexboxComponent} from './apm-c.flexbox/amp-c-flexbox.component';
 import {ApmCPropertyEditorComponent} from './apm-c-property-editor/apm-c-property-editor.component';
 import {FormsModule} from '@angular/forms';
@@ -26,7 +26,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
   declarations: [
     AppComponent,
     ApmCArtboardComponent,
-    CListComponent,
+    ApmCListComponent,
     AmpCFlexboxComponent,
     ApmCPropertyEditorComponent,
     ApmCBlocklyComponent
@@ -49,7 +49,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     AmpCFlexboxComponent,
     ApmCPropertyEditorComponent,
     ApmCArtboardComponent,
-    ApmCBlocklyComponent
+    ApmCBlocklyComponent,
+    ApmCListComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ComponentRef, HostListener, Injector, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentRef,
+  HostListener,
+  Injector,
+  OnInit,
+  Type,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ApmCArtboardComponent} from './apm-c-artboard/apm-c-artboard.component';
 import {ApmComponent} from './apm-c.abstract/apm-c';
 import {ListStore} from './store/list.store';
@@ -11,6 +21,7 @@ import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
 
 import * as Blockly from 'blockly';
 import {DragRef} from '@angular/cdk/drag-drop';
+import {ApmCListComponent} from "./c-list/apm-c-list.component";
 
 @Component({
   selector: 'apm-root',
@@ -29,9 +40,16 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
     super(injector, '__AppComponent');
   }
 
-  @ViewChild('childComponentsContainer', {read: ViewContainerRef, static: false}) childComponentsContainer: ViewContainerRef;
+  @ViewChild('childComponentsContainer', {
+    read: ViewContainerRef,
+    static: false
+  }) childComponentsContainer: ViewContainerRef;
   @ViewChild('apmCArtboard', {read: ViewContainerRef, static: false}) apmCArtboard: ViewContainerRef;
-  @ViewChild('apmCPropertyListContainer', {read: ViewContainerRef, static: false}) apmCPropertyListContainer: ViewContainerRef;
+  @ViewChild('apmCPropertyListContainer', {
+    read: ViewContainerRef,
+    static: false
+  }) apmCPropertyListContainer: ViewContainerRef;
+  @ViewChild('apmCListContainer', {read: ViewContainerRef, static: false}) apmCListContainer: ViewContainerRef;
   @ViewChild('apmCBlockyContainer', {read: ViewContainerRef, static: false}) apmCBlockyContainer: ViewContainerRef;
 
   ngOnInit(): void {
@@ -49,6 +67,8 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
 
     apmCArtboardStore.parentComponentStoreUniqueId.setValue(apmCAppComponentStore.uniqueId);
     apmCAppComponentStore.childComponentStoreUniqueIds.value.push(apmCArtboardStore.uniqueId);
+
+    const apmCListStore = this._apmStoreFactoryRoutine.createApmComponentStoreCustom<ApmCListComponent>(ApmCListComponent, this.apmCListContainer);
 
     // ------------------------------------------------------------------------------
     // Application Events
@@ -69,13 +89,40 @@ export class AppComponent extends ApmComponent implements OnInit, AfterViewInit 
         return;
       }
 
-      const componentFlexboxStore = this._apmStoreFactoryRoutine.createApmComponentStore(item.data, apmCArtboardStore.uniqueId);
+      if (item.data instanceof Type || item.data instanceof String) {
+        const componentFlexboxStore = this._apmStoreFactoryRoutine.createApmComponentStoreEmpty();
+        componentFlexboxStore.parentComponentStoreUniqueId.setValue(apmCArtboardStore.uniqueId);
+        componentFlexboxStore.componentType = item.data as string;
+        componentFlexboxStore.initComponent();
+        apmCArtboardStore.childComponentStores.value.push(componentFlexboxStore);
+
+        this.setStyleEditor(componentFlexboxStore);
+      } else if (item.data instanceof ApmCStore) {
+        _.forEach(item.data.childComponentStores.value, childStore => {
+          childStore.parentComponentStoreUniqueId.setValue(apmCArtboardStore.uniqueId);
+          childStore.initComponent();
+          apmCArtboardStore.childComponentStores.value.push(childStore);
+
+          this.setStyleEditor(childStore);
+        });
+      } else {
+        throw new Error('Not implemented!');
+      }
+
+    });
+  }
+
+  private setStyleEditor(store: ApmCStore<ApmComponent>) {
+    store.events.value.getField('onClick').subscribe(event => {
+      if (!event) {
+        return;
+      }
 
       this.apmCPropertyListContainer.clear();
       const apmCPropertyEditorComponentStore = this._apmStoreFactoryRoutine
         .createApmComponentStoreCustom(ApmCPropertyEditorComponent, this.apmCPropertyListContainer);
-      apmCPropertyEditorComponentStore.styleSettingsAll.setValue(componentFlexboxStore.styleSettingsAll.value);
-      apmCPropertyEditorComponentStore.styleSettingsCurrent.setValue(componentFlexboxStore.styleSettingsCurrent.value);
+      apmCPropertyEditorComponentStore.styleSettingsAll.setValue(store.styleSettingsAll.value);
+      apmCPropertyEditorComponentStore.styleSettingsCurrent.setValue(store.styleSettingsCurrent.value);
     });
   }
 

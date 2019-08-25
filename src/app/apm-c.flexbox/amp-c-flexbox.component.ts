@@ -41,14 +41,18 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     this.makeDraggable();
 
 
-    const converter = new JsonConvert();
-    converter.ignorePrimitiveChecks = true;
+    this.apmComponentSettingsStore.events.value.getField('onClick').subscribe(event => {
 
-    const json = converter.serializeObject(this.apmComponentSettingsStore);
-    // console.log(json);
-    const obj = converter.deserializeObject(json, ApmCStore);
-    // console.log(obj);
-    const artboardC = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
+    });
+
+    // const converter = new JsonConvert();
+    // converter.ignorePrimitiveChecks = true;
+    //
+    // const json = converter.serializeObject(this.apmComponentSettingsStore);
+    // // console.log(json);
+    // const obj = converter.deserializeObject(json, ApmCStore);
+    // // console.log(obj);
+    // const artboardC = this._listStore.getStoreByUniqueId<ApmCStore<ApmCArtboardComponent>>('__ApmCArtboard');
 
     // // @ts-ignore
     // if (!document.arr) {

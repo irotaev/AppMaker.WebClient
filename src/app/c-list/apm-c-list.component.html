@@ -1,0 +1,11 @@
+<section #cLinkList class="c-list-wrapper">
+  <div *ngFor="let component of draggableComponents"
+    class="component-link static-component"
+    style="background-color: green"></div>
+
+  <div *ngFor="let dynamicComponentStore of dynamicComponentStores"
+       class="component-link dynamic-component"
+       style="background-color: green"></div>
+
+  <ng-container #childComponentsContainer></ng-container>
+</section>

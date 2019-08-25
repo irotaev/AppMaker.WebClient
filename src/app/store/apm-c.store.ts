@@ -45,8 +45,13 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
   @JsonProperty('childComponentStoreUniqueIds', StoreValueField)
   childComponentStoreUniqueIds = this.storeFactoryRoutine.StoreValueField<string[]>().setValue([]).storeField;
 
+  @JsonProperty('childComponentStores', StoreValueField)
+  childComponentStores = this.storeFactoryRoutine.StoreValueField<StoreValueArray<ApmCStore<ApmComponent>>>()
+    .setValue(this.storeFactoryRoutine.StoreValueArray<ApmCStore<ApmComponent>>()).storeField;
+
   @JsonProperty('styleSettingsAll', StoreValueField)
-  styleSettingsAll = this.storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>().setValue(this.storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
+  styleSettingsAll = this.storeFactoryRoutine.StoreValueField<StoreValueArray<StyleSettingsStore>>()
+    .setValue(this.storeFactoryRoutine.StoreValueArray<StyleSettingsStore>()).storeField;
 
   @JsonProperty('styleSettingsCurrent', StoreValueField)
   styleSettingsCurrent = this.storeFactoryRoutine.StoreValueField<StyleSettingsStore>();
@@ -80,9 +85,11 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this.syncStoreToComponentIds();
   }
 
-  public initComponent(component: ComponentRef<TComponent> | Type<TComponent> | string) {
+  public initComponent(component: ComponentRef<TComponent> | Type<TComponent> | string = null) {
+    component = component || this.componentType;
+
     if (!component) {
-      throw new Error('Component should be set for store initialization as Type or ComponentRef');
+      throw new Error('Component should be set for store initialization as Type | string | ComponentRef directly or by componentType property');
     }
 
     if (component instanceof ComponentRef) {
@@ -103,6 +110,12 @@ export class ApmCStore<TComponent extends ApmComponent> extends Store {
     this._apmComponent.apmOnComponentInit();
 
     this.enableStyleResponsiveness();
+
+    // Init child stores
+    //
+    _.forEach(this.childComponentStores.value, childStore => {
+      childStore.initComponent();
+    });
   }
 
   private enableStyleResponsiveness() {

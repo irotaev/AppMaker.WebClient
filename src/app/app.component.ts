@@ -21,7 +21,9 @@ import {ApmCBlocklyComponent} from './apm-c.blockly/apm-c-blockly.component';
 
 import * as Blockly from 'blockly';
 import {DragRef} from '@angular/cdk/drag-drop';
-import {ApmCListComponent} from "./c-list/apm-c-list.component";
+import {ApmCListComponent} from './c-list/apm-c-list.component';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'apm-root',

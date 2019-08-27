@@ -3,9 +3,6 @@ import {ApmComponent} from '../apm-c.abstract/apm-c';
 import {StoreEventField} from '../store.abstract/store-event-field';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 import {DragdropRoutine} from '../routine/dragdrop.routine';
-import {JsonConvert} from 'json2typescript';
-import {ApmCStore} from '../store/apm-c.store';
-import {ApmCArtboardComponent} from '../apm-c-artboard/apm-c-artboard.component';
 import {ListStore} from '../store/list.store';
 
 @Component({
@@ -39,11 +36,6 @@ export class AmpCFlexboxComponent extends ApmComponent implements OnInit {
     this.apmComponentSettingsStore.events.value.addField(new StoreEventField('onClick'));
 
     this.makeDraggable();
-
-
-    this.apmComponentSettingsStore.events.value.getField('onClick').subscribe(event => {
-
-    });
 
     // const converter = new JsonConvert();
     // converter.ignorePrimitiveChecks = true;

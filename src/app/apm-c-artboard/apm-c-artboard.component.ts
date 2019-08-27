@@ -19,7 +19,6 @@ import {StyleSettingsStoreFactoryRoutine} from '../routine/style-settings-store.
 import {StyleSettingsStore} from '../store/style-settings.store';
 import {StoreFactoryRoutine} from '../routine/store.factory.routine';
 import {DragdropRoutine} from '../routine/dragdrop.routine';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'apm-artboard',
@@ -120,18 +119,23 @@ export class ApmCArtboardComponent extends ApmComponent implements OnInit, After
 
     this._childApmComponentStoreIds = this._listStore.getStoreByUniqueId<ApmCStore<ApmComponent>>(this.uniqueId).childComponentStoreUniqueIds.value;
 
+
+    this.setDefaultState();
+
+    this.configArtboardDropList();
+  }
+
+  private setDefaultState() {
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
       .addField(this._storeFactoryRoutine.StoreValueField('width')).field.setValue('1024px');
     this.apmComponentSettingsStore.styleSettingsCurrent.value.settings.value
       .addField(this._storeFactoryRoutine.StoreValueField('height')).field.setValue('calc(100% - 20px)');
     this.addStyleSettingsField('transform', 'scale(1)');
 
-    this.apmComponentSettingsStore.events.value.addField(new StoreEventField( 'drop'));
-
-    this.configArtboardDropList();
+    this.apmComponentSettingsStore.events.value.addField(new StoreEventField('drop'));
   }
 
-  configArtboardDropList() {
+  private configArtboardDropList() {
     this._dragdropRoutine.createCdkDropListService(this.artboardContainerWrapper, 'artboardContainerWrapper');
 
     const dropList = this._dragdropRoutine.getCdkDropListService('artboardContainerWrapper');

@@ -1,3 +1,13 @@
-<div class="editorPanel">
-  <ngx-monaco-editor #monacoEditor class="customMonacoEditor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
+<div id="sci-wrapper">
+
+  <div class="header">
+    <div class="action-btn-wrapper">
+      <button mat-stroked-button class="action ng-serve text" (click)="onNgServeClick()">NgServe</button>
+    </div>
+  </div>
+
+  <div class="editorPanel">
+    <ngx-monaco-editor #monacoEditor class="customMonacoEditor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
+  </div>
+
 </div>

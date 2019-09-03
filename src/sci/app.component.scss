@@ -1,11 +1,36 @@
+@import '~src/framework';
+
+#sci-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.header {
+  position: relative;
+  height: 3*$gapBase;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+
+  .action-btn-wrapper {
+    margin: 0 $gapBase;
+
+    .action {
+      //@include text('span');
+      letter-spacing: map-get($textLetterSpacings, 'h1');
+    }
+  }
+}
+
 .editorPanel{
   display: block;
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  position: relative;
+  height: calc(100% - 3*#{$gapBase});
+  width: 100%;
+  background-color: #1b1b1b;
 }
 .editorPanel .customMonacoEditor { /*set automaticLayout*/
-  height: calc(100vh - 0px);
+  height: 100%;
 }

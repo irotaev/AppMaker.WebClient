@@ -47,13 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   onInit(editor: IStandaloneCodeEditor) {
     this._editor = editor;
 
-    this._httpClient.get('https://localhost:44397/api/values' + '/get-file', {responseType: 'text'}).subscribe(text => {
-      // this.monacoEditor. = text as string;
-
-      // @ts-ignore
-      document.me = this.monacoEditor;
-
-      // this.monacoEditor.model = new AngularEditorModel {}{}
+    this._httpClient.get('https://localhost:44397/ngcli' + '/get-file-text?fileName=' + 'app.component.html', {responseType: 'text'}).subscribe(text => {
 
       const model = monaco.editor.createModel(
         text,
@@ -69,11 +63,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   onKeyDown(e: KeyboardEvent) {
     if (e.altKey && e.key === 's') {
       this._httpClient.post(
-        'https://localhost:44397/api/values' + '/save-file',
-          JSON.stringify(this._editor.getModel().getValue()), {
+        'https://localhost:44397/ngcli' + '/save-file-text',
+          JSON.stringify({
+            fileName: 'app.component.html',
+            fileText: this._editor.getModel().getValue()
+          }), {
           headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })}).subscribe(x => console.log(x));
     }
+  }
+
+  onNgServeClick() {
+    this._httpClient.get('https://localhost:44397/ngcli' + '/serve').subscribe(text => {});
   }
 }

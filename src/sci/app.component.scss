@@ -1,9 +1,19 @@
 @import '~src/framework';
 
-#sci-wrapper {
+#sci-preview-wrapper {
+  display: block;
   position: relative;
   width: 100vw;
   height: 100vh;
+}
+
+#sci-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  width: 100vw;
+  height: 60vh;
+  background-color: white;
 }
 
 .header {
@@ -13,6 +23,7 @@
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
+  background-color: $colorBg1;
 
   .action-btn-wrapper {
     margin: 0 $gapBase;

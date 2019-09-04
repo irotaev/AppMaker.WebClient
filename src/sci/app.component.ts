@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import IStandaloneCodeEditor = monaco.editor.IStandaloneCodeEditor;
 import ICursorPositionChangedEvent = monaco.editor.ICursorPositionChangedEvent;
 
+import '@vaadin/vaadin-split-layout';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(private _httpClient: HttpClient) {
   }
 
-  editorOptions = {theme: 'vs-dark', language: 'javascript'};
+  editorOptions = {
+    theme: 'vs-dark',
+    language: 'javascript',
+    automaticLayout: true
+  };
   code = 'function x() {\nconsole.log("Hello world!");\n}';
 
   @ViewChild('monacoEditor', {static: false}) monacoEditor: ElementRef;
@@ -32,23 +37,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
-
-    // setTimeout(() => {
-    //   this._editor = editor.create(this.monacoEditor.nativeElement, {
-    //     theme: 'vs-dark',
-    //     language: 'typescript',
-    //   });
-    //   //
-    //   // const model = monaco.editor.createModel(
-    //   //   this.code,
-    //   //   'typescript',
-    //   //   monaco.Uri.file('./file.ts')
-    //   // );
-    //   //
-    //   // this._editor.setModel(model);
-    // }, 3000);
-
   }
 
   onInit(editor: IStandaloneCodeEditor) {

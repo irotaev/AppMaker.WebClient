@@ -1,16 +1,21 @@
-<iframe #sciPreviewWrapper id="sci-preview-wrapper" src="http://localhost:4200">
-</iframe>
+<vaadin-split-layout style="width: 100%; height: 100%;">
+  <div id="sci-wrapper" class="split">
 
-<div id="sci-wrapper">
-
-  <div class="header">
-    <div class="action-btn-wrapper">
-      <button mat-stroked-button class="action ng-serve text" (click)="onNgServeClick()">NgServe</button>
+    <div class="header">
+      <div class="action-btn-wrapper">
+        <button mat-stroked-button class="action ng-serve text" (click)="onNgServeClick()">NgServe</button>
+      </div>
     </div>
+
+    <div class="editorPanel">
+      <ngx-monaco-editor #monacoEditor class="customMonacoEditor" [options]="editorOptions" [(ngModel)]="code"
+                         (onInit)="onInit($event)"></ngx-monaco-editor>
+    </div>
+
   </div>
 
-  <div class="editorPanel">
-    <ngx-monaco-editor #monacoEditor class="customMonacoEditor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onInit($event)"></ngx-monaco-editor>
+  <div id="sci-preview-wrapper" class="split">
+    <iframe #sciPreviewWrapper src="http://localhost:4200" allow="geolocation; microphone; camera;">
+    </iframe>
   </div>
-
-</div>
+</vaadin-split-layout>

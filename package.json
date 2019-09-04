@@ -21,11 +21,13 @@
     "@angular/platform-browser": "~8.2.4",
     "@angular/platform-browser-dynamic": "~8.2.4",
     "@angular/router": "~8.2.4",
+    "@vaadin/vaadin-split-layout": "^4.1.1",
     "core-js": "^2.5.4",
     "ngx-monaco-editor": "^8.0.0",
     "reset-css": "^4.0.1",
     "rxjs": "~6.5.2",
     "rxjs-compat": "^6.5.2",
+    "split-me": "^1.2.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

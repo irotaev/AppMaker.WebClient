@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import IStandaloneCodeEditor = monaco.editor.IStandaloneCodeEditor;
-import ICursorPositionChangedEvent = monaco.editor.ICursorPositionChangedEvent;
 
 import '@vaadin/vaadin-split-layout';
+import IStandaloneCodeEditor = monaco.editor.IStandaloneCodeEditor;
+import ICursorPositionChangedEvent = monaco.editor.ICursorPositionChangedEvent;
 
 @Component({
   selector: 'app-root',
@@ -37,6 +37,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    const socket = new WebSocket('ws://localhost:44397/ngcli' + '/ng-console');
+    socket.onmessage = (e) => {
+      console.log('Recieved: ' + e.data);
+    };
   }
 
   onInit(editor: IStandaloneCodeEditor) {

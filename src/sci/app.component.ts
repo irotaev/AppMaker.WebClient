@@ -42,6 +42,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     socket.onmessage = (e) => {
       console.log('Recieved: ' + e.data);
     };
+    socket.onerror = (e) => {
+      console.log('ws error: ' + e);
+    };
+    socket.onclose = (e) => {
+      console.log('ws close: ' + e);
+    };
   }
 
   onInit(editor: IStandaloneCodeEditor) {

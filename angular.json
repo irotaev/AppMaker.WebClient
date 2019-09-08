@@ -61,6 +61,14 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
@@ -74,7 +82,8 @@
               "browserTarget": "online-ide:build:production"
             },
             "hmr": {
-              "hmr": true
+              "hmr": true,
+              "browserTarget": "online-ide:build:hmr"
             }
           }
         },

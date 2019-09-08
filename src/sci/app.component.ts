@@ -38,7 +38,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    const socket = new WebSocket('wss://localhost:44397/ngcli' + '/ng-console');
+    this.createSocket();
+  }
+
+  private createSocket() {
+    const socket = new WebSocket('ws://localhost:52259/ngcli' + '/ng-console');
     socket.onmessage = (e) => {
       console.log('Recieved: ' + e.data);
     };
@@ -53,13 +57,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   onInit(editor: IStandaloneCodeEditor) {
     this._editor = editor;
 
-    this._httpClient.get('https://localhost:44397/ngcli' + '/get-file-text?fileName=' + 'app.component.html', {responseType: 'text'}).subscribe(text => {
+    this._httpClient.get('http://localhost:52259/ngcli' + '/get-file-text?fileName=' + 'app.component.html', {responseType: 'text'}).subscribe(text => {
 
-      const model = monaco.editor.createModel(
-        text,
-        'html',
-        monaco.Uri.file('./file.html')
-      );
+      let model = monaco.editor.getModel(monaco.Uri.file('./file.html'));
+
+      if (!model) {
+        model = monaco.editor.createModel(
+          text,
+          'html',
+          monaco.Uri.file('./file.html')
+        );
+      }
 
       editor.setModel(model);
 
@@ -94,7 +102,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   onKeyDown(e: KeyboardEvent) {
     if (e.altKey && e.key === 's') {
       this._httpClient.post(
-        'https://localhost:44397/ngcli' + '/save-file-text',
+        'http://localhost:52259/ngcli' + '/save-file-text',
         JSON.stringify({
           fileName: 'app.component.html',
           fileText: this._editor.getModel().getValue()
@@ -109,7 +117,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onNgServeClick() {
-    this._httpClient.get('https://localhost:44397/ngcli' + '/serve').subscribe(text => {
+    this._httpClient.get('http://localhost:52259/ngcli' + '/serve').subscribe(text => {
     });
   }
 }

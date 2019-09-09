@@ -2,8 +2,10 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} f
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import '@vaadin/vaadin-split-layout';
+import {NgProcessService} from '../service/ng-process.service';
 import IStandaloneCodeEditor = monaco.editor.IStandaloneCodeEditor;
 import ICursorPositionChangedEvent = monaco.editor.ICursorPositionChangedEvent;
+import {ServerService} from '../service/server.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,10 @@ import ICursorPositionChangedEvent = monaco.editor.ICursorPositionChangedEvent;
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  constructor(private _httpClient: HttpClient) {
+  constructor(
+    private _httpClient: HttpClient,
+    private _ngProcessService: NgProcessService,
+    private _serverService: ServerService) {
   }
 
   editorOptions = {
@@ -38,26 +43,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.createSocket();
-  }
+    this._ngProcessService.init(this._serverService.baseWsUrl + '/ngcli' + '/ng-console-read');
 
-  private createSocket() {
-    const socket = new WebSocket('ws://localhost:52259/ngcli' + '/ng-console');
-    socket.onmessage = (e) => {
-      console.log('Recieved: ' + e.data);
-    };
-    socket.onerror = (e) => {
-      console.log('ws error: ' + e);
-    };
-    socket.onclose = (e) => {
-      console.log('ws close: ' + e);
-    };
+    // @ts-ignore
+    document.ngproc = this._ngProcessService;
   }
 
   onInit(editor: IStandaloneCodeEditor) {
     this._editor = editor;
 
-    this._httpClient.get('http://localhost:52259/ngcli' + '/get-file-text?fileName=' + 'app.component.html', {responseType: 'text'}).subscribe(text => {
+    this._httpClient.get(this._serverService.baseHttpUrl + '/ngcli/get-file-text?fileName=' + 'app.component.html', {responseType: 'text'}).subscribe(text => {
 
       let model = monaco.editor.getModel(monaco.Uri.file('./file.html'));
 
@@ -86,12 +81,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         (this.sciPreviewWrapper.nativeElement as HTMLIFrameElement).contentWindow.postMessage(
           this._lastHighlightElement,
-          'http://localhost:4200');
+          'https://localhost:4200');
       } else if (this._lastHighlightElement) {
         this._lastHighlightElement.style = '';
         (this.sciPreviewWrapper.nativeElement as HTMLIFrameElement).contentWindow.postMessage(
           this._lastHighlightElement,
-          'http://localhost:4200');
+          'https://localhost:4200');
 
         this._lastHighlightElement = null;
       }
@@ -102,7 +97,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   onKeyDown(e: KeyboardEvent) {
     if (e.altKey && e.key === 's') {
       this._httpClient.post(
-        'http://localhost:52259/ngcli' + '/save-file-text',
+        this._serverService.baseHttpUrl + '/ngcli' + '/save-file-text',
         JSON.stringify({
           fileName: 'app.component.html',
           fileText: this._editor.getModel().getValue()
@@ -117,7 +112,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onNgServeClick() {
-    this._httpClient.get('http://localhost:52259/ngcli' + '/serve').subscribe(text => {
+    this._httpClient.get(this._serverService.baseHttpUrl + '/ngcli' + '/reload').subscribe(text => {
     });
   }
 }

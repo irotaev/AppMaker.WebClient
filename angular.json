@@ -151,6 +151,41 @@
           }
         }
       }
+    },
+    "text": {
+      "projectType": "library",
+      "root": "projects/text",
+      "sourceRoot": "projects/text/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/text/tsconfig.lib.json",
+            "project": "projects/text/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/text/src/test.ts",
+            "tsConfig": "projects/text/tsconfig.spec.json",
+            "karmaConfig": "projects/text/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/text/tsconfig.lib.json",
+              "projects/text/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "online-ide"

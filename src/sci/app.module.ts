@@ -9,10 +9,12 @@ import {AppComponent} from './app.component';
 
 import {FormsModule} from '@angular/forms';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
+import { StartupComponent } from './startup/startup.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StartupComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,7 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [StartupComponent]
 })
 export class AppModule {
 }

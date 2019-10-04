@@ -6,7 +6,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "esnext",
+    "module": "esNext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -19,6 +19,13 @@
       "es2018",
       "dom"
     ],
-    "allowJs": true
+    "paths": {
+      "text": [
+        "dist/text"
+      ],
+      "text/*": [
+        "dist/text/*"
+      ]
+    }
   }
 }
